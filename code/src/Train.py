@@ -81,15 +81,15 @@ class Trainer():
         
         train_loader = DataLoader(
             dataset = self.train_dataset,
-            shuffle = True, 
-            num_workers = 4,
+            shuffle = False, 
+            num_workers = 0,
             collate_fn = collate_fn,
             batch_size = self.batch_size)
             
         val_loader = DataLoader(
             dataset = self.val_dataset,
             shuffle = False, 
-            num_workers = 4,
+            num_workers = 0,
             collate_fn = collate_fn,
             batch_size = self.batch_size)
 
@@ -100,7 +100,7 @@ class Trainer():
     def train(self):
         print(f'--- start-training ---')
         now = datetime.datetime.now(timezone('Asia/Seoul'))
-        start_time = now.strftime('%Y-%m-%d %H:%M:%S %Z%z')
+        start_time = now.strftime('%Y-%m-%d_%H:%M:%S_%Z%z')
         self.log['start_at_kst'] = start_time
 
         train_data_loader, self.val_data_loader = self.get_dataloader()

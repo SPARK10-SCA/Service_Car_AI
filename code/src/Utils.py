@@ -5,6 +5,7 @@ import json
 import cv2
 import numpy as np
 import pandas as pd
+import itertools
 
 import torch
 import torch.nn as nn
@@ -27,10 +28,7 @@ class RemakeCOCOformat():
 
         self.ratio = ratio
         
-        if data_lst:
-            self.images = [ os.path.join(self.base_img_path,f.replace('.json', '.jpg')) for f in data_lst ]
-            self.annotations = [ os.path.join(self.base_label_path,f.replace('.jpg', '.json')) for f in data_lst ]
-            self.train_fn = alis
+        self.train_fn = alis
             
         if n_sample:
             self.n_sample = n_sample
@@ -65,7 +63,23 @@ class RemakeCOCOformat():
                             a['category_id'] = self.labeling_schme.index(a[self.task])
                         else:
                             a['category_id'] = len(self.labeling_schme)
-                    a['segmentation'] = [a['segmentation']]
+
+                    if (len (a['segmentation']) == 2):
+                        temp = a['segmentation'][0]
+                        items = list(itertools.chain.from_iterable(temp))
+                        items = list(itertools.chain.from_iterable(items))
+                        temp2 = a['segmentation'][1]
+                        items2 = list(itertools.chain.from_iterable(temp2))
+                        items2 = list(itertools.chain.from_iterable(items2))
+                        res = []
+                        res.append(items)
+                        res.append(items2)
+                        a['segmentation'] = res
+                    else:  
+                        items = list(itertools.chain.from_iterable(a['segmentation']))
+                        items = list(itertools.chain.from_iterable(items))
+                        items= list(itertools.chain.from_iterable(items))
+                        a['segmentation'] = [items]
 
                     d['annotations'].append(a)
 
@@ -184,9 +198,6 @@ def label_accuracy_score(hist):
     return acc, acc_cls, mean_iu, fwavacc, cls_iu
 
 
-
-
-
 def _fast_hist(label_true, label_pred, n_class):
     mask = (label_true >= 0) & (label_true < n_class)
     hist = np.bincount(n_class * label_true[mask].astype(int) + label_pred[mask],
@@ -233,7 +244,7 @@ if __name__ == "__main__":
         if (arg.task == "all" or arg.task == "part"):
             # part
             print("make_cocoformat[part]")
-            label_df = pd.read_csv('code/part_labeling.csv')
+            label_df = pd.read_csv('code/part_labeling.csv') # Not sure why this is needed
 
             dir_name_img = 'data/Dataset/1.원천데이터/damage_part'
             dir_name_label = 'data/Dataset/2.라벨링데이터/damage_part'
@@ -246,12 +257,24 @@ if __name__ == "__main__":
             # "Rear Wheel(R)","Rear Wheel(L)"]
             #####
 
-            for dt in ['train','val','test']:
-                tmp = list(label_df.loc[label_df.dataset == dt]['img_id'])
-                tmp = RemakeCOCOformat(img_dir = dir_name_img, ann_dir = dir_name_label, data_lst = tmp, alis= f'part_{dt}', ratio=0.1, labeling_schme=l_sch, task='part')
-                ### dt_25cls 수정 요망
-                tmp.coco_json()
+
+            tmp = RemakeCOCOformat(img_dir = 'data/custom/train', ann_dir = 'data/custom/train', alis= f'part_train', ratio=0.1, labeling_schme=l_sch, task='part')
+            tmp.coco_json() 
+
+            tmp = RemakeCOCOformat(img_dir = 'data/custom/val', ann_dir = 'data/custom/val', alis= f'part_val', ratio=0.1, labeling_schme=l_sch, task='part')
+            tmp.coco_json() 
+
+            tmp = RemakeCOCOformat(img_dir = 'data/custom/test', ann_dir = 'data/custom/test', alis= f'part_test', ratio=0.1, labeling_schme=l_sch, task='part')
+            tmp.coco_json() 
+
             print('Done part')
+
+            # for dt in ['train','val','test']:
+            #     tmp = list(label_df.loc[label_df.dataset == dt]['img_id'])
+            #     tmp = RemakeCOCOformat(img_dir = dir_name_img, ann_dir = dir_name_label, data_lst = tmp, alis= f'part_{dt}', ratio=0.1, labeling_schme=l_sch, task='part')
+            #     ### dt_25cls 수정 요망
+            #     tmp.coco_json()
+            # print('Done part')
 
         if (arg.task == "all" or arg.task == "damage"):
             # damage

@@ -157,7 +157,7 @@ class Evaluation():
             model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
             return model.model
         except:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
+            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
             return model
                  
 
