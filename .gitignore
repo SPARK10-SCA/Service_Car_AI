@@ -1,4 +1,6 @@
 data/Dataset/**
 data/weight
-git rm --cached .DS_Store
-.vscode
+git rm -r --cached .DS_Store
+#.vscode
+.DS_Store
+__pycache__/

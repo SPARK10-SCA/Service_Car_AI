@@ -64,7 +64,7 @@ class Evaluation():
         eval_loader = DataLoader(
             dataset = dataset,
             shuffle = False, 
-            num_workers = 4,
+            num_workers = 0,
             collate_fn = collate_fn,
             batch_size = self.batch_size)
             
@@ -75,7 +75,7 @@ class Evaluation():
 
     def evaluation(self):
         now = datetime.datetime.now(timezone('Asia/Seoul'))
-        stat_time = now.strftime('%Y-%m-%d %H:%M:%S %Z%z')
+        stat_time = now.strftime('%Y-%m-%d_%H:%M:%S_%Z%z')
         self.log['start_at_kst'] = stat_time
 
         if self.multi_model:
@@ -157,8 +157,13 @@ class Evaluation():
             model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
             return model.model
         except:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
-            return model
+            try:
+                model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
+                return model
+            except:
+                model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
+                return model
+
                  
 
     def validation(self, model, epoch, step, data_loader):
