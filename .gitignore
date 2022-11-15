@@ -1,2 +1,4 @@
 data/Dataset/**
 data/weight
+git rm --cached .DS_Store
+.vscode

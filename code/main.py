@@ -43,7 +43,11 @@ if __name__ == "__main__":
     else:
         n_cls = arg.cls
     print('gpu device num')    
-    print(torch.cuda.current_device())
+    # print(torch.cuda.current_device())
+    
+    # Set device
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
 
     model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=n_cls)
     
@@ -95,7 +99,7 @@ if __name__ == "__main__":
                             encoder_lr = 1e-06,
                             decoder_lr = 3e-04,
                             weight_decay = 0,
-                            device = "cuda")
+                            device = device)
                 trainer.train()
         # train damage one label
         elif (arg.task == 'demage') & (arg.method == 'multi'):
@@ -115,7 +119,7 @@ if __name__ == "__main__":
                         encoder_lr = 1e-07,
                         decoder_lr = 1e-06,
                         weight_decay = 0,
-                        device = "cuda")
+                        device = device)
             trainer.train()
         
         # train part_ver2
@@ -131,7 +135,7 @@ if __name__ == "__main__":
                 ails = f"{arg.task}",
                 train_dir = f"../data/datainfo/{arg.task}_train.json",
                 val_dir = f"../data/datainfo/{arg.task}_val.json",
-                img_base_path = '../data/Dataset/1.원천데이터/damage_part',
+                img_base_path = '../data/custom/img',
                 size = 256,
                 model = model,
                 label = None,
@@ -143,7 +147,7 @@ if __name__ == "__main__":
                 encoder_lr = 1e-06,
                 decoder_lr = 3e-04,
                 weight_decay = 1e-02,
-                device = "cuda",
+                device = device,
                 transform = transform,
                 lr_scheduler = scheduler,
                 start_epoch = None)
@@ -159,7 +163,7 @@ if __name__ == "__main__":
                         size = 256, 
                         model = model, 
                         weight_paths = ["../data/weight/"+n for n in ["[DAMAGE][Scratch_0]Unet.pt","[DAMAGE][Seperated_1]Unet.pt","[DAMAGE][Crushed_2]Unet.pt","[DAMAGE][Breakage_3]Unet.pt"]],
-                        device = 'cuda',
+                        device = device,
                         batch_size = 64, 
                         ails = f"../data/result_log/[{arg.task}]_{arg.dataset}_evaluation_log.json",
                         criterion = torch.nn.CrossEntropyLoss(),
@@ -177,11 +181,11 @@ if __name__ == "__main__":
                         size = 256, 
                         model = model, 
                         weight_paths = [weight_path],
-                        device = 'cuda',
+                        device = device,
                         batch_size = 64, 
                         ails = f"../data/result_log/[{arg.task}]_{arg.dataset}_evaluation_log.json",
                         criterion = torch.nn.CrossEntropyLoss(),
-                        img_base_path = "../data/Dataset/1.원천데이터/damage_part"
+                        img_base_path = "../data/custom/img"
             )
             evaluation.evaluation()
 
