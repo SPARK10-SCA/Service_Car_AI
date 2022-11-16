@@ -85,13 +85,13 @@ class Datasets(Dataset):
                 masks = transformed["mask"]
             images = transformed["image"]
         
-        fig = plt.figure()
-        ax1 = fig.add_subplot(1,2,1)
-        ax1.imshow(images)
-        ax1 = fig.add_subplot(1,2,2)
-        ax1.imshow(masks)
-        fig.show()
-        plt.close(fig)
+        # fig = plt.figure()
+        # ax1 = fig.add_subplot(1,2,1)
+        # ax1.imshow(images)
+        # ax1 = fig.add_subplot(1,2,2)
+        # ax1.imshow(masks)
+        # fig.show()
+        # plt.close(fig)
 
         images = images/255.
         images = images.transpose([2,0,1]) 

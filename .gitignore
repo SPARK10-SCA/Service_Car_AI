@@ -3,4 +3,4 @@ data/weight
 git rm -r --cached .DS_Store
 #.vscode
 .DS_Store
-__pycache__/
+**/__pycache__
