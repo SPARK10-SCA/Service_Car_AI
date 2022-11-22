@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
             "name": "Python COCO",
             "type": "python",
             "request": "launch",
@@ -52,13 +60,5 @@
                 "Unet_part_start_2022-11-15_21_09_33_KST+0900_49_epoch_IoU_0.09.pt"
             ]
         },
-        {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": false
-        }
     ]
 }
