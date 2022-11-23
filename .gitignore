@@ -1,0 +1,6 @@
+data/custom
+data/weight
+git rm -r --cached .DS_Store
+#.vscode
+.DS_Store
+**/__pycache__

@@ -1,0 +1,87 @@
+/mnt/c/Users/shbin/OneDrive/바탕 화면/프로젝트/car_damage_detection/code/src/Train.py:125: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1666642991888/work/torch/csrc/utils/tensor_new.cpp:230.)
+  images = torch.tensor(images).float().to(self.device)
+gpu device num
+loading annotations into memory...
+Done (t=0.20s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.10s)
+creating index...
+index created!
+--- start-training ---
+1
+0 : 0.7304849028587341
+100 : 0.3206793963909149
+Start validation # epoch 0 # step 156
+Validation #0 #19 Average Loss: 0.3560, mIoU: 0.6005, background IoU : 0.9289, target IoU : 0.2722
+MODEL SAVED!!
+2
+0 : 0.3076055347919464
+100 : 0.2842567563056946
+Start validation # epoch 1 # step 156
+Validation #1 #19 Average Loss: 0.2817, mIoU: 0.6233, background IoU : 0.9436, target IoU : 0.3030
+MODEL SAVED!!
+loading annotations into memory...
+Done (t=0.26s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+--- start-training ---
+1
+0 : 0.2871415913105011
+100 : 0.23777538537979126
+Start validation # epoch 0 # step 156
+Validation #0 #19 Average Loss: 0.2268, mIoU: 0.4938, background IoU : 0.9875, target IoU : 0.0000
+MODEL SAVED!!
+2
+0 : 0.22431284189224243
+100 : 0.20741522312164307
+Start validation # epoch 1 # step 156
+Validation #1 #19 Average Loss: 0.2072, mIoU: 0.4938, background IoU : 0.9876, target IoU : 0.0000
+MODEL SAVED!!
+loading annotations into memory...
+Done (t=0.27s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+--- start-training ---
+1
+0 : 0.21311286091804504
+100 : 0.19645874202251434
+Start validation # epoch 0 # step 156
+Validation #0 #19 Average Loss: 0.1828, mIoU: 0.4988, background IoU : 0.9898, target IoU : 0.0078
+MODEL SAVED!!
+2
+0 : 0.19145090878009796
+100 : 0.17444151639938354
+Start validation # epoch 1 # step 156
+Validation #1 #19 Average Loss: 0.1649, mIoU: 0.5289, background IoU : 0.9896, target IoU : 0.0682
+MODEL SAVED!!
+loading annotations into memory...
+Done (t=0.14s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+--- start-training ---
+1
+0 : 0.19001184403896332
+100 : 0.16861429810523987
+Start validation # epoch 0 # step 156
+Validation #0 #19 Average Loss: 0.1557, mIoU: 0.4943, background IoU : 0.9886, target IoU : 0.0000
+MODEL SAVED!!
+2
+0 : 0.1682862639427185
+100 : 0.15532608330249786
+Start validation # epoch 1 # step 156
+Validation #1 #19 Average Loss: 0.1443, mIoU: 0.5027, background IoU : 0.9886, target IoU : 0.0167
+MODEL SAVED!!
