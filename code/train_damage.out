@@ -2,28 +2,7 @@
   images = torch.tensor(images).float().to(self.device)
 gpu device num
 loading annotations into memory...
-Done (t=0.20s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.10s)
-creating index...
-index created!
---- start-training ---
-1
-0 : 0.7304849028587341
-100 : 0.3206793963909149
-Start validation # epoch 0 # step 156
-Validation #0 #19 Average Loss: 0.3560, mIoU: 0.6005, background IoU : 0.9289, target IoU : 0.2722
-MODEL SAVED!!
-2
-0 : 0.3076055347919464
-100 : 0.2842567563056946
-Start validation # epoch 1 # step 156
-Validation #1 #19 Average Loss: 0.2817, mIoU: 0.6233, background IoU : 0.9436, target IoU : 0.3030
-MODEL SAVED!!
-loading annotations into memory...
-Done (t=0.26s)
+Done (t=0.04s)
 creating index...
 index created!
 loading annotations into memory...
@@ -32,19 +11,29 @@ creating index...
 index created!
 --- start-training ---
 1
-0 : 0.2871415913105011
-100 : 0.23777538537979126
-Start validation # epoch 0 # step 156
-Validation #0 #19 Average Loss: 0.2268, mIoU: 0.4938, background IoU : 0.9875, target IoU : 0.0000
+0 : 0.9803205728530884
+Start validation # epoch 0 # step 31
+Validation #0 #15 Average Loss: 0.4723, mIoU: 0.5223, background IoU : 0.9216, target IoU : 0.1229
 MODEL SAVED!!
 2
-0 : 0.22431284189224243
-100 : 0.20741522312164307
-Start validation # epoch 1 # step 156
-Validation #1 #19 Average Loss: 0.2072, mIoU: 0.4938, background IoU : 0.9876, target IoU : 0.0000
+0 : 0.4154149889945984
+Start validation # epoch 1 # step 31
+Validation #1 #15 Average Loss: 0.3030, mIoU: 0.5059, background IoU : 0.9442, target IoU : 0.0676
+3
+0 : 0.30810222029685974
+Start validation # epoch 2 # step 31
+Validation #2 #15 Average Loss: 0.2621, mIoU: 0.4944, background IoU : 0.9457, target IoU : 0.0430
+4
+0 : 0.2610066533088684
+Start validation # epoch 3 # step 31
+Validation #3 #15 Average Loss: 0.3251, mIoU: 0.5842, background IoU : 0.9358, target IoU : 0.2325
 MODEL SAVED!!
+5
+0 : 0.24708428978919983
+Start validation # epoch 4 # step 31
+Validation #4 #15 Average Loss: 0.2436, mIoU: 0.5677, background IoU : 0.9463, target IoU : 0.1891
 loading annotations into memory...
-Done (t=0.27s)
+Done (t=0.11s)
 creating index...
 index created!
 loading annotations into memory...
@@ -53,19 +42,32 @@ creating index...
 index created!
 --- start-training ---
 1
-0 : 0.21311286091804504
-100 : 0.19645874202251434
-Start validation # epoch 0 # step 156
-Validation #0 #19 Average Loss: 0.1828, mIoU: 0.4988, background IoU : 0.9898, target IoU : 0.0078
+0 : 0.3467348515987396
+Start validation # epoch 0 # step 31
+Validation #0 #15 Average Loss: 0.2310, mIoU: 0.4936, background IoU : 0.9860, target IoU : 0.0012
 MODEL SAVED!!
 2
-0 : 0.19145090878009796
-100 : 0.17444151639938354
-Start validation # epoch 1 # step 156
-Validation #1 #19 Average Loss: 0.1649, mIoU: 0.5289, background IoU : 0.9896, target IoU : 0.0682
+0 : 0.22885149717330933
+Start validation # epoch 1 # step 31
+Validation #1 #15 Average Loss: 0.1790, mIoU: 0.4940, background IoU : 0.9875, target IoU : 0.0005
+MODEL SAVED!!
+3
+0 : 0.20074833929538727
+Start validation # epoch 2 # step 31
+Validation #2 #15 Average Loss: 0.1752, mIoU: 0.5161, background IoU : 0.9875, target IoU : 0.0448
+MODEL SAVED!!
+4
+0 : 0.18886782228946686
+Start validation # epoch 3 # step 31
+Validation #3 #15 Average Loss: 0.1619, mIoU: 0.5270, background IoU : 0.9869, target IoU : 0.0670
+MODEL SAVED!!
+5
+0 : 0.18015500903129578
+Start validation # epoch 4 # step 31
+Validation #4 #15 Average Loss: 0.1617, mIoU: 0.5493, background IoU : 0.9853, target IoU : 0.1133
 MODEL SAVED!!
 loading annotations into memory...
-Done (t=0.14s)
+Done (t=0.11s)
 creating index...
 index created!
 loading annotations into memory...
@@ -74,14 +76,57 @@ creating index...
 index created!
 --- start-training ---
 1
-0 : 0.19001184403896332
-100 : 0.16861429810523987
-Start validation # epoch 0 # step 156
-Validation #0 #19 Average Loss: 0.1557, mIoU: 0.4943, background IoU : 0.9886, target IoU : 0.0000
+0 : 0.2790238559246063
+Start validation # epoch 0 # step 31
+Validation #0 #15 Average Loss: 0.1592, mIoU: 0.4961, background IoU : 0.9896, target IoU : 0.0027
 MODEL SAVED!!
 2
-0 : 0.1682862639427185
-100 : 0.15532608330249786
-Start validation # epoch 1 # step 156
-Validation #1 #19 Average Loss: 0.1443, mIoU: 0.5027, background IoU : 0.9886, target IoU : 0.0167
+0 : 0.24054065346717834
+Start validation # epoch 1 # step 31
+Validation #1 #15 Average Loss: 0.1501, mIoU: 0.5178, background IoU : 0.9901, target IoU : 0.0454
 MODEL SAVED!!
+3
+0 : 0.22432997822761536
+Start validation # epoch 2 # step 31
+Validation #2 #15 Average Loss: 0.1450, mIoU: 0.5546, background IoU : 0.9843, target IoU : 0.1250
+MODEL SAVED!!
+4
+0 : 0.20341530442237854
+Start validation # epoch 3 # step 31
+Validation #3 #15 Average Loss: 0.1399, mIoU: 0.5481, background IoU : 0.9841, target IoU : 0.1121
+5
+0 : 0.181853786110878
+Start validation # epoch 4 # step 31
+Validation #4 #15 Average Loss: 0.1494, mIoU: 0.5511, background IoU : 0.9787, target IoU : 0.1235
+loading annotations into memory...
+Done (t=0.05s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+--- start-training ---
+1
+0 : 0.2614341974258423
+Start validation # epoch 0 # step 31
+Validation #0 #15 Average Loss: 0.1443, mIoU: 0.4990, background IoU : 0.9883, target IoU : 0.0096
+MODEL SAVED!!
+2
+0 : 0.18246501684188843
+Start validation # epoch 1 # step 31
+Validation #1 #15 Average Loss: 0.1321, mIoU: 0.5449, background IoU : 0.9858, target IoU : 0.1040
+MODEL SAVED!!
+3
+0 : 0.16900759935379028
+Start validation # epoch 2 # step 31
+Validation #2 #15 Average Loss: 0.1302, mIoU: 0.5571, background IoU : 0.9819, target IoU : 0.1322
+MODEL SAVED!!
+4
+0 : 0.15713144838809967
+Start validation # epoch 3 # step 31
+Validation #3 #15 Average Loss: 0.1315, mIoU: 0.5440, background IoU : 0.9847, target IoU : 0.1033
+5
+0 : 0.14518485963344574
+Start validation # epoch 4 # step 31
+Validation #4 #15 Average Loss: 0.1307, mIoU: 0.5481, background IoU : 0.9785, target IoU : 0.1177

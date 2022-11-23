@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
 import json
 
-f = open('../../data/result_log/[damage]test_evaluation_log.json')
+f = open('../../data/result_log/[damage_label3]train_log.json')
 data = json.load(f)
 
-name = data['start_at_kst']
 train_loss = []
 val_loss = []
 
@@ -21,10 +20,10 @@ plt.style.use("ggplot")
 plt.figure()
 plt.plot(train_loss, label="train_loss")
 plt.plot(val_loss, label="val_loss")
-plt.title("Training Loss on Dataset")
+plt.title("Training Loss on Breakage Dataset")
 plt.xlabel("Epoch #")
 plt.ylabel("Loss")
 plt.legend(loc="upper right")
-plt.savefig('../../data/result_log/loss_'+name)
+plt.savefig('../../data/result_log/breakage_loss')
 
 plt.show()

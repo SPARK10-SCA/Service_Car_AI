@@ -8,8 +8,8 @@ from Models import Unet
 from Datasets import Datasets
 from torch.utils.data import DataLoader
 
-TEST_PATH = '../../data/custom/test'
-SAVE_DIR = '../../data/result_log/predictions/'
+TEST_PATH = '../../data/custom/test/img'
+SAVE_DIR = '../../data/result_log/predictions/break/'
 WEIGHT_PATH = '../../data/weight/[DAMAGE][Breakage_3]Unet.pt'
 DATA_INFO = '../../data/datainfo/damage_test.json'
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -65,18 +65,11 @@ def make_predictions(model):
             save_visual(orig, masks, predMask, img_ids[0])
 
 def load_model(weight_path):
-    model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=16)
+    model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=2)
     model = model.to(DEVICE)
-    try:
-        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
-        return model.model
-    except:
-        try:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
-            return model
-        except:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
-            return model
+    model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
+    return model.model
+
 
 
 def main():

@@ -6,26 +6,26 @@ creating index...
 index created!
 0it [00:00, ?it/s]/mnt/c/Users/shbin/OneDrive/바탕 화면/프로젝트/car_damage_detection/code/src/Evaluation.py:181: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1666642991888/work/torch/csrc/utils/tensor_new.cpp:230.)
   images = torch.tensor(images).float().to(self.device)
-1it [00:07,  7.26s/it]2it [00:09,  4.35s/it]3it [00:11,  3.42s/it]4it [00:14,  2.99s/it]5it [00:16,  2.81s/it]6it [00:19,  2.71s/it]7it [00:21,  2.64s/it]8it [00:23,  2.51s/it]9it [00:26,  2.43s/it]10it [00:28,  2.34s/it]11it [00:30,  2.30s/it]12it [00:32,  2.33s/it]13it [00:35,  2.31s/it]14it [00:37,  2.24s/it]15it [00:39,  2.26s/it]16it [00:41,  2.24s/it]17it [00:44,  2.23s/it]18it [00:46,  2.33s/it]19it [00:49,  2.38s/it]20it [00:51,  2.42s/it]20it [00:51,  2.58s/it]
-Validation_label #2 #19 Average Loss: 0.2847, mIoU: 0.6013, background IoU : 0.9399, target IoU : 0.2627
+1it [00:06,  6.90s/it]2it [00:09,  4.22s/it]3it [00:11,  3.38s/it]4it [00:13,  2.91s/it]5it [00:16,  2.66s/it]6it [00:18,  2.54s/it]7it [00:20,  2.47s/it]8it [00:23,  2.45s/it]9it [00:25,  2.40s/it]10it [00:27,  2.36s/it]11it [00:30,  2.37s/it]12it [00:32,  2.37s/it]13it [00:34,  2.33s/it]14it [00:36,  2.34s/it]15it [00:39,  2.36s/it]16it [00:42,  2.51s/it]16it [00:42,  2.64s/it]
+Validation_label #2 #15 Average Loss: 0.3250, mIoU: 0.5637, background IoU : 0.9377, target IoU : 0.1897
 start_validation damage Separated
 loading annotations into memory...
-Done (t=0.02s)
+Done (t=0.01s)
 creating index...
 index created!
-0it [00:00, ?it/s]1it [00:02,  2.13s/it]2it [00:04,  2.00s/it]3it [00:05,  1.94s/it]4it [00:07,  1.89s/it]5it [00:09,  1.88s/it]6it [00:11,  1.92s/it]7it [00:13,  1.93s/it]8it [00:15,  1.91s/it]9it [00:17,  1.96s/it]10it [00:19,  2.01s/it]11it [00:21,  2.04s/it]12it [00:23,  2.09s/it]13it [00:26,  2.13s/it]14it [00:28,  2.14s/it]15it [00:30,  2.17s/it]16it [00:32,  2.19s/it]17it [00:34,  2.14s/it]18it [00:36,  2.08s/it]19it [00:38,  2.06s/it]20it [00:39,  1.76s/it]20it [00:39,  1.99s/it]
-Validation_label #3 #19 Average Loss: 0.2064, mIoU: 0.4949, background IoU : 0.9885, target IoU : 0.0014
+0it [00:00, ?it/s]1it [00:01,  1.95s/it]2it [00:03,  1.97s/it]3it [00:05,  1.95s/it]4it [00:07,  1.91s/it]5it [00:09,  1.93s/it]6it [00:11,  1.92s/it]7it [00:13,  1.91s/it]8it [00:15,  1.96s/it]9it [00:17,  1.97s/it]10it [00:19,  1.94s/it]11it [00:21,  1.98s/it]12it [00:23,  2.00s/it]13it [00:25,  2.01s/it]14it [00:27,  2.00s/it]15it [00:29,  1.98s/it]16it [00:30,  1.74s/it]16it [00:30,  1.91s/it]
+Validation_label #3 #15 Average Loss: 0.1604, mIoU: 0.5564, background IoU : 0.9868, target IoU : 0.1260
 start_validation damage Crushed
 loading annotations into memory...
-Done (t=0.02s)
+Done (t=0.01s)
 creating index...
 index created!
-0it [00:00, ?it/s]1it [00:02,  2.08s/it]2it [00:03,  1.95s/it]3it [00:06,  2.02s/it]4it [00:08,  2.06s/it]5it [00:10,  2.13s/it]6it [00:12,  2.14s/it]7it [00:14,  2.11s/it]8it [00:16,  2.04s/it]9it [00:18,  2.05s/it]10it [00:20,  2.10s/it]11it [00:22,  2.03s/it]12it [00:24,  1.99s/it]13it [00:26,  2.00s/it]14it [00:28,  1.97s/it]15it [00:30,  1.94s/it]16it [00:32,  2.01s/it]17it [00:34,  1.98s/it]18it [00:36,  1.97s/it]19it [00:38,  2.04s/it]20it [00:39,  1.75s/it]20it [00:39,  1.98s/it]
-Validation_label #4 #19 Average Loss: 0.1743, mIoU: 0.5090, background IoU : 0.9843, target IoU : 0.0336
+0it [00:00, ?it/s]1it [00:02,  2.03s/it]2it [00:04,  2.14s/it]3it [00:06,  2.11s/it]4it [00:08,  2.04s/it]5it [00:10,  1.95s/it]6it [00:12,  1.97s/it]7it [00:13,  1.94s/it]8it [00:15,  1.92s/it]9it [00:17,  1.97s/it]10it [00:19,  1.93s/it]11it [00:21,  1.91s/it]12it [00:23,  1.95s/it]13it [00:25,  1.96s/it]14it [00:27,  1.91s/it]15it [00:29,  1.91s/it]16it [00:30,  1.70s/it]16it [00:30,  1.91s/it]
+Validation_label #4 #15 Average Loss: 0.1552, mIoU: 0.5296, background IoU : 0.9821, target IoU : 0.0771
 start_validation damage Breakage
 loading annotations into memory...
-Done (t=0.06s)
+Done (t=0.01s)
 creating index...
 index created!
-0it [00:00, ?it/s]1it [00:02,  2.17s/it]2it [00:05,  2.69s/it]3it [00:07,  2.48s/it]4it [00:09,  2.30s/it]5it [00:11,  2.17s/it]6it [00:13,  2.06s/it]7it [00:15,  2.00s/it]8it [00:17,  2.07s/it]9it [00:19,  2.06s/it]10it [00:21,  2.14s/it]11it [00:23,  2.11s/it]12it [00:25,  2.14s/it]13it [00:28,  2.17s/it]14it [00:30,  2.24s/it]15it [00:32,  2.27s/it]16it [00:35,  2.23s/it]17it [00:37,  2.20s/it]18it [00:39,  2.25s/it]19it [00:41,  2.25s/it]20it [00:42,  1.90s/it]20it [00:42,  2.15s/it]
-Validation_label #5 #19 Average Loss: 0.1426, mIoU: 0.4989, background IoU : 0.9874, target IoU : 0.0103
+0it [00:00, ?it/s]1it [00:02,  2.06s/it]2it [00:04,  2.10s/it]3it [00:06,  2.02s/it]4it [00:08,  1.97s/it]5it [00:09,  1.97s/it]6it [00:11,  1.94s/it]7it [00:13,  1.94s/it]8it [00:15,  1.98s/it]9it [00:17,  1.96s/it]10it [00:19,  1.93s/it]11it [00:21,  1.94s/it]12it [00:24,  2.21s/it]13it [00:26,  2.07s/it]14it [00:28,  1.99s/it]15it [00:29,  1.98s/it]16it [00:31,  1.74s/it]16it [00:31,  1.95s/it]
+Validation_label #5 #15 Average Loss: 0.1279, mIoU: 0.5294, background IoU : 0.9847, target IoU : 0.0740
