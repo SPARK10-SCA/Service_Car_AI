@@ -1,1 +1,212 @@
-{"info": {"name": "external", "date_created": "03/08/2022"}, "images": {"id": 1, "width": 800, "height": 600, "file_name": "0000705_as-2819797.jpg"}, "annotations": [{"id": 1, "image_id": 1, "category_id": "as-2819797", "segmentation": [[[[168, 448], [200, 469], [207, 485], [206, 491], [192, 487], [180, 478], [168, 448]]]], "area": 669.0, "bbox": [168, 448, 39, 43], "damage": "Breakage", "part": null, "year": 2012, "color": "Red tone", "level": null, "repair": ["Rear bumper:coating,exchange"]}, {"id": 3, "image_id": 1, "category_id": "as-2819797", "segmentation": [[[[710, 317], [697, 409], [690, 446], [674, 495], [656, 517], [629, 528], [597, 527], [443, 527], [325, 516], [234, 499], [203, 490], [179, 479], [156, 403], [146, 346], [155, 307], [188, 315], [206, 369], [217, 390], [253, 400], [349, 409], [503, 413], [585, 404], [612, 392], [625, 366], [637, 314], [694, 306], [701, 296], [705, 302], [710, 317]]]], "area": 69409.5, "bbox": [146, 296, 564, 232], "damage": null, "part": "Rear bumper", "year": 2012, "color": "Red tone", "level": 4, "repair": "Rear bumper:coating,exchange"}], "categories": {"id": "as-2819797", "supercategory_name": "Full-size car"}}
+{
+    "info": {
+        "name": "external",
+        "date_created": "03/08/2022"
+    },
+    "images": {
+        "id": 1,
+        "width": 800,
+        "height": 600,
+        "file_name": "0000705_as-2819797.jpg"
+    },
+    "annotations": [
+        {
+            "id": 1,
+            "image_id": 1,
+            "category_id": "as-2819797",
+            "segmentation": [
+                [
+                    [
+                        [
+                            168,
+                            448
+                        ],
+                        [
+                            200,
+                            469
+                        ],
+                        [
+                            207,
+                            485
+                        ],
+                        [
+                            206,
+                            491
+                        ],
+                        [
+                            192,
+                            487
+                        ],
+                        [
+                            180,
+                            478
+                        ],
+                        [
+                            168,
+                            448
+                        ]
+                    ]
+                ]
+            ],
+            "area": 669.0,
+            "bbox": [
+                168,
+                448,
+                39,
+                43
+            ],
+            "damage": "Breakage",
+            "part": null,
+            "year": 2012,
+            "color": "Red tone",
+            "level": null,
+            "repair": [
+                "Rear bumper:coating,exchange"
+            ]
+        },
+        {
+            "id": 3,
+            "image_id": 1,
+            "category_id": "as-2819797",
+            "segmentation": [
+                [
+                    [
+                        [
+                            710,
+                            317
+                        ],
+                        [
+                            697,
+                            409
+                        ],
+                        [
+                            690,
+                            446
+                        ],
+                        [
+                            674,
+                            495
+                        ],
+                        [
+                            656,
+                            517
+                        ],
+                        [
+                            629,
+                            528
+                        ],
+                        [
+                            597,
+                            527
+                        ],
+                        [
+                            443,
+                            527
+                        ],
+                        [
+                            325,
+                            516
+                        ],
+                        [
+                            234,
+                            499
+                        ],
+                        [
+                            203,
+                            490
+                        ],
+                        [
+                            179,
+                            479
+                        ],
+                        [
+                            156,
+                            403
+                        ],
+                        [
+                            146,
+                            346
+                        ],
+                        [
+                            155,
+                            307
+                        ],
+                        [
+                            188,
+                            315
+                        ],
+                        [
+                            206,
+                            369
+                        ],
+                        [
+                            217,
+                            390
+                        ],
+                        [
+                            253,
+                            400
+                        ],
+                        [
+                            349,
+                            409
+                        ],
+                        [
+                            503,
+                            413
+                        ],
+                        [
+                            585,
+                            404
+                        ],
+                        [
+                            612,
+                            392
+                        ],
+                        [
+                            625,
+                            366
+                        ],
+                        [
+                            637,
+                            314
+                        ],
+                        [
+                            694,
+                            306
+                        ],
+                        [
+                            701,
+                            296
+                        ],
+                        [
+                            705,
+                            302
+                        ],
+                        [
+                            710,
+                            317
+                        ]
+                    ]
+                ]
+            ],
+            "area": 69409.5,
+            "bbox": [
+                146,
+                296,
+                564,
+                232
+            ],
+            "damage": null,
+            "part": "Rear bumper",
+            "year": 2012,
+            "color": "Red tone",
+            "level": 4,
+            "repair": "Rear bumper:coating,exchange"
+        }
+    ],
+    "categories": {
+        "id": "as-2819797",
+        "supercategory_name": "Full-size car"
+    }
+}

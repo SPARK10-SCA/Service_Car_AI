@@ -7,12 +7,14 @@ data = json.load(f)
 name = data['start_at_kst']
 train_loss = []
 val_loss = []
-
+avg = 0
 for i in data['train_log']:
-    train_loss.append(i['train_loss'])
+    avg = sum(i['train_loss']) / len(i['train_loss'])
+    train_loss.append(avg)
+    avg = 0
     val_loss.append(i['eval']['summary']['average Loss'])
 
-train_loss = [val for sublist in train_loss for val in sublist]
+#train_loss = [val for sublist in train_loss for val in sublist]
 
 f.close()
 
@@ -25,6 +27,6 @@ plt.title("Training Loss on Dataset")
 plt.xlabel("Epoch #")
 plt.ylabel("Loss")
 plt.legend(loc="upper right")
-plt.savefig('../../data/result_log/loss_'+name)
+#plt.savefig('../../data/result_log/loss_'+name)
 
 plt.show()

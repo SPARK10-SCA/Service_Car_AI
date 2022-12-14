@@ -1,1 +1,958 @@
-{"info": {"name": "external", "date_created": "03/08/2022"}, "images": {"id": 1, "width": 800, "height": 600, "file_name": "0000713_as-0094034.jpg"}, "annotations": [{"id": 2, "image_id": 1, "category_id": "as-0094034", "segmentation": [[[[503, 208], [488, 250], [461, 257], [433, 264], [396, 267], [244, 236], [155, 224], [139, 218], [137, 191], [133, 162], [135, 128], [150, 110], [179, 95], [228, 80], [260, 103], [275, 115], [426, 148], [462, 168], [503, 208]]]], "area": 43595.5, "bbox": [133, 80, 370, 187], "damage": "Crushed", "part": null, "year": 2015, "color": "Gray tone", "level": null, "repair": ["Front fender(L):exchange,sheet_metal,coating", "Rocker panel:exchange,coating", "Rear door(L):coating,exchange", "B pillar(L):coating,exchange", "Roof:exchange", "Rear fender(L):coating,sheet_metal,exchange", "Front door(L):exchange,coating"]}, {"id": 3, "image_id": 1, "category_id": "as-0094034", "segmentation": [[[[666, 312], [672, 354], [666, 372], [648, 392], [620, 391], [585, 369], [582, 383], [143, 233], [150, 216], [418, 260], [666, 312]]]], "area": 31374.5, "bbox": [143, 216, 529, 176], "damage": "Breakage", "part": null, "year": 2015, "color": "Gray tone", "level": null, "repair": ["Front fender(L):exchange,sheet_metal,coating", "Rocker panel:exchange,coating", "Rear door(L):coating,exchange", "B pillar(L):coating,exchange", "Roof:exchange", "Rear fender(L):coating,sheet_metal,exchange", "Front door(L):exchange,coating"]}, {"id": 4, "image_id": 1, "category_id": "as-0094034", "segmentation": [[[[416, 66], [394, 122], [392, 131], [392, 140], [392, 153], [394, 167], [397, 179], [401, 200], [399, 229], [396, 260], [383, 259], [380, 244], [381, 228], [382, 216], [381, 210], [374, 200], [371, 159], [377, 122], [386, 85], [400, 63], [416, 66]]]], "area": 3900.5, "bbox": [371, 63, 45, 197], "damage": "Separated", "part": null, "year": 2015, "color": "Gray tone", "level": null, "repair": ["Front fender(L):exchange,sheet_metal,coating", "Rocker panel:exchange,coating", "Rear door(L):coating,exchange", "B pillar(L):coating,exchange", "Roof:exchange", "Rear fender(L):coating,sheet_metal,exchange", "Front door(L):exchange,coating"]}, {"id": 5, "image_id": 1, "category_id": "as-0094034", "segmentation": [[[[283, 156], [289, 166], [297, 169], [296, 172], [285, 172], [277, 173], [263, 173], [255, 172], [244, 168], [221, 166], [201, 166], [174, 160], [166, 155], [132, 143], [127, 139], [130, 135], [144, 130], [156, 130], [190, 133], [217, 138], [233, 142], [283, 156]]]], "area": 3756.0, "bbox": [127, 130, 170, 43], "damage": "Scratched", "part": null, "year": 2015, "color": "Gray tone", "level": null, "repair": ["Front fender(L):exchange,sheet_metal,coating", "Rocker panel:exchange,coating", "Rear door(L):coating,exchange", "B pillar(L):coating,exchange", "Roof:exchange", "Rear fender(L):coating,sheet_metal,exchange", "Front door(L):exchange,coating"]}, {"id": 6, "image_id": 1, "category_id": "as-0094034", "segmentation": [[[[497, 211], [448, 241], [434, 245], [423, 248], [414, 251], [402, 251], [386, 252], [373, 249], [369, 240], [362, 233], [365, 227], [378, 223], [387, 222], [392, 222], [404, 220], [413, 215], [422, 217], [430, 215], [441, 212], [448, 201], [453, 196], [469, 197], [491, 207], [497, 211]]]], "area": 3721.5, "bbox": [362, 196, 135, 56], "damage": "Scratched", "part": null, "year": 2015, "color": "Gray tone", "level": null, "repair": ["Front fender(L):exchange,sheet_metal,coating", "Rocker panel:exchange,coating", "Rear door(L):coating,exchange", "B pillar(L):coating,exchange", "Roof:exchange", "Rear fender(L):coating,sheet_metal,exchange", "Front door(L):exchange,coating"]}, {"id": 7, "image_id": 1, "category_id": "as-0094034", "segmentation": [[[[412, 158], [408, 174], [403, 176], [398, 182], [390, 184], [370, 180], [356, 179], [343, 177], [326, 173], [307, 163], [302, 152], [305, 147], [317, 147], [329, 147], [345, 146], [344, 141], [323, 133], [319, 124], [329, 125], [349, 129], [355, 136], [366, 142], [390, 148], [412, 158]]]], "area": 3578.5, "bbox": [302, 124, 110, 60], "damage": "Scratched", "part": null, "year": 2015, "color": "Gray tone", "level": null, "repair": ["Front fender(L):exchange,sheet_metal,coating", "Rocker panel:exchange,coating", "Rear door(L):coating,exchange", "B pillar(L):coating,exchange", "Roof:exchange", "Rear fender(L):coating,sheet_metal,exchange", "Front door(L):exchange,coating"]}, {"id": 8, "image_id": 1, "category_id": "as-0094034", "segmentation": [[[[255, 191], [253, 202], [253, 204], [253, 208], [231, 208], [201, 205], [184, 202], [167, 203], [150, 198], [154, 193], [160, 189], [165, 185], [175, 183], [185, 184], [200, 185], [231, 188], [255, 191]]]], "area": 1839.5, "bbox": [150, 183, 105, 25], "damage": "Scratched", "part": null, "year": 2015, "color": "Gray tone", "level": null, "repair": ["Front fender(L):exchange,sheet_metal,coating", "Rocker panel:exchange,coating", "Rear door(L):coating,exchange", "B pillar(L):coating,exchange", "Roof:exchange", "Rear fender(L):coating,sheet_metal,exchange", "Front door(L):exchange,coating"]}, {"id": 16, "image_id": 1, "category_id": "as-0094034", "segmentation": [[[[137, 223], [191, 228], [294, 244], [371, 262], [398, 263], [443, 277], [528, 293], [582, 309], [614, 307], [644, 314], [671, 318], [670, 324], [660, 341], [645, 370], [623, 386], [565, 357], [570, 373], [555, 369], [509, 357], [482, 347], [470, 339], [439, 331], [404, 321], [345, 305], [324, 300], [295, 292], [269, 286], [224, 267], [206, 260], [169, 247], [154, 241], [142, 238], [137, 223]]]], "area": 26478.0, "bbox": [137, 223, 534, 163], "damage": null, "part": "Rocker panel(L)", "year": 2015, "color": "Gray tone", "level": 4, "repair": ["Front fender(L):exchange,sheet_metal,coating", "Rocker panel:exchange,coating", "Rear door(L):coating,exchange", "B pillar(L):coating,exchange", "Roof:exchange", "Rear fender(L):coating,sheet_metal,exchange", "Front door(L):exchange,coating"]}], "categories": {"id": "as-0094034", "supercategory_name": "Mid-size car"}}
+{
+    "info": {
+        "name": "external",
+        "date_created": "03/08/2022"
+    },
+    "images": {
+        "id": 1,
+        "width": 800,
+        "height": 600,
+        "file_name": "0000713_as-0094034.jpg"
+    },
+    "annotations": [
+        {
+            "id": 2,
+            "image_id": 1,
+            "category_id": "as-0094034",
+            "segmentation": [
+                [
+                    [
+                        [
+                            503,
+                            208
+                        ],
+                        [
+                            488,
+                            250
+                        ],
+                        [
+                            461,
+                            257
+                        ],
+                        [
+                            433,
+                            264
+                        ],
+                        [
+                            396,
+                            267
+                        ],
+                        [
+                            244,
+                            236
+                        ],
+                        [
+                            155,
+                            224
+                        ],
+                        [
+                            139,
+                            218
+                        ],
+                        [
+                            137,
+                            191
+                        ],
+                        [
+                            133,
+                            162
+                        ],
+                        [
+                            135,
+                            128
+                        ],
+                        [
+                            150,
+                            110
+                        ],
+                        [
+                            179,
+                            95
+                        ],
+                        [
+                            228,
+                            80
+                        ],
+                        [
+                            260,
+                            103
+                        ],
+                        [
+                            275,
+                            115
+                        ],
+                        [
+                            426,
+                            148
+                        ],
+                        [
+                            462,
+                            168
+                        ],
+                        [
+                            503,
+                            208
+                        ]
+                    ]
+                ]
+            ],
+            "area": 43595.5,
+            "bbox": [
+                133,
+                80,
+                370,
+                187
+            ],
+            "damage": "Crushed",
+            "part": null,
+            "year": 2015,
+            "color": "Gray tone",
+            "level": null,
+            "repair": [
+                "Front fender(L):exchange,sheet_metal,coating",
+                "Rocker panel:exchange,coating",
+                "Rear door(L):coating,exchange",
+                "B pillar(L):coating,exchange",
+                "Roof:exchange",
+                "Rear fender(L):coating,sheet_metal,exchange",
+                "Front door(L):exchange,coating"
+            ]
+        },
+        {
+            "id": 3,
+            "image_id": 1,
+            "category_id": "as-0094034",
+            "segmentation": [
+                [
+                    [
+                        [
+                            666,
+                            312
+                        ],
+                        [
+                            672,
+                            354
+                        ],
+                        [
+                            666,
+                            372
+                        ],
+                        [
+                            648,
+                            392
+                        ],
+                        [
+                            620,
+                            391
+                        ],
+                        [
+                            585,
+                            369
+                        ],
+                        [
+                            582,
+                            383
+                        ],
+                        [
+                            143,
+                            233
+                        ],
+                        [
+                            150,
+                            216
+                        ],
+                        [
+                            418,
+                            260
+                        ],
+                        [
+                            666,
+                            312
+                        ]
+                    ]
+                ]
+            ],
+            "area": 31374.5,
+            "bbox": [
+                143,
+                216,
+                529,
+                176
+            ],
+            "damage": "Breakage",
+            "part": null,
+            "year": 2015,
+            "color": "Gray tone",
+            "level": null,
+            "repair": [
+                "Front fender(L):exchange,sheet_metal,coating",
+                "Rocker panel:exchange,coating",
+                "Rear door(L):coating,exchange",
+                "B pillar(L):coating,exchange",
+                "Roof:exchange",
+                "Rear fender(L):coating,sheet_metal,exchange",
+                "Front door(L):exchange,coating"
+            ]
+        },
+        {
+            "id": 4,
+            "image_id": 1,
+            "category_id": "as-0094034",
+            "segmentation": [
+                [
+                    [
+                        [
+                            416,
+                            66
+                        ],
+                        [
+                            394,
+                            122
+                        ],
+                        [
+                            392,
+                            131
+                        ],
+                        [
+                            392,
+                            140
+                        ],
+                        [
+                            392,
+                            153
+                        ],
+                        [
+                            394,
+                            167
+                        ],
+                        [
+                            397,
+                            179
+                        ],
+                        [
+                            401,
+                            200
+                        ],
+                        [
+                            399,
+                            229
+                        ],
+                        [
+                            396,
+                            260
+                        ],
+                        [
+                            383,
+                            259
+                        ],
+                        [
+                            380,
+                            244
+                        ],
+                        [
+                            381,
+                            228
+                        ],
+                        [
+                            382,
+                            216
+                        ],
+                        [
+                            381,
+                            210
+                        ],
+                        [
+                            374,
+                            200
+                        ],
+                        [
+                            371,
+                            159
+                        ],
+                        [
+                            377,
+                            122
+                        ],
+                        [
+                            386,
+                            85
+                        ],
+                        [
+                            400,
+                            63
+                        ],
+                        [
+                            416,
+                            66
+                        ]
+                    ]
+                ]
+            ],
+            "area": 3900.5,
+            "bbox": [
+                371,
+                63,
+                45,
+                197
+            ],
+            "damage": "Separated",
+            "part": null,
+            "year": 2015,
+            "color": "Gray tone",
+            "level": null,
+            "repair": [
+                "Front fender(L):exchange,sheet_metal,coating",
+                "Rocker panel:exchange,coating",
+                "Rear door(L):coating,exchange",
+                "B pillar(L):coating,exchange",
+                "Roof:exchange",
+                "Rear fender(L):coating,sheet_metal,exchange",
+                "Front door(L):exchange,coating"
+            ]
+        },
+        {
+            "id": 5,
+            "image_id": 1,
+            "category_id": "as-0094034",
+            "segmentation": [
+                [
+                    [
+                        [
+                            283,
+                            156
+                        ],
+                        [
+                            289,
+                            166
+                        ],
+                        [
+                            297,
+                            169
+                        ],
+                        [
+                            296,
+                            172
+                        ],
+                        [
+                            285,
+                            172
+                        ],
+                        [
+                            277,
+                            173
+                        ],
+                        [
+                            263,
+                            173
+                        ],
+                        [
+                            255,
+                            172
+                        ],
+                        [
+                            244,
+                            168
+                        ],
+                        [
+                            221,
+                            166
+                        ],
+                        [
+                            201,
+                            166
+                        ],
+                        [
+                            174,
+                            160
+                        ],
+                        [
+                            166,
+                            155
+                        ],
+                        [
+                            132,
+                            143
+                        ],
+                        [
+                            127,
+                            139
+                        ],
+                        [
+                            130,
+                            135
+                        ],
+                        [
+                            144,
+                            130
+                        ],
+                        [
+                            156,
+                            130
+                        ],
+                        [
+                            190,
+                            133
+                        ],
+                        [
+                            217,
+                            138
+                        ],
+                        [
+                            233,
+                            142
+                        ],
+                        [
+                            283,
+                            156
+                        ]
+                    ]
+                ]
+            ],
+            "area": 3756.0,
+            "bbox": [
+                127,
+                130,
+                170,
+                43
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2015,
+            "color": "Gray tone",
+            "level": null,
+            "repair": [
+                "Front fender(L):exchange,sheet_metal,coating",
+                "Rocker panel:exchange,coating",
+                "Rear door(L):coating,exchange",
+                "B pillar(L):coating,exchange",
+                "Roof:exchange",
+                "Rear fender(L):coating,sheet_metal,exchange",
+                "Front door(L):exchange,coating"
+            ]
+        },
+        {
+            "id": 6,
+            "image_id": 1,
+            "category_id": "as-0094034",
+            "segmentation": [
+                [
+                    [
+                        [
+                            497,
+                            211
+                        ],
+                        [
+                            448,
+                            241
+                        ],
+                        [
+                            434,
+                            245
+                        ],
+                        [
+                            423,
+                            248
+                        ],
+                        [
+                            414,
+                            251
+                        ],
+                        [
+                            402,
+                            251
+                        ],
+                        [
+                            386,
+                            252
+                        ],
+                        [
+                            373,
+                            249
+                        ],
+                        [
+                            369,
+                            240
+                        ],
+                        [
+                            362,
+                            233
+                        ],
+                        [
+                            365,
+                            227
+                        ],
+                        [
+                            378,
+                            223
+                        ],
+                        [
+                            387,
+                            222
+                        ],
+                        [
+                            392,
+                            222
+                        ],
+                        [
+                            404,
+                            220
+                        ],
+                        [
+                            413,
+                            215
+                        ],
+                        [
+                            422,
+                            217
+                        ],
+                        [
+                            430,
+                            215
+                        ],
+                        [
+                            441,
+                            212
+                        ],
+                        [
+                            448,
+                            201
+                        ],
+                        [
+                            453,
+                            196
+                        ],
+                        [
+                            469,
+                            197
+                        ],
+                        [
+                            491,
+                            207
+                        ],
+                        [
+                            497,
+                            211
+                        ]
+                    ]
+                ]
+            ],
+            "area": 3721.5,
+            "bbox": [
+                362,
+                196,
+                135,
+                56
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2015,
+            "color": "Gray tone",
+            "level": null,
+            "repair": [
+                "Front fender(L):exchange,sheet_metal,coating",
+                "Rocker panel:exchange,coating",
+                "Rear door(L):coating,exchange",
+                "B pillar(L):coating,exchange",
+                "Roof:exchange",
+                "Rear fender(L):coating,sheet_metal,exchange",
+                "Front door(L):exchange,coating"
+            ]
+        },
+        {
+            "id": 7,
+            "image_id": 1,
+            "category_id": "as-0094034",
+            "segmentation": [
+                [
+                    [
+                        [
+                            412,
+                            158
+                        ],
+                        [
+                            408,
+                            174
+                        ],
+                        [
+                            403,
+                            176
+                        ],
+                        [
+                            398,
+                            182
+                        ],
+                        [
+                            390,
+                            184
+                        ],
+                        [
+                            370,
+                            180
+                        ],
+                        [
+                            356,
+                            179
+                        ],
+                        [
+                            343,
+                            177
+                        ],
+                        [
+                            326,
+                            173
+                        ],
+                        [
+                            307,
+                            163
+                        ],
+                        [
+                            302,
+                            152
+                        ],
+                        [
+                            305,
+                            147
+                        ],
+                        [
+                            317,
+                            147
+                        ],
+                        [
+                            329,
+                            147
+                        ],
+                        [
+                            345,
+                            146
+                        ],
+                        [
+                            344,
+                            141
+                        ],
+                        [
+                            323,
+                            133
+                        ],
+                        [
+                            319,
+                            124
+                        ],
+                        [
+                            329,
+                            125
+                        ],
+                        [
+                            349,
+                            129
+                        ],
+                        [
+                            355,
+                            136
+                        ],
+                        [
+                            366,
+                            142
+                        ],
+                        [
+                            390,
+                            148
+                        ],
+                        [
+                            412,
+                            158
+                        ]
+                    ]
+                ]
+            ],
+            "area": 3578.5,
+            "bbox": [
+                302,
+                124,
+                110,
+                60
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2015,
+            "color": "Gray tone",
+            "level": null,
+            "repair": [
+                "Front fender(L):exchange,sheet_metal,coating",
+                "Rocker panel:exchange,coating",
+                "Rear door(L):coating,exchange",
+                "B pillar(L):coating,exchange",
+                "Roof:exchange",
+                "Rear fender(L):coating,sheet_metal,exchange",
+                "Front door(L):exchange,coating"
+            ]
+        },
+        {
+            "id": 8,
+            "image_id": 1,
+            "category_id": "as-0094034",
+            "segmentation": [
+                [
+                    [
+                        [
+                            255,
+                            191
+                        ],
+                        [
+                            253,
+                            202
+                        ],
+                        [
+                            253,
+                            204
+                        ],
+                        [
+                            253,
+                            208
+                        ],
+                        [
+                            231,
+                            208
+                        ],
+                        [
+                            201,
+                            205
+                        ],
+                        [
+                            184,
+                            202
+                        ],
+                        [
+                            167,
+                            203
+                        ],
+                        [
+                            150,
+                            198
+                        ],
+                        [
+                            154,
+                            193
+                        ],
+                        [
+                            160,
+                            189
+                        ],
+                        [
+                            165,
+                            185
+                        ],
+                        [
+                            175,
+                            183
+                        ],
+                        [
+                            185,
+                            184
+                        ],
+                        [
+                            200,
+                            185
+                        ],
+                        [
+                            231,
+                            188
+                        ],
+                        [
+                            255,
+                            191
+                        ]
+                    ]
+                ]
+            ],
+            "area": 1839.5,
+            "bbox": [
+                150,
+                183,
+                105,
+                25
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2015,
+            "color": "Gray tone",
+            "level": null,
+            "repair": [
+                "Front fender(L):exchange,sheet_metal,coating",
+                "Rocker panel:exchange,coating",
+                "Rear door(L):coating,exchange",
+                "B pillar(L):coating,exchange",
+                "Roof:exchange",
+                "Rear fender(L):coating,sheet_metal,exchange",
+                "Front door(L):exchange,coating"
+            ]
+        },
+        {
+            "id": 16,
+            "image_id": 1,
+            "category_id": "as-0094034",
+            "segmentation": [
+                [
+                    [
+                        [
+                            137,
+                            223
+                        ],
+                        [
+                            191,
+                            228
+                        ],
+                        [
+                            294,
+                            244
+                        ],
+                        [
+                            371,
+                            262
+                        ],
+                        [
+                            398,
+                            263
+                        ],
+                        [
+                            443,
+                            277
+                        ],
+                        [
+                            528,
+                            293
+                        ],
+                        [
+                            582,
+                            309
+                        ],
+                        [
+                            614,
+                            307
+                        ],
+                        [
+                            644,
+                            314
+                        ],
+                        [
+                            671,
+                            318
+                        ],
+                        [
+                            670,
+                            324
+                        ],
+                        [
+                            660,
+                            341
+                        ],
+                        [
+                            645,
+                            370
+                        ],
+                        [
+                            623,
+                            386
+                        ],
+                        [
+                            565,
+                            357
+                        ],
+                        [
+                            570,
+                            373
+                        ],
+                        [
+                            555,
+                            369
+                        ],
+                        [
+                            509,
+                            357
+                        ],
+                        [
+                            482,
+                            347
+                        ],
+                        [
+                            470,
+                            339
+                        ],
+                        [
+                            439,
+                            331
+                        ],
+                        [
+                            404,
+                            321
+                        ],
+                        [
+                            345,
+                            305
+                        ],
+                        [
+                            324,
+                            300
+                        ],
+                        [
+                            295,
+                            292
+                        ],
+                        [
+                            269,
+                            286
+                        ],
+                        [
+                            224,
+                            267
+                        ],
+                        [
+                            206,
+                            260
+                        ],
+                        [
+                            169,
+                            247
+                        ],
+                        [
+                            154,
+                            241
+                        ],
+                        [
+                            142,
+                            238
+                        ],
+                        [
+                            137,
+                            223
+                        ]
+                    ]
+                ]
+            ],
+            "area": 26478.0,
+            "bbox": [
+                137,
+                223,
+                534,
+                163
+            ],
+            "damage": null,
+            "part": "Rocker panel(L)",
+            "year": 2015,
+            "color": "Gray tone",
+            "level": 4,
+            "repair": [
+                "Front fender(L):exchange,sheet_metal,coating",
+                "Rocker panel:exchange,coating",
+                "Rear door(L):coating,exchange",
+                "B pillar(L):coating,exchange",
+                "Roof:exchange",
+                "Rear fender(L):coating,sheet_metal,exchange",
+                "Front door(L):exchange,coating"
+            ]
+        }
+    ],
+    "categories": {
+        "id": "as-0094034",
+        "supercategory_name": "Mid-size car"
+    }
+}

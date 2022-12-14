@@ -135,7 +135,7 @@ if __name__ == "__main__":
                 ails = f"{arg.task}",
                 train_dir = f"../data/datainfo/{arg.task}_train.json",
                 val_dir = f"../data/datainfo/{arg.task}_val.json",
-                img_base_path = '../data/custom/img',
+                img_base_path = '../data/imgs',
                 size = 256,
                 model = model,
                 label = None,

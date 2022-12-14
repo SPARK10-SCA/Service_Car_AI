@@ -244,7 +244,7 @@ if __name__ == "__main__":
         if (arg.task == "all" or arg.task == "part"):
             # part
             print("make_cocoformat[part]")
-            label_df = pd.read_csv('code/part_labeling.csv') # Not sure why this is needed
+            #label_df = pd.read_csv('code/part_labeling.csv') # Not sure why this is needed
 
             dir_name_img = 'data/Dataset/1.원천데이터/damage_part'
             dir_name_label = 'data/Dataset/2.라벨링데이터/damage_part'

@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 
 TEST_PATH = '../../data/custom/test'
 SAVE_DIR = '../../data/result_log/predictions/'
-WEIGHT_PATH = '../../data/weight/Unet_part_start_2022-11-15_21_09_33_KST+0900_49_epoch_IoU_0.09.pt'
+WEIGHT_PATH = '../../data/weight/Unet_36.pt'
 DATA_INFO = '../../data/datainfo/part_test.json'
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -32,7 +32,7 @@ def save_visual(origImage, origMask, predMask, img_ids):
     # set the layout of the figure and display it
     figure.tight_layout()
     
-    plt.show()
+    #plt.show()
     
     figure.savefig(SAVE_DIR+str(img_ids))
 

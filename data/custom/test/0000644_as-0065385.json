@@ -1,1 +1,292 @@
-{"info": {"name": "external", "date_created": "03/08/2022"}, "images": {"id": 1, "width": 1024, "height": 768, "file_name": "0000644_as-0065385.jpg"}, "annotations": [{"id": 2, "image_id": 1, "category_id": "as-0065385", "segmentation": [[[[33, 354], [38, 418], [113, 441], [169, 451], [184, 422], [180, 394], [145, 372], [103, 345], [82, 336], [51, 332], [33, 354]]]], "area": 11893.5, "bbox": [33, 332, 151, 119], "damage": "Crushed", "part": null, "year": 2017, "color": "Black", "level": null, "repair": ["Rear bumper:coating,exchange"]}, {"id": 3, "image_id": 1, "category_id": "as-0065385", "segmentation": [[[[373, 328], [374, 331], [417, 330], [417, 326], [373, 328]]]], "area": 153.0, "bbox": [373, 326, 44, 5], "damage": "Scratched", "part": null, "year": 2017, "color": "Black", "level": null, "repair": ["Rear bumper:coating,exchange"]}, {"id": 6, "image_id": 1, "category_id": "as-0065385", "segmentation": [[[[452, 472], [445, 461], [439, 450], [416, 430], [404, 420], [388, 413], [369, 406], [316, 391], [236, 404], [201, 429], [124, 410], [98, 386], [54, 336], [72, 331], [76, 323], [75, 309], [64, 298], [48, 290], [27, 286], [4, 284], [2, 267], [36, 257], [81, 246], [100, 228], [123, 215], [201, 207], [274, 206], [299, 261], [315, 299], [357, 359], [421, 414], [482, 468], [452, 472]]]], "area": 52868.0, "bbox": [2, 206, 480, 266], "damage": null, "part": "Rear fender(R)", "year": 2017, "color": "Black", "level": 4, "repair": ["Rear bumper:coating,exchange"]}], "categories": {"id": "as-0065385", "supercategory_name": "Mid-size car"}}
+{
+    "info": {
+        "name": "external",
+        "date_created": "03/08/2022"
+    },
+    "images": {
+        "id": 1,
+        "width": 1024,
+        "height": 768,
+        "file_name": "0000644_as-0065385.jpg"
+    },
+    "annotations": [
+        {
+            "id": 2,
+            "image_id": 1,
+            "category_id": "as-0065385",
+            "segmentation": [
+                [
+                    [
+                        [
+                            33,
+                            354
+                        ],
+                        [
+                            38,
+                            418
+                        ],
+                        [
+                            113,
+                            441
+                        ],
+                        [
+                            169,
+                            451
+                        ],
+                        [
+                            184,
+                            422
+                        ],
+                        [
+                            180,
+                            394
+                        ],
+                        [
+                            145,
+                            372
+                        ],
+                        [
+                            103,
+                            345
+                        ],
+                        [
+                            82,
+                            336
+                        ],
+                        [
+                            51,
+                            332
+                        ],
+                        [
+                            33,
+                            354
+                        ]
+                    ]
+                ]
+            ],
+            "area": 11893.5,
+            "bbox": [
+                33,
+                332,
+                151,
+                119
+            ],
+            "damage": "Crushed",
+            "part": null,
+            "year": 2017,
+            "color": "Black",
+            "level": null,
+            "repair": [
+                "Rear bumper:coating,exchange"
+            ]
+        },
+        {
+            "id": 3,
+            "image_id": 1,
+            "category_id": "as-0065385",
+            "segmentation": [
+                [
+                    [
+                        [
+                            373,
+                            328
+                        ],
+                        [
+                            374,
+                            331
+                        ],
+                        [
+                            417,
+                            330
+                        ],
+                        [
+                            417,
+                            326
+                        ],
+                        [
+                            373,
+                            328
+                        ]
+                    ]
+                ]
+            ],
+            "area": 153.0,
+            "bbox": [
+                373,
+                326,
+                44,
+                5
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2017,
+            "color": "Black",
+            "level": null,
+            "repair": [
+                "Rear bumper:coating,exchange"
+            ]
+        },
+        {
+            "id": 6,
+            "image_id": 1,
+            "category_id": "as-0065385",
+            "segmentation": [
+                [
+                    [
+                        [
+                            452,
+                            472
+                        ],
+                        [
+                            445,
+                            461
+                        ],
+                        [
+                            439,
+                            450
+                        ],
+                        [
+                            416,
+                            430
+                        ],
+                        [
+                            404,
+                            420
+                        ],
+                        [
+                            388,
+                            413
+                        ],
+                        [
+                            369,
+                            406
+                        ],
+                        [
+                            316,
+                            391
+                        ],
+                        [
+                            236,
+                            404
+                        ],
+                        [
+                            201,
+                            429
+                        ],
+                        [
+                            124,
+                            410
+                        ],
+                        [
+                            98,
+                            386
+                        ],
+                        [
+                            54,
+                            336
+                        ],
+                        [
+                            72,
+                            331
+                        ],
+                        [
+                            76,
+                            323
+                        ],
+                        [
+                            75,
+                            309
+                        ],
+                        [
+                            64,
+                            298
+                        ],
+                        [
+                            48,
+                            290
+                        ],
+                        [
+                            27,
+                            286
+                        ],
+                        [
+                            4,
+                            284
+                        ],
+                        [
+                            2,
+                            267
+                        ],
+                        [
+                            36,
+                            257
+                        ],
+                        [
+                            81,
+                            246
+                        ],
+                        [
+                            100,
+                            228
+                        ],
+                        [
+                            123,
+                            215
+                        ],
+                        [
+                            201,
+                            207
+                        ],
+                        [
+                            274,
+                            206
+                        ],
+                        [
+                            299,
+                            261
+                        ],
+                        [
+                            315,
+                            299
+                        ],
+                        [
+                            357,
+                            359
+                        ],
+                        [
+                            421,
+                            414
+                        ],
+                        [
+                            482,
+                            468
+                        ],
+                        [
+                            452,
+                            472
+                        ]
+                    ]
+                ]
+            ],
+            "area": 52868.0,
+            "bbox": [
+                2,
+                206,
+                480,
+                266
+            ],
+            "damage": null,
+            "part": "Rear fender(R)",
+            "year": 2017,
+            "color": "Black",
+            "level": 4,
+            "repair": [
+                "Rear bumper:coating,exchange"
+            ]
+        }
+    ],
+    "categories": {
+        "id": "as-0065385",
+        "supercategory_name": "Mid-size car"
+    }
+}

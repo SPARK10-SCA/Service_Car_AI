@@ -1,1 +1,620 @@
-{"info": {"name": "socar", "date_created": "03/08/2022"}, "images": {"id": 1, "width": 800, "height": 600, "file_name": "0000698_sc-1036535.jpg"}, "annotations": [{"id": 2, "image_id": 1, "category_id": "sc-1036535", "segmentation": [[[[178, 261], [248, 273], [256, 328], [265, 346], [300, 391], [344, 424], [422, 442], [484, 431], [534, 411], [566, 381], [587, 343], [594, 300], [687, 305], [658, 389], [585, 459], [519, 474], [330, 454], [263, 421], [218, 384], [187, 313], [178, 261]]]], "area": 32813.0, "bbox": [178, 261, 509, 213], "damage": "Breakage", "part": null, "year": 2020, "color": "White", "level": null, "repair": ["Front bumper:repair,coating,sheet_metal,exchange"]}, {"id": 3, "image_id": 1, "category_id": "sc-1036535", "segmentation": [[[[689, 404], [797, 402], [800, 414], [699, 421], [680, 412], [689, 404]]]], "area": 1661.0, "bbox": [680, 402, 120, 19], "damage": "Scratched", "part": null, "year": 2020, "color": "White", "level": null, "repair": ["Front bumper:repair,coating,sheet_metal,exchange"]}, {"id": 4, "image_id": 1, "category_id": "sc-1036535", "segmentation": [[[[736, 159], [744, 163], [757, 217], [757, 267], [752, 303], [727, 357], [699, 390], [679, 404], [684, 390], [718, 341], [743, 266], [748, 202], [736, 159]]]], "area": 3311.5, "bbox": [679, 159, 78, 245], "damage": "Separated", "part": null, "year": 2020, "color": "White", "level": null, "repair": ["Front bumper:repair,coating,sheet_metal,exchange"]}, {"id": 5, "image_id": 1, "category_id": "sc-1036535", "segmentation": [[[[306, 397], [309, 392], [355, 419], [399, 433], [379, 434], [360, 428], [340, 420], [323, 410], [306, 397]]]], "area": 673.0, "bbox": [306, 392, 93, 42], "damage": "Scratched", "part": null, "year": 2020, "color": "White", "level": null, "repair": ["Front bumper:repair,coating,sheet_metal,exchange"]}, {"id": 6, "image_id": 1, "category_id": "sc-1036535", "segmentation": [[[[45, 230], [108, 225], [122, 264], [49, 255], [45, 230]]]], "area": 2158.0, "bbox": [45, 225, 77, 39], "damage": "Crushed", "part": null, "year": 2020, "color": "White", "level": null, "repair": ["Front bumper:repair,coating,sheet_metal,exchange"]}, {"id": 7, "image_id": 1, "category_id": "sc-1036535", "segmentation": [[[[39, 180], [46, 179], [51, 247], [40, 250], [39, 180]]]], "area": 627.0, "bbox": [39, 179, 12, 71], "damage": "Separated", "part": null, "year": 2020, "color": "White", "level": null, "repair": ["Front bumper:repair,coating,sheet_metal,exchange"]}, {"id": 8, "image_id": 1, "category_id": "sc-1036535", "segmentation": [[[[1, 231], [28, 228], [65, 223], [105, 223], [121, 255], [120, 278], [137, 316], [95, 309], [56, 301], [1, 288], [1, 231]], [[21, 261], [83, 277], [85, 286], [64, 293], [41, 280], [25, 270], [21, 261]]]], "area": 8261.0, "bbox": [1, 223, 136, 93], "damage": "Scratched", "part": null, "year": 2020, "color": "White", "level": null, "repair": ["Front bumper:repair,coating,sheet_metal,exchange"]}, {"id": 16, "image_id": 1, "category_id": "sc-1036535", "segmentation": [[[[628, 105], [673, 193], [688, 290], [678, 333], [649, 402], [597, 453], [563, 466], [523, 475], [419, 468], [324, 451], [234, 399], [190, 331], [180, 269], [183, 193], [216, 134], [260, 79], [341, 30], [433, 15], [511, 32], [571, 65], [628, 105]]]], "area": 183269.5, "bbox": [180, 15, 508, 460], "damage": null, "part": "Front Wheel(R)", "year": 2020, "color": "White", "level": 4, "repair": ["Front bumper:repair,coating,sheet_metal,exchange"]}], "categories": {"id": "sc-1036535", "supercategory_name": "Mid-size car"}}
+{
+    "info": {
+        "name": "socar",
+        "date_created": "03/08/2022"
+    },
+    "images": {
+        "id": 1,
+        "width": 800,
+        "height": 600,
+        "file_name": "0000698_sc-1036535.jpg"
+    },
+    "annotations": [
+        {
+            "id": 2,
+            "image_id": 1,
+            "category_id": "sc-1036535",
+            "segmentation": [
+                [
+                    [
+                        [
+                            178,
+                            261
+                        ],
+                        [
+                            248,
+                            273
+                        ],
+                        [
+                            256,
+                            328
+                        ],
+                        [
+                            265,
+                            346
+                        ],
+                        [
+                            300,
+                            391
+                        ],
+                        [
+                            344,
+                            424
+                        ],
+                        [
+                            422,
+                            442
+                        ],
+                        [
+                            484,
+                            431
+                        ],
+                        [
+                            534,
+                            411
+                        ],
+                        [
+                            566,
+                            381
+                        ],
+                        [
+                            587,
+                            343
+                        ],
+                        [
+                            594,
+                            300
+                        ],
+                        [
+                            687,
+                            305
+                        ],
+                        [
+                            658,
+                            389
+                        ],
+                        [
+                            585,
+                            459
+                        ],
+                        [
+                            519,
+                            474
+                        ],
+                        [
+                            330,
+                            454
+                        ],
+                        [
+                            263,
+                            421
+                        ],
+                        [
+                            218,
+                            384
+                        ],
+                        [
+                            187,
+                            313
+                        ],
+                        [
+                            178,
+                            261
+                        ]
+                    ]
+                ]
+            ],
+            "area": 32813.0,
+            "bbox": [
+                178,
+                261,
+                509,
+                213
+            ],
+            "damage": "Breakage",
+            "part": null,
+            "year": 2020,
+            "color": "White",
+            "level": null,
+            "repair": [
+                "Front bumper:repair,coating,sheet_metal,exchange"
+            ]
+        },
+        {
+            "id": 3,
+            "image_id": 1,
+            "category_id": "sc-1036535",
+            "segmentation": [
+                [
+                    [
+                        [
+                            689,
+                            404
+                        ],
+                        [
+                            797,
+                            402
+                        ],
+                        [
+                            800,
+                            414
+                        ],
+                        [
+                            699,
+                            421
+                        ],
+                        [
+                            680,
+                            412
+                        ],
+                        [
+                            689,
+                            404
+                        ]
+                    ]
+                ]
+            ],
+            "area": 1661.0,
+            "bbox": [
+                680,
+                402,
+                120,
+                19
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2020,
+            "color": "White",
+            "level": null,
+            "repair": [
+                "Front bumper:repair,coating,sheet_metal,exchange"
+            ]
+        },
+        {
+            "id": 4,
+            "image_id": 1,
+            "category_id": "sc-1036535",
+            "segmentation": [
+                [
+                    [
+                        [
+                            736,
+                            159
+                        ],
+                        [
+                            744,
+                            163
+                        ],
+                        [
+                            757,
+                            217
+                        ],
+                        [
+                            757,
+                            267
+                        ],
+                        [
+                            752,
+                            303
+                        ],
+                        [
+                            727,
+                            357
+                        ],
+                        [
+                            699,
+                            390
+                        ],
+                        [
+                            679,
+                            404
+                        ],
+                        [
+                            684,
+                            390
+                        ],
+                        [
+                            718,
+                            341
+                        ],
+                        [
+                            743,
+                            266
+                        ],
+                        [
+                            748,
+                            202
+                        ],
+                        [
+                            736,
+                            159
+                        ]
+                    ]
+                ]
+            ],
+            "area": 3311.5,
+            "bbox": [
+                679,
+                159,
+                78,
+                245
+            ],
+            "damage": "Separated",
+            "part": null,
+            "year": 2020,
+            "color": "White",
+            "level": null,
+            "repair": [
+                "Front bumper:repair,coating,sheet_metal,exchange"
+            ]
+        },
+        {
+            "id": 5,
+            "image_id": 1,
+            "category_id": "sc-1036535",
+            "segmentation": [
+                [
+                    [
+                        [
+                            306,
+                            397
+                        ],
+                        [
+                            309,
+                            392
+                        ],
+                        [
+                            355,
+                            419
+                        ],
+                        [
+                            399,
+                            433
+                        ],
+                        [
+                            379,
+                            434
+                        ],
+                        [
+                            360,
+                            428
+                        ],
+                        [
+                            340,
+                            420
+                        ],
+                        [
+                            323,
+                            410
+                        ],
+                        [
+                            306,
+                            397
+                        ]
+                    ]
+                ]
+            ],
+            "area": 673.0,
+            "bbox": [
+                306,
+                392,
+                93,
+                42
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2020,
+            "color": "White",
+            "level": null,
+            "repair": [
+                "Front bumper:repair,coating,sheet_metal,exchange"
+            ]
+        },
+        {
+            "id": 6,
+            "image_id": 1,
+            "category_id": "sc-1036535",
+            "segmentation": [
+                [
+                    [
+                        [
+                            45,
+                            230
+                        ],
+                        [
+                            108,
+                            225
+                        ],
+                        [
+                            122,
+                            264
+                        ],
+                        [
+                            49,
+                            255
+                        ],
+                        [
+                            45,
+                            230
+                        ]
+                    ]
+                ]
+            ],
+            "area": 2158.0,
+            "bbox": [
+                45,
+                225,
+                77,
+                39
+            ],
+            "damage": "Crushed",
+            "part": null,
+            "year": 2020,
+            "color": "White",
+            "level": null,
+            "repair": [
+                "Front bumper:repair,coating,sheet_metal,exchange"
+            ]
+        },
+        {
+            "id": 7,
+            "image_id": 1,
+            "category_id": "sc-1036535",
+            "segmentation": [
+                [
+                    [
+                        [
+                            39,
+                            180
+                        ],
+                        [
+                            46,
+                            179
+                        ],
+                        [
+                            51,
+                            247
+                        ],
+                        [
+                            40,
+                            250
+                        ],
+                        [
+                            39,
+                            180
+                        ]
+                    ]
+                ]
+            ],
+            "area": 627.0,
+            "bbox": [
+                39,
+                179,
+                12,
+                71
+            ],
+            "damage": "Separated",
+            "part": null,
+            "year": 2020,
+            "color": "White",
+            "level": null,
+            "repair": [
+                "Front bumper:repair,coating,sheet_metal,exchange"
+            ]
+        },
+        {
+            "id": 8,
+            "image_id": 1,
+            "category_id": "sc-1036535",
+            "segmentation": [
+                [
+                    [
+                        [
+                            1,
+                            231
+                        ],
+                        [
+                            28,
+                            228
+                        ],
+                        [
+                            65,
+                            223
+                        ],
+                        [
+                            105,
+                            223
+                        ],
+                        [
+                            121,
+                            255
+                        ],
+                        [
+                            120,
+                            278
+                        ],
+                        [
+                            137,
+                            316
+                        ],
+                        [
+                            95,
+                            309
+                        ],
+                        [
+                            56,
+                            301
+                        ],
+                        [
+                            1,
+                            288
+                        ],
+                        [
+                            1,
+                            231
+                        ]
+                    ],
+                    [
+                        [
+                            21,
+                            261
+                        ],
+                        [
+                            83,
+                            277
+                        ],
+                        [
+                            85,
+                            286
+                        ],
+                        [
+                            64,
+                            293
+                        ],
+                        [
+                            41,
+                            280
+                        ],
+                        [
+                            25,
+                            270
+                        ],
+                        [
+                            21,
+                            261
+                        ]
+                    ]
+                ]
+            ],
+            "area": 8261.0,
+            "bbox": [
+                1,
+                223,
+                136,
+                93
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2020,
+            "color": "White",
+            "level": null,
+            "repair": [
+                "Front bumper:repair,coating,sheet_metal,exchange"
+            ]
+        },
+        {
+            "id": 16,
+            "image_id": 1,
+            "category_id": "sc-1036535",
+            "segmentation": [
+                [
+                    [
+                        [
+                            628,
+                            105
+                        ],
+                        [
+                            673,
+                            193
+                        ],
+                        [
+                            688,
+                            290
+                        ],
+                        [
+                            678,
+                            333
+                        ],
+                        [
+                            649,
+                            402
+                        ],
+                        [
+                            597,
+                            453
+                        ],
+                        [
+                            563,
+                            466
+                        ],
+                        [
+                            523,
+                            475
+                        ],
+                        [
+                            419,
+                            468
+                        ],
+                        [
+                            324,
+                            451
+                        ],
+                        [
+                            234,
+                            399
+                        ],
+                        [
+                            190,
+                            331
+                        ],
+                        [
+                            180,
+                            269
+                        ],
+                        [
+                            183,
+                            193
+                        ],
+                        [
+                            216,
+                            134
+                        ],
+                        [
+                            260,
+                            79
+                        ],
+                        [
+                            341,
+                            30
+                        ],
+                        [
+                            433,
+                            15
+                        ],
+                        [
+                            511,
+                            32
+                        ],
+                        [
+                            571,
+                            65
+                        ],
+                        [
+                            628,
+                            105
+                        ]
+                    ]
+                ]
+            ],
+            "area": 183269.5,
+            "bbox": [
+                180,
+                15,
+                508,
+                460
+            ],
+            "damage": null,
+            "part": "Front Wheel(R)",
+            "year": 2020,
+            "color": "White",
+            "level": 4,
+            "repair": [
+                "Front bumper:repair,coating,sheet_metal,exchange"
+            ]
+        }
+    ],
+    "categories": {
+        "id": "sc-1036535",
+        "supercategory_name": "Mid-size car"
+    }
+}
