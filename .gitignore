@@ -1,5 +1,4 @@
-data/custom
-data/weight
+data
 git rm -r --cached .DS_Store
 #.vscode
 .DS_Store
