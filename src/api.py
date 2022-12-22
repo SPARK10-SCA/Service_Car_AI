@@ -5,23 +5,24 @@ import numpy as np
 import cv2
 from PIL import Image
 from torchvision.transforms import ToTensor
+from scipy import ndimage
 
 import os
 import math 
 import time
 import matplotlib.pyplot as plt
 
-INPUT_PATH = '../input/'
-OUTPUT_PATH = '../output/'
+INPUT_PATH = '/home/work/hyunbin/sca_api/input/'
+OUTPUT_PATH = '/home/work/hyunbin/sca_api/output/'
 
-PART_WEIGHT = '../weights/part/Part.pt'
+PART_WEIGHT = '/home/work/hyunbin/sca_api/weights/part/Part.pt'
 
-BREAKAGE_WEIGHT = '../weights/damage/Breakage.pt'
-CRUSHED_WEIGHT = '../weights/damage/Crushed.pt'
-SCRATCHED_WEIGHT = '../weights/damage/Scratched.pt'
-SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
+BREAKAGE_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Breakage.pt'
+CRUSHED_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Crushed.pt'
+SCRATCHED_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Scratched.pt'
+SEPARATED_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Separated.pt'
 
-SEVERITY_WEIGHT = '../weights/severity/Severity.pth'
+SEVERITY_WEIGHT = '/home/work/hyunbin/sca_api/weights/severity/Severity.pth'
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -74,6 +75,34 @@ def damage_save_visual(orig, predMask1, predMask2, predMask3, predMask4):
     
     figure.savefig(OUTPUT_PATH+'damage/damage_api_output.jpg')
 
+def find_part(predMask, damage_type):
+    # Find and print car part objects
+    data_slices = ndimage.find_objects(predMask)
+    try:
+        if ((damage := data_slices[0]) != None):
+
+            y_start = damage[0].start
+            y_stop = damage[0].stop
+
+            x_start = damage[1].start
+            x_stop = damage[1].stop
+
+            cut = predMask[y_start:y_stop+1,x_start:x_stop+1,:]
+
+            val = round(cut.size/(256*256) * 100, 1)
+            if val < 0.1: 
+                print(damage_type + ": Damage not detected")
+            else:
+                print(damage_type+': ' + str(val) + '%')
+            
+
+            # damage ROI
+            return (x_start, y_start, x_stop, y_stop)
+
+    except:
+        print(damage_type + ": Damage not detected")
+
+
 def make_part_predictions(model):
     model.eval()
     with torch.no_grad():
@@ -112,19 +141,27 @@ def make_damage_predictions(model1, model2, model3, model4):
         predMask1 = torch.argmax(predMask1, dim=1).detach().cpu().numpy()
         predMask1 = np.transpose(predMask1, (1,2,0))
 
+        find_part(predMask1, 'Breakage')
+
         predMask2 = model2(image.unsqueeze(0))
         predMask2 = torch.argmax(predMask2, dim=1).detach().cpu().numpy()
         predMask2 = np.transpose(predMask2, (1,2,0))
+
+        find_part(predMask2, 'Crushed')
 
         predMask3 = model3(image.unsqueeze(0))
         predMask3 = torch.argmax(predMask3, dim=1).detach().cpu().numpy()
         predMask3 = np.transpose(predMask3, (1,2,0))
 
+        find_part(predMask3, 'Scratched')
+
         predMask4 = model4(image.unsqueeze(0))
         predMask4 = torch.argmax(predMask4, dim=1).detach().cpu().numpy()
         predMask4 = np.transpose(predMask4, (1,2,0))
 
-        with open(OUTPUT_PATH+'damage/predMask1.txt', 'w') as outfile:
+        find_part(predMask4, 'Separated')
+
+        '''with open(OUTPUT_PATH+'damage/predMask1.txt', 'w') as outfile:
                 for slice_2d in predMask1:
                     np.savetxt(outfile, slice_2d)
 
@@ -138,7 +175,7 @@ def make_damage_predictions(model1, model2, model3, model4):
 
         with open(OUTPUT_PATH+'damage/predMask4.txt', 'w') as outfile:
                 for slice_2d in predMask4:
-                    np.savetxt(outfile, slice_2d)
+                    np.savetxt(outfile, slice_2d)'''
 
         damage_save_visual(orig, predMask1, predMask2, predMask3, predMask4)
 
@@ -199,13 +236,13 @@ def main():
     print("Completed!\n")'''
     
     #damage
-    print("figuring out the type of damage...")
+    print("figuring out the type of damage...\n")
     model1 = load_damage_unet_model(weight_path=BREAKAGE_WEIGHT)
     model2 = load_damage_unet_model(weight_path=CRUSHED_WEIGHT)
     model3 = load_damage_unet_model(weight_path=SCRATCHED_WEIGHT)
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
     make_damage_predictions(model1, model2, model3, model4)
-    print("Completed!\n")
+    print("\nCompleted!\n")
 
     #severity
     '''print("figuring out the severity of damage...")
