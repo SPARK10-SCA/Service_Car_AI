@@ -107,8 +107,6 @@ def make_damage_predictions(model1, model2, model3, model4):
 
         tf_toTensor = ToTensor()
         image = tf_toTensor(image).float().to(DEVICE) 
-        
-        image = torch.tensor(image).float().to(DEVICE)
 
         predMask1 = model1(image.unsqueeze(0))
         predMask1 = torch.argmax(predMask1, dim=1).detach().cpu().numpy()
