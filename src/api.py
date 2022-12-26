@@ -194,7 +194,7 @@ def main():
     origImage = Image.open('/home/work/hyunbin/sca_api/input/input.jpg')
     origImage = origImage.resize((256, 256))
 
-    figure, ax = plt.subplots(nrows=7, ncols=4, figsize=(10, 10))
+    figure, ax = plt.subplots(nrows=3, ncols=4, figsize=(10, 10))
     ax[0][0].imshow(origImage)
     ax[0][0].set_title("Original")
 
@@ -237,54 +237,24 @@ def main():
     ax[2][3].set_title("Separated")
 
     if val1 is None: 
-        #print("Breakage: Damage is not detected")
-        ax[3][0].axis("off")
-        ax[3][0].set_title("Breakage: Damage is not detected")
-
+        print("Breakage: Damage is not detected")
     else: 
-        #print("Breakage: "+str(val1)+"%")
-        ax[3][0].axis("off")
-        ax[3][0].set_title("Breakage: "+str(val1)+"%")
+        print("Breakage: "+str(val1)+"%")
 
     if val2 is None: 
-        #print("Crushed: Damage is not detected")
-        ax[4][0].axis("off")
-        ax[4][0].set_title("Crushed: Damage is not detected")
+        print("Crushed: Damage is not detected")
     else: 
-        #print("Crushed: "+str(val2)+"%")
-        ax[4][0].axis("off")
-        ax[4][0].set_title("Crushed: "+str(val2)+"%")
+        print("Crushed: "+str(val2)+"%")
 
     if val3 is None: 
-        #print("Scratched: Damage is not detected")
-        ax[5][0].axis("off")
-        ax[5][0].set_title("Scratched: Damage is not detected")
+        print("Scratched: Damage is not detected")
     else: 
-        #print("Scratched: "+str(val3)+"%")
-        ax[5][0].axis("off")
-        ax[5][0].set_title("Scratched: "+str(val3)+"%")
+        print("Scratched: "+str(val3)+"%")
 
     if val4 is None: 
-        #print("Separated: Damage is not detected")
-        ax[6][0].axis("off")
-        ax[6][0].set_title("Separated: Damage is not detected")
+        print("Separated: Damage is not detected")
     else: 
-        #print("Separated: "+str(val4)+"%")
-        ax[6][0].axis("off")
-        ax[6][0].set_title("Separated: "+str(val4)+"%")
-
-    ax[3][1].axis("off")
-    ax[3][2].axis("off")
-    ax[3][3].axis("off")
-    ax[4][1].axis("off")
-    ax[4][2].axis("off")
-    ax[4][3].axis("off")
-    ax[5][1].axis("off")
-    ax[5][2].axis("off")
-    ax[5][3].axis("off")
-    ax[6][1].axis("off")
-    ax[6][2].axis("off")
-    ax[6][3].axis("off")
+        print("Separated: "+str(val4)+"%")
 
     #load severity model
     print("\ndetecting severity...\n")
