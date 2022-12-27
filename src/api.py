@@ -9,6 +9,7 @@ from scipy import ndimage
 from torch.utils.data import DataLoader
 from pycocotools.coco import COCO
 import albumentations as A
+import torch.nn.functional as F
 
 import os
 import sys
@@ -111,24 +112,28 @@ def make_damage_predictions(model1, model2, model3, model4, origImage):
         image = tf_toTensor(origImage).float().to(DEVICE) 
 
         predMask1 = model1(image.unsqueeze(0))
+        #predMask1 = F.softmax(predMask1, dim = 1).detach().cpu().numpy()
         predMask1 = torch.argmax(predMask1, dim=1).detach().cpu().numpy()
         predMask1 = np.transpose(predMask1, (1,2,0))
 
         val1 = find_damage(predMask1)
 
         predMask2 = model2(image.unsqueeze(0))
+        #predMask2 = F.softmax(predMask2, dim = 1)
         predMask2 = torch.argmax(predMask2, dim=1).detach().cpu().numpy()
         predMask2 = np.transpose(predMask2, (1,2,0))
 
         val2 = find_damage(predMask2)
 
         predMask3 = model3(image.unsqueeze(0))
+        #predMask3 = F.softmax(predMask3, dim = 1)
         predMask3 = torch.argmax(predMask3, dim=1).detach().cpu().numpy()
         predMask3 = np.transpose(predMask3, (1,2,0))
 
         val3 = find_damage(predMask3)
 
         predMask4 = model4(image.unsqueeze(0))
+        #predMask4 = F.softmax(predMask4, dim = 1)
         predMask4 = torch.argmax(predMask4, dim=1).detach().cpu().numpy()
         predMask4 = np.transpose(predMask4, (1,2,0))
 
@@ -194,7 +199,7 @@ def main():
     origImage = Image.open('/home/work/hyunbin/sca_api/input/input.jpg')
     origImage = origImage.resize((256, 256))
 
-    figure, ax = plt.subplots(nrows=3, ncols=4, figsize=(10, 10))
+    figure, ax = plt.subplots(nrows=4, ncols=4, figsize=(15, 15))
     ax[0][0].imshow(origImage)
     ax[0][0].set_title("Original")
 
@@ -223,6 +228,7 @@ def main():
     model3 = load_damage_unet_model(weight_path=SCRATCHED_WEIGHT)
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
     predMask1, predMask2, predMask3, predMask4, val1, val2, val3, val4 = make_damage_predictions(model1, model2, model3, model4, origImage)
+
 
     ax[2][0].imshow(predMask1)
     ax[2][0].set_title("Breakage")
@@ -258,13 +264,13 @@ def main():
 
     #load severity model
     print("\ndetecting severity...\n")
-    model = torch.load("../weights/severity/Severity.pth")
+    model = torch.load("/home/work/hyunbin/sca_api/weights/severity/Severity.pth")
     get_severity(model, origImage)
 
-    plt.text(5,5, "eung ae")
+    ax[3][0].text(0,15, "eung ae")
 
     #figure.tight_layout()
-    figure.savefig('../output/api_output.jpg')
+    figure.savefig('/home/work/hyunbin/sca_api/output/api_output.jpg')
 
     print("\nCompleted!\n")
 
@@ -294,7 +300,7 @@ def test():
     origImage = Image.open(os.path.join('/home/work/hyunbin/sca_api/testset/img/', image_infos['file_name']))
     origImage = origImage.resize((256, 256))
 
-    figure, ax = plt.subplots(nrows=3, ncols=4, figsize=(10, 10))
+    figure, ax = plt.subplots(nrows=4, ncols=4, figsize=(15, 15))
     ax[0][0].imshow(origImage)
     ax[0][0].set_title("Original")
 
@@ -353,11 +359,11 @@ def test():
 
     #load severity model
     print("\ndetecting severity...\n")
-    model = torch.load("../weights/severity/Severity.pth")
+    model = torch.load("/home/work/hyunbin/sca_api/weights/severity/Severity.pth")
     get_severity(model, origImage)
 
     figure.tight_layout()
-    figure.savefig('../output/test_output.jpg')
+    figure.savefig('/home/work/hyunbin/sca_api/output/test_output.jpg')
 
     print("\nCompleted!\n")
 
