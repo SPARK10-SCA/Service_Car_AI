@@ -1,2 +1,15 @@
 # car-damage-detection
 AI based Car Damage Detection
+
+util damage
+nohup python ./src/Utils.py --make_cocoformat y --task damage > utils_damage.out &
+
+train damage
+nohup python main.py --train train --task damage --label all > train_damage.out &
+eval damage
+nohup python main.py --eval y --task damage --dataset test > eval_damage.out &
+
+train part
+nohup python main.py --train train --task part --cls 16 > train_part.out &
+eval part
+nohup python main.py --eval y --task part > eval_part.out &
