@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components"
 import axios from 'axios';
 
@@ -12,7 +12,10 @@ const Container = styled.div`
 `;
 
 function App() {
+	const url = "http://127.0.0.1:10250/api/"
+	const indexRef = useRef(null)
     let formData;
+	
 
 	const onChange = (e) => {
 		const img = e.target.files[0];
@@ -22,15 +25,35 @@ function App() {
 		for (const keyValue of formData) console.log(keyValue); // ["img", File] File은 객체
 	}
 
-    const onClick = (e) => {
+    const apiSend = (e) => {
         axios.post(
-            "http://127.0.0.1:5000/api/test",
+            url+"test",
             formData
         ).then((res) => {
             console.log(res);
         }).catch((err) => {
             console.log(err);
         })
+		console.log('Pressed')
+    }
+
+	const testSend = (e) => {
+        fetch(url+"test", {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Headers': '*'
+			},
+			body: JSON.stringify({
+				"index": indexRef.current.value
+			})
+		}).then(res => {
+			console.log(res)
+		}).catch(err => {
+			console.log(err)
+		})
+		console.log('Pressed', indexRef.current.value)
     }
 
 	return (
@@ -43,8 +66,14 @@ function App() {
 					name='input_img' 
 					onChange={onChange}>
 				</input>
-                <button onClick={onClick}>확인</button>
+                <button onClick={apiSend}>확인</button>
 			</div>
+			<h4>index를 입력해주세요</h4>
+			<div>
+				<input type='text' ref={indexRef}/>
+                <button onClick={testSend}>확인</button>
+			</div>
+
 		</Container>
 	);
 }
