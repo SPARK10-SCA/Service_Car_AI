@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useState } from 'react';
 import CheckBox from "expo-checkbox";
 
