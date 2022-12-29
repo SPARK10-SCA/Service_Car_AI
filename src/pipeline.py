@@ -3,18 +3,17 @@ from Model_VGG19 import IntelCnnModel
 import torch
 import numpy as np
 import cv2
-from PIL import Image
-from skimage import color
-from torchvision.transforms import ToTensor
-from scipy import ndimage
 from torch.utils.data import DataLoader
 from pycocotools.coco import COCO
+from torchvision.transforms import ToTensor
 import albumentations as A
 import torch.nn.functional as F
 
 import os
 import sys
-import time
+from PIL import Image
+from skimage import color
+from scipy import ndimage
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
@@ -185,17 +184,6 @@ def make_damage_predictions(model1, model2, model3, model4, part_img):
 
     return (predMask, val, sum, count)
 
-
-def get_severity(model, origImage):
-    tf_toTensor = ToTensor()
-    image = tf_toTensor(origImage).float().to(DEVICE)
-    
-    predictions = model(image.unsqueeze(0))
-    prediction = predictions[0].detach().cpu()
-    severity = np.argmax(prediction)
-
-    return severity
-
 def load_part_unet_model(weight_path):
     model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=16)
     model = model.to(DEVICE)
@@ -224,6 +212,16 @@ def load_damage_unet_model(weight_path):
             model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
             return model
 
+def get_severity(model, origImage):
+    tf_toTensor = ToTensor()
+    image = tf_toTensor(origImage).float().to(DEVICE)
+    
+    predictions = model(image.unsqueeze(0))
+    prediction = predictions[0].detach().cpu()
+    severity = np.argmax(prediction)
+
+    return severity
+
 def main():
     #load part model
     model = load_part_unet_model(weight_path=PART_WEIGHT)
@@ -235,7 +233,7 @@ def main():
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
 
     #load severity model
-    severity_model = torch.load("/home/work/hyunbin/sca_api/weights/severity/Severity.pth")
+    severity_model = torch.load(SEVERITY_WEIGHT)
 
     #load original image
     origImage = Image.open('/home/work/hyunbin/sca_api/input/input.jpg')
@@ -323,7 +321,7 @@ def test():
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
 
     #load severity model
-    severity_model = torch.load("/home/work/hyunbin/sca_api/weights/severity/Severity.pth")
+    severity_model = torch.load(SEVERITY_WEIGHT)
 
     #enter index
     print("Enter the index (1-1000): ", end="")
@@ -350,6 +348,7 @@ def test():
     #load original image
     origImage = Image.open(os.path.join('/home/work/hyunbin/sca_api/testset/img/', image_infos['file_name']))
     origImage = origImage.resize((256, 256))
+    origImage.save("/home/work/hyunbin/sca_api/input/test_input.jpg")
 
     #part_prediction
     part_mask, coor = make_part_predictions(model, origImage)
@@ -387,23 +386,23 @@ def test():
         ax[1][2].axis('off')
         ax[1][3].axis('off')
 
-        damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, part_img)
+        damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, origImage)
 
         #damage
-        ax[2][0].imshow(part_img, cmap='gray')
-        ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]), alpha=0.4)
+        #ax[2][0].imshow(part_img, cmap='gray')
+        ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]))
         ax[2][0].set_title("Breakage")
 
-        ax[2][1].imshow(part_img, cmap='gray')
-        ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]), alpha=0.4)
+        #ax[2][1].imshow(part_img, cmap='gray')
+        ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]))
         ax[2][1].set_title("Crushed")
 
-        ax[2][2].imshow(part_img, cmap='gray')
-        ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]), alpha=0.4)
+        #ax[2][2].imshow(part_img, cmap='gray')
+        ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]))
         ax[2][2].set_title("Scratched")
 
-        ax[2][3].imshow(part_img, cmap='gray')
-        ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]), alpha=0.4)
+        #ax[2][3].imshow(part_img, cmap='gray')
+        ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]))
         ax[2][3].set_title("Separated")
 
         labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']
