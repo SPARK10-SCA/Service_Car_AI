@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useState } from 'react';
 import CheckBox from "expo-checkbox";
 
-function DamagePage3({ navigation }) {
+export default function DamagePage3({ navigation }) {
 
     const [Crush, isCrush] = useState(false)
     const [Scratch, isScratch] = useState(false)
@@ -16,7 +16,7 @@ function DamagePage3({ navigation }) {
                 <Text style={{ alignItems: 'center', justifyContent: 'center', fontWeight: "bold", fontSize: 20 }}>데미지 분석 결과</Text>
                 <Text style={{ alignItems: 'center', justifyContent: 'center' }}>3/3</Text>
                 <View style={{ flexDirection: 'row', marginTop: 30 }}>
-                    <Image style={{ alignContent: 'center', justifyContent: 'center', width: 250, height: 250 }} source={require("../assets/damage.jpg")}></Image>
+                    <Image style={{ alignContent: 'center', justifyContent: 'center', width: 250, height: 250 }} source={require("../assets/images/test_input.jpg")}></Image>
                     <View style={{ paddingLeft: 15, justifyContent: 'center' }}>
                         <Text style={{ fontWeight: "bold" }}>탐지된 파손</Text>
                         <View style={{ flexDirection: 'row', paddingTop: 15 }}>
@@ -91,5 +91,3 @@ const styles = StyleSheet.create({
         margin: 20,
     },
 });
-
-export default DamagePage3;

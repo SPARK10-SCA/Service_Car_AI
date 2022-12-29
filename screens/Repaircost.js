@@ -1,78 +1,70 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
-import { useState } from 'react';
-import CheckBox from "expo-checkbox";
+import styled from "styled-components"
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 
-function Repaircost({ navigation }) {
+const Container = styled.View`
+    flex: 1;
+    background-color: white;
+    align-items: center;
+`;
 
-    const [Crush, isCrush] = useState(false)
-    const [Scratch, isScratch] = useState(false)
-    const [Separate, isSeparate] = useState(false)
-    const [Break, isBreak] = useState(false)
+const CarImage = styled.Image`
+    width: 85%;
+    height: 240px;
+    border-color: black;
+    border-width: 2px;
+    border-radius: 10px;
+    margin-top: 15px;
+`;
+
+const ResultBox = styled.View`
+    width: 85%;
+    border-color: black;
+    border-width: 2px; 
+    border-radius: 10px;
+    margin-top: 30px;
+    padding-left: 15px;
+    paddingVertical: 10px;
+`;
+
+const ResultText = styled.Text`
+    font-family: 'Pretendard-Bold';
+    font-size: 18px;
+    margin-top: 8px;
+`;
+
+const ResultText2 = styled.Text`
+    font-family: 'Pretendard-Regular';
+    font-size: 18px;
+`;
+
+export default function Repaircost({ navigation }) {
 
     return (
-        <View style={styles.container}>
-            <View style={{ alignItems: 'center' }}>
-                <Text style={{ alignItems: 'center', justifyContent: 'center', fontWeight: "bold", fontSize: 20 }}>수리비 진단 결과</Text>
-                <Text style={{ alignItems: 'center', justifyContent: 'center' }}>1/3</Text>
-                <View style={{ flexDirection: 'row', marginTop: 30 }}>
-                    <Image style={{ alignContent: 'center', justifyContent: 'center', width: 370, height: 250 }} source={require("../assets/damage.jpg")}></Image>
+        <Container>
+            <ScrollView style={{flex: 1, width: "100%"}}>
+                <View style={{width: "100%", alignItems: "center"}}>
+                    <Text style={{ fontWeight: "bold", fontSize: 20, marginTop: 20 }}>수리비 분석 결과</Text>
+                    <Text>1/1</Text>
+                    <CarImage source={require("../assets/images/test_input.jpg")}/>
+                    <ResultBox>
+                        <ResultText>파손 부위:   <ResultText2>Left Front Fender</ResultText2></ResultText>
+                        <ResultText>추천 수단:   <ResultText2>수리 / 교체</ResultText2></ResultText>
+                        <ResultText>추천 수단:   <ResultText2>범퍼 교체</ResultText2></ResultText>
+                        <ResultText2 style={{fontSize: 14, marginTop: 30}}>250건의 유사 사례를 기반으로 한 진단 결과</ResultText2>
+                        <ResultText style={{fontFamily: "Pretendard-Bold", fontSize: 24}}>예상 수리 비용 : 400,000 Won</ResultText>
+                        <TouchableOpacity onPress={()=>navigation.navigate("NearCenter")}>
+                            <ResultText2 style={{ fontSize: 14, marginTop: 10, color: 'gray', textDecorationLine: 'underline' }}>근처 수리점 정보 알아보기</ResultText2>
+                        </TouchableOpacity>
+                    </ResultBox>
                 </View>
-            </View>
-            <View style={styles.separator}></View>
-            <View style={{ marginLeft: 20, marginTop: 10 }}>
-
-                <Text style={{ fontSize: 17 }}>파손 부위 : 우측 앞 범퍼</Text>
-                <Text style={{ fontSize: 17, marginTop: 25 }}>추천 수단 : <Text>수리</Text> / <Text style={styles.graytext}>교체</Text></Text>
-                <Text style={{ fontSize: 17, marginTop: 25 }}>파손 부위 : 우측 앞 범퍼</Text>
-                <Text style={{ fontSize: 17, marginTop: 25 }}>정도 : 
-                <Text style={styles.graytext}>강</Text> / 
-                <Text style={styles.graytext}>중</Text> / 
-                <Text>약</Text></Text>
-                <Text style={{ fontSize: 17, marginTop: 25 }}>추천 수리 : 1. 덴트 (저렴), 2. 도색</Text>
-                <Text style={{ fontSize: 12, marginTop: 50 }}>250건의 유사 사례를 기반으로 한 진단 결과</Text>
-                <Text style={{ fontSize: 25, marginTop: 0 }}>예상 수리 비용 : 70000 Won</Text>
-                <TouchableOpacity>
-                    <Text style={{ fontSize: 15, marginTop: 10, color: 'gray', textDecorationLine: 'underline' }}>근처 수리점 정보 알아보기</Text>
-                </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity style={{ width: '100%', alignItems: "flex-end", paddingRight: 30, marginTop: 10 }}>
-                <Text style={{ fontSize: 25 }}>Next</Text>
-            </TouchableOpacity>
-        </View>
+            </ScrollView>
+        </Container>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        paddingTop: 10,
-
-    },
-    camera: {
-        width: 300,
-        height: 300
-    },
-    cameratext: {
-        fontSize: 20
-    },
-    buttonContainer: {
-
-    },
-    graytext: {
-        color: 'gray'
-    },
-    button: {
-        backgroundColor: '#ffffff',
-    },
-    separator: {
-        backgroundColor: 'black',
-        height: 2,
-        marginTop: 15,
-        margin: 20,
-    },
-});
-
-export default Repaircost;
+/*
+<TouchableOpacity style={{ alignSelf: "flex-end", marginTop: 15, marginBottom: 15, marginRight: "7.5%" }}>
+    <Text style={{ fontSize: 25 }}>Next {'>'}</Text>
+</TouchableOpacity>
+*/
