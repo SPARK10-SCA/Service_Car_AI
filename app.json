@@ -4,10 +4,10 @@
     "slug": "sca_application",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": null,
+    "icon": "icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": null,
+      "image": "splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,12 +22,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": null,
+        "foregroundImage": "adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": null
+      "favicon": "favicon.png"
     }
   }
 }
