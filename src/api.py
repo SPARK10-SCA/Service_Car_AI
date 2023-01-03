@@ -1,17 +1,19 @@
 from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
+
 from Model_UNET import Unet
 from Model_VGG19 import IntelCnnModel
 import torch
 import numpy as np
 import cv2
 from PIL import Image
+from io import BytesIO
+import base64
 from torchvision.transforms import ToTensor
 from scipy import ndimage
 from torch.utils.data import DataLoader
 from pycocotools.coco import COCO
 import albumentations as A
-import json
 
 import os
 import sys
@@ -233,6 +235,13 @@ def get_severity(model, origImage):
 
     return severity
 
+def img_to_str(img):
+    img_buffer = BytesIO()
+    img.save(img_buffer, format="PNG")
+    img_str = base64.b64encode(img_buffer.getvalue()).decode('utf8')
+    
+    return img_str
+
 @app.route('/api/main', methods=['POST'])
 def main():
     response = Response()
@@ -349,18 +358,21 @@ def test():
         origImage = Image.open(os.path.join('../testset/img/', image_infos['file_name']))
         origImage = origImage.resize((256, 256))
         #origImage.save("../input/test_input.jpg")
-
+        
+        data["origImage"] = img_to_str(origImage)
+        data["part"] = []
+        
         #part_prediction
         part_mask, coor = make_part_predictions(model, origImage)
         parts = list(coor.keys())[1:]
         part_coor = []
         for part in parts:
             part_coor.append(coor[part])
-            data[part]=0
+            data["part"].append(part)
         print("Damaged Parts: "+', '.join(parts))
-        print(data)
         
-        return "HI"
+        response.set_data(json.dumps(data))
+        return response
         
 
         '''for i in range(len(parts)):
