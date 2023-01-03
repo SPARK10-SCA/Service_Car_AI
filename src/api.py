@@ -1,4 +1,4 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 from Model_UNET import Unet
 from Model_VGG19 import IntelCnnModel
@@ -11,6 +11,7 @@ from scipy import ndimage
 from torch.utils.data import DataLoader
 from pycocotools.coco import COCO
 import albumentations as A
+import json
 
 import os
 import sys
@@ -19,22 +20,26 @@ import json
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-INPUT_PATH = '/home/work/hyunbin/sca_api/input/'
-OUTPUT_PATH = '/home/work/hyunbin/sca_api/output/'
+INPUT_PATH = '../input/'
+OUTPUT_PATH = '../output/'
 
-PART_WEIGHT = '/home/work/hyunbin/sca_api/weights/part/Part.pt'
+PART_WEIGHT = '../weights/part/Part.pt'
 
-BREAKAGE_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Breakage.pt'
-CRUSHED_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Crushed.pt'
-SCRATCHED_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Scratched.pt'
-SEPARATED_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Separated.pt'
+BREAKAGE_WEIGHT = '../weights/damage/Breakage.pt'
+CRUSHED_WEIGHT = '../weights/damage/Crushed.pt'
+SCRATCHED_WEIGHT = '../weights/damage/Scratched.pt'
+SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
 
-SEVERITY_WEIGHT = '/home/work/hyunbin/sca_api/weights/severity/Severity.pth'
+SEVERITY_WEIGHT = '../weights/severity/Severity.pth'
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/')
+def index():
+    return 'SCA_API'
 
 global origImage
 
@@ -70,42 +75,6 @@ def find_part(predMask):
     except:
         return None
 
-'''def find_part(predMask):
-    part_result = {}
-    parts = ["Front bumper","Rear bumper","Front fender(R)","Front fender(L)","Rear fender(R)","Trunk lid","Bonnet","Rear fender(L)","Rear door(R)","Head lights(R)","Head lights(L)","Front Wheel(R)","Front door(R)","Side mirror(R)"]
-
-    # Find and print car part objects
-    data_slices = ndimage.find_objects(predMask)
-    try:
-        if ((damage := data_slices[14]) != None):
-
-            y_start = damage[0].start
-            y_stop = damage[0].stop
-
-            x_start = damage[1].start
-            x_stop = damage[1].stop
-
-            cut = predMask[y_start:y_stop+1,x_start:x_stop+1,:]
-
-            (values,counts) = np.unique(cut,return_counts=True)
-            count_sort_ind = np.argsort(-counts)
-            for index in count_sort_ind:
-                if values[index] != 0 and values[index] != 15:
-                    part_result[parts[values[index]-1]] = round((counts[index] / cut.size) * 100, 1)
-
-            # damage ROI
-            damage_ROI = {
-                "x_start" : x_start,
-                "y_start" : y_start,
-                "x_stop" : x_stop,
-                "y_stop" : y_stop
-            }
-
-            return (part_result, damage_ROI)
-
-    except:
-        return None'''
-
 def find_damage(predMask):
     # Find and print car part objects
     data_slices = ndimage.find_objects(predMask)
@@ -128,29 +97,6 @@ def find_damage(predMask):
 
     except:
         return None
-
-'''def find_damage(predMask):
-    # Find and print car part objects
-    data_slices = ndimage.find_objects(predMask)
-    try:
-        if ((damage := data_slices[0]) != None):
-
-            y_start = damage[0].start
-            y_stop = damage[0].stop
-
-            x_start = damage[1].start
-            x_stop = damage[1].stop
-
-            cut = predMask[y_start:y_stop+1,x_start:x_stop+1,:]
-
-            val = round(cut.size/(256*256) * 100, 1)
-            if val < 0.1: 
-                return None
-            else:
-                return val 
-
-    except:
-        return None'''
 
 def make_part_predictions(model, origImage):
     model.eval()
@@ -249,42 +195,6 @@ def make_damage_predictions(model1, model2, model3, model4, part_img):
 
     return (predMask, val, sum, count)
 
-'''def make_damage_predictions(model1, model2, model3, model4, origImage):
-    model1.eval()
-    model2.eval()
-    model3.eval()
-    model4.eval()
-    with torch.no_grad():
-    
-        tf_toTensor = ToTensor()
-        image = tf_toTensor(origImage).float().to(DEVICE) 
-
-        predMask1 = model1(image.unsqueeze(0))
-        predMask1 = torch.argmax(predMask1, dim=1).detach().cpu().numpy()
-        predMask1 = np.transpose(predMask1, (1,2,0))
-
-        val1 = find_damage(predMask1)
-
-        predMask2 = model2(image.unsqueeze(0))
-        predMask2 = torch.argmax(predMask2, dim=1).detach().cpu().numpy()
-        predMask2 = np.transpose(predMask2, (1,2,0))
-
-        val2 = find_damage(predMask2)
-
-        predMask3 = model3(image.unsqueeze(0))
-        predMask3 = torch.argmax(predMask3, dim=1).detach().cpu().numpy()
-        predMask3 = np.transpose(predMask3, (1,2,0))
-
-        val3 = find_damage(predMask3)
-
-        predMask4 = model4(image.unsqueeze(0))
-        predMask4 = torch.argmax(predMask4, dim=1).detach().cpu().numpy()
-        predMask4 = np.transpose(predMask4, (1,2,0))
-
-        val4 = find_damage(predMask4)
-
-        return (predMask1, predMask2, predMask3, predMask4, val1, val2, val3, val4)'''
-
 def load_part_unet_model(weight_path):
     model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=16)
     model = model.to(DEVICE)
@@ -329,31 +239,21 @@ def main():
     if request.method == 'POST':
         response.headers.add("Access-Control-Allow-Origin", "*")
         data = request.get_json()
-        #load part model
-        model = load_part_unet_model(weight_path=PART_WEIGHT)
-
-        #load damage model
-        model1 = load_damage_unet_model(weight_path=BREAKAGE_WEIGHT)
-        model2 = load_damage_unet_model(weight_path=CRUSHED_WEIGHT)
-        model3 = load_damage_unet_model(weight_path=SCRATCHED_WEIGHT)
-        model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
-
-        #load severity model
-        severity_model = torch.load(SEVERITY_WEIGHT)
 
         #load original image
-        origImage = Image.open('/home/work/hyunbin/sca_api/input/input.jpg')
+        origImage = Image.open('../input/input.jpg')
         origImage = origImage.resize((256, 256))
 
         #part_prediction
         part_mask, coor = make_part_predictions(model, origImage)
         parts = list(coor.keys())[1:]
+        
         part_coor = []
         for part in parts:
             part_coor.append(coor[part])
         print("Damaged Parts: "+', '.join(parts))
         
-        for i in range(len(parts)):
+        '''for i in range(len(parts)):
             print("\nDetecting damage in "+parts[i]+"...\n")
             crop = origImage.crop(part_coor[i])
             width, height = crop.size
@@ -412,8 +312,8 @@ def main():
             print(parts[i]+" damage severity is level "+str(int(severity)))
 
             #figure.tight_layout()
-            figure.savefig('/home/work/hyunbin/sca_api/output/'+parts[i]+'_api.jpg')
-            print("\n"+"-"*40)
+            figure.savefig('../output/'+parts[i]+'_api.jpg')
+            print("\n"+"-"*40)'''
 
 @app.route('/api/test', methods=['POST'])
 def test():
@@ -421,18 +321,19 @@ def test():
     if request.method == 'POST':
         response.headers.add("Access-Control-Allow-Origin", "*")
         data = request.get_json()
-        print(data)
-        return {"status": "completed!"}
-        '''print("Enter the index (1-1000): ", end="")
-        idx = int(input())
-        l = [file for file in os.listdir("/home/work/hyunbin/sca_api/testset/img/")]
-
-        #make original mask
+        #print("Enter the index (1-1000): ", end="")
+        
+        #idx = int(input())
+        #l = [file for file in os.listdir("../testset/img/")]
+        idx = int(data["index"])
+        data={}
+        
+        #load original mask
         coco = COCO('../testset/datainfo/testset_info.json')
         img_ids = coco.getImgIds()
         image_id = int(img_ids[idx])
         image_infos = coco.loadImgs(image_id)[0]
-        images = cv2.imread(os.path.join('/home/work/hyunbin/sca_api/testset/img/', image_infos['file_name']))
+        images = cv2.imread(os.path.join('../testset/img/', image_infos['file_name']))
         images = cv2.cvtColor(images, cv2.COLOR_BGR2RGB)
         ann_ids = coco.getAnnIds(imgIds=image_infos['id'])
         anns = coco.loadAnns(ann_ids)
@@ -442,62 +343,120 @@ def test():
             masks = np.maximum(coco.annToMask(ann) * pixel_value, masks)
         resize = A.Compose([A.Resize(width=256, height=256)])
         transformed = resize(image = images, mask=masks)
-        masks = transformed["mask"]
-        images = transformed["image"]
+        origMask = transformed["mask"]
 
-        if request.files:
-            global origImage
-            imgData = request.files.get('img')
-            origImage = Image.open(imgData)
-            origImage = origImage.resize((256, 256))'''
+        #load original image
+        origImage = Image.open(os.path.join('../testset/img/', image_infos['file_name']))
+        origImage = origImage.resize((256, 256))
+        #origImage.save("../input/test_input.jpg")
+
+        #part_prediction
+        part_mask, coor = make_part_predictions(model, origImage)
+        parts = list(coor.keys())[1:]
+        part_coor = []
+        for part in parts:
+            part_coor.append(coor[part])
+            data[part]=0
+        print("Damaged Parts: "+', '.join(parts))
+        print(data)
         
-        return 
+        return "HI"
+        
 
+        '''for i in range(len(parts)):
+            print("\nDetecting damage in "+parts[i]+"...\n")
+            crop = origImage.crop(part_coor[i])
+            width, height = crop.size
+            part_img = Image.new(crop.mode, (256,256), (255, 255, 255))
+            part_img.paste(crop, (int((256-width)/2), int((256-height)/2)))
+            
+            figure, ax = plt.subplots(nrows=3, ncols=4, figsize=(15, 15))
 
-@app.route('/api/part', methods=['POST'])
-def part():
-    response = Response()
-    model = load_part_unet_model(weight_path=PART_WEIGHT)
-    predMask, part_result, damageROI = make_part_predictions(model, origImage)
-    if damageROI is not None:
-        rect = patches.Rectangle((damageROI[0], damageROI[3]), damageROI[2]-damageROI[0], damageROI[1]-damageROI[3], linewidth=1, edgecolor='r', facecolor='none')
-    else: part_result['None'] = True
+            #original
+            ax[0][0].imshow(origImage)
+            ax[0][0].set_title("Original")
 
-    result = { part_result, damageROI }
-    response.set_data(json.dumps(result, ensure_ascii=False))
-    return response
+            ax[0][1].imshow(origImage, cmap='gray')
+            ax[0][1].imshow(origMask, alpha=0.4)
+            ax[0][1].set_title("Answer Mask")
 
-@app.route('/api/damage', methods=['POST'])
-def damage():
-    response = Response()
-    
-    model1 = load_damage_unet_model(weight_path=BREAKAGE_WEIGHT)
-    model2 = load_damage_unet_model(weight_path=CRUSHED_WEIGHT)
-    model3 = load_damage_unet_model(weight_path=SCRATCHED_WEIGHT)
-    model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
-    predMask1, predMask2, predMask3, predMask4, val1, val2, val3, val4 = make_damage_predictions(model1, model2, model3, model4, origImage)
+            ax[0][2].axis('off')
+            ax[0][3].axis('off')
 
-    result = {}
-    if val1 is None: result['Breakage'] = 0
-    else: result['Breakage'] = val1
+            #part 
+            ax[1][0].imshow(origImage, cmap='gray')
+            ax[1][0].imshow(color.label2rgb(part_mask[:,:,0]), alpha=0.4)
+            ax[1][0].set_title("Damaged part")
+            ax[1][1].axis('off')
+            ax[1][2].axis('off')
+            ax[1][3].axis('off')
 
-    if val2 is None: result['Crushed'] = 0
-    else: result['Crushed'] = val2
+            damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, origImage)
 
-    if val3 is None: result['Scratched'] = 0
-    else: result['Scratched'] = val3
+            #damage
+            #ax[2][0].imshow(part_img, cmap='gray')
+            ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]))
+            ax[2][0].set_title("Breakage")
 
-    if val4 is None: result['Separated'] = 0
-    else: result['Scratched'] = val4
+            #ax[2][1].imshow(part_img, cmap='gray')
+            ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]))
+            ax[2][1].set_title("Crushed")
 
-    response.set_data(json.dumps(result, ensure_ascii=False))
-    return response
+            #ax[2][2].imshow(part_img, cmap='gray')
+            ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]))
+            ax[2][2].set_title("Scratched")
 
+            #ax[2][3].imshow(part_img, cmap='gray')
+            ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]))
+            ax[2][3].set_title("Separated")
 
-@app.route('/api/severity', methods=['POST'])
-def severity():
-    model = torch.load("../weights/severity/Severity.pth")
+            labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']
 
+            for j in range(4):
+                if val[j] is None: 
+                    print(labels[j]+": Damage is not detected")
+                else: 
+                    print(labels[j]+": "+str(val[i])+"% area")
+                    print(labels[j] + " confidence score: "+ str(round((sum[j]/count[j]) * 100, 1)) + "%")
+                
+                print("")
+            
+            severity = get_severity(severity_model, part_img)
+            print(parts[i]+" damage severity is level "+str(int(severity)))
+
+            #figure.tight_layout()
+            figure.savefig('../output/'+parts[i]+'_test.jpg')
+            print("\n"+"-"*40)'''
+
+def load_part_unet_model(weight_path):
+    model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=16)
+    model = model.to(DEVICE)
+    try:
+        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
+        return model.model
+    except:
+        try:
+            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
+            return model
+        except:
+            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
+            return model
+
+def load_damage_unet_model(weight_path):
+    model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=2)
+    model = model.to(DEVICE)
+    try:
+        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
+        return model.model
+    except:
+        try:
+            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
+            return model
+        except:
+            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
+            return model
+
+def get_severity(model, origImage):
     tf_toTensor = ToTensor()
     image = tf_toTensor(origImage).float().to(DEVICE)
     
@@ -505,12 +464,21 @@ def severity():
     prediction = predictions[0].detach().cpu()
     severity = np.argmax(prediction)
 
-    figure = plt.subplots(nrows=3, ncols=4, figsize=(10, 10))
-    figure.tight_layout()
-    figure.savefig('../output/test_output.jpg')
-
     return severity
 
 
+
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=10250)
+    print("Loading models...")
+    #load part model
+    model = load_part_unet_model(weight_path=PART_WEIGHT)
+
+    #load damage model
+    model1 = load_damage_unet_model(weight_path=BREAKAGE_WEIGHT)
+    model2 = load_damage_unet_model(weight_path=CRUSHED_WEIGHT)
+    model3 = load_damage_unet_model(weight_path=SCRATCHED_WEIGHT)
+    model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
+
+    #load severity model
+    severity_model = torch.load(SEVERITY_WEIGHT)
+    app.run(host="127.0.0.1", port=8080)
