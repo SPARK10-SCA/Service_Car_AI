@@ -12,7 +12,7 @@ const Container = styled.View`
 export default function Start({navigation}){
     useEffect(()=>{
         setTimeout(()=>{
-            navigation.navigate("InputImage");
+            navigation.navigate("Home");
         }, 1500)
     }, [])
     

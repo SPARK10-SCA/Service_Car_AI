@@ -5,11 +5,11 @@ import { Text } from "react-native";
 import * as Font from "expo-font"
 
 import Start from "../screens/Start.js";
-import InputImage from "../screens/InputImage.js";
+import Home from "../screens/Home.js";
 import DamagePage1 from '../screens/DamagePage1.js';
 import DamagePage3 from '../screens/DamagePage3.js';
 import DamagePage2 from '../screens/DamagePage2.js';
-import Repaircost from '../screens/Repaircost.js';
+import RepairCost from '../screens/RepairCost.js';
 import NearCenter from "../screens/NearCenter.js";
 
 const Stack = createStackNavigator();
@@ -40,8 +40,8 @@ export default function MainNav(){
 	}
     return(
         <Stack.Navigator screenOptions={{
-              headerTitleAlign: "center",
-              headerBackTitle: () => null,
+            headerTitleAlign: "center",
+			headerBackTitle: null
         }}>
             <Stack.Screen 
 				name="Start"
@@ -51,7 +51,7 @@ export default function MainNav(){
 				component={Start} 
 			/>
             <Stack.Screen 
-				name="InputImage" 
+				name="Home" 
 				options={{
 					headerTitle: () => (
 						<Text
@@ -60,12 +60,12 @@ export default function MainNav(){
 							fontFamily: 'Pretendard-Bold'
 						}}
 						>
-							차량 사진 불러오기
+							차량 사진 촬영
 						</Text>
 				  	),
 					headerLeft: () => null
 				}}
-				component={InputImage} 
+				component={Home} 
 			/>
             <Stack.Screen 
 				name="DamagePage1" 
@@ -116,7 +116,7 @@ export default function MainNav(){
 				component={DamagePage3} 
 			/>
             <Stack.Screen 
-				name="Repaircost" 
+				name="RepairCost" 
 				options={{
 					headerTitle: () => (
 						<Text
@@ -129,7 +129,7 @@ export default function MainNav(){
 						</Text>
 				  	),
 				}}
-				component={Repaircost} 
+				component={RepairCost} 
 			/>
 			<Stack.Screen
 				name="NearCenter"
