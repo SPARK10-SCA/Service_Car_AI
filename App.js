@@ -1,4 +1,4 @@
-//set REACT_NATIVE_PACKAGER_HOSTNAME=10.221.73.131
+//set REACT_NATIVE_PACKAGER_HOSTNAME=192.168.0.17
 
 import React from "react";
 import { LogBox } from "react-native";

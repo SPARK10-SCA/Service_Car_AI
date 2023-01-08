@@ -115,13 +115,13 @@ export default function DamagePage1({ navigation }) {
                     <ImageBox>
                         <CarImage source={require("../assets/images/test_input.jpg")} />
                         {
-                            breakage ? <BreakageMask source={require("../assets/images/Front_Fender_Breakage.png")} /> : null
+                            breakage ? null : null
                         }
                         {
-                            crushed ? <CrushedMask source={require("../assets/images/crushed_mask.png")} /> : null
+                            crushed ? null : null
                         }
                         {
-                            scratched ? <ScratchedMask source={require("../assets/images/scratched_mask.png")} /> : null
+                            scratched ? <ScratchedMask source={require("../assets/images/Front_Fender_Scratched.png")} />: null
                         }
                         {
                             separated ? <SeparatedMask source={require("../assets/images/Front_Fender_Separated.png")} /> : null
@@ -167,7 +167,7 @@ export default function DamagePage1({ navigation }) {
                                 <Text style={{ paddingLeft: 10 }}>Crushed</Text>
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <Text style={{color: "red"}}> X </Text>
+                                <CheckBox value={scratched} onValueChange={isScratched}></CheckBox>
                                 <Text style={{ paddingLeft: 10 }}>Scratched</Text>
                             </View>
                         </View>
@@ -177,7 +177,7 @@ export default function DamagePage1({ navigation }) {
                                 <Text style={{ paddingLeft: 10 }}>Separated</Text>
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <CheckBox value={breakage} onValueChange={isBreakage}></CheckBox>
+                                <Text style={{color: "red"}}> X </Text>
                                 <Text style={{ paddingLeft: 10 }}>Breakage</Text>
                             </View>
                         </View>
@@ -187,12 +187,12 @@ export default function DamagePage1({ navigation }) {
                         <ResultText>탐지된 파손</ResultText>
                         <ResultText>Damage 종류 : {'{'}</ResultText>
                         <ResultText2>Crushed: 감지되지 않음</ResultText2>
-                        <ResultText2>Scratched: 감지되지 않음</ResultText2>
-                        <ResultText2>Separated: 65.3% 신뢰도</ResultText2>
-                        <ResultText2>Breakage: 82.3% 신뢰도</ResultText2>
+                        <ResultText2>Scratched: 82.3% 신뢰도</ResultText2>
+                        <ResultText2>Separated: 85.3% 신뢰도</ResultText2>
+                        <ResultText2>Breakage: 감지되지 않음</ResultText2>
                         <ResultText>{'},'}</ResultText>
                         <ResultText></ResultText>
-                        <ResultText>심각도: 하</ResultText>
+                        <ResultText>파트 파손 심각도: 하</ResultText>
                     </ResultBox>
 
                     <ResultBox>
@@ -204,7 +204,7 @@ export default function DamagePage1({ navigation }) {
                         <ResultText2>Breakage: O</ResultText2>
                         <ResultText>{'},'}</ResultText>
                         <ResultText></ResultText>
-                        <ResultText>파트 심각도: 상</ResultText>
+                        <ResultText>파트 파손 심각도: 하</ResultText>
                     </ResultBox>
                     
                     <View style={{
@@ -212,7 +212,8 @@ export default function DamagePage1({ navigation }) {
                         flexDirection: "row",
                         justifyContent: "space-between",
                         width: "80%",
-                        marginTop: 30
+                        marginTop: 30,
+                        marginBottom: 30
                     }}>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('Home')

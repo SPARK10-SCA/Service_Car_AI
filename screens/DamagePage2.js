@@ -187,12 +187,12 @@ export default function DamagePage1({ navigation }) {
 
                         <ResultText>Damage 종류 : {'{'}</ResultText>
                         <ResultText2>Crushed: 감지되지 않음</ResultText2>
-                        <ResultText2>Scratched: 75.8% 신뢰도</ResultText2>
-                        <ResultText2>Separated: 65.8% 신뢰도</ResultText2>
+                        <ResultText2>Scratched: 64.8% 신뢰도</ResultText2>
+                        <ResultText2>Separated: 88.8% 신뢰도</ResultText2>
                         <ResultText2>Breakage: 감지되지 않음</ResultText2>
                         <ResultText>{'},'}</ResultText>
                         <ResultText></ResultText>
-                        <ResultText>심각도: 상</ResultText>
+                        <ResultText>파트 파손 심각도: 상</ResultText>
                     </ResultBox>
 
                     <ResultBox>
@@ -204,7 +204,7 @@ export default function DamagePage1({ navigation }) {
                         <ResultText2>Breakage: O</ResultText2>
                         <ResultText>{'},'}</ResultText>
                         <ResultText></ResultText>
-                        <ResultText>파트 심각도: 상</ResultText>
+                        <ResultText>파트 파손 심각도: 상</ResultText>
                     </ResultBox>
                     
                     <View style={{
@@ -212,7 +212,8 @@ export default function DamagePage1({ navigation }) {
                         flexDirection: "row",
                         justifyContent: "space-between",
                         width: "80%",
-                        marginTop: 30
+                        marginTop: 30,
+                        marginBottom: 30
                     }}>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('DamagePage1')

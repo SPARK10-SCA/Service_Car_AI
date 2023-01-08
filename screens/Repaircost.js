@@ -38,7 +38,7 @@ const ResultText2 = styled.Text`
     font-size: 18px;
 `;
 
-export default function Repaircost({ navigation }) {
+export default function RepairCost({ navigation }) {
 
     return (
         <Container>
@@ -50,7 +50,7 @@ export default function Repaircost({ navigation }) {
                     <ResultBox>
                         <ResultText>파손 부위:   <ResultText2>Right Front Fender</ResultText2></ResultText>
                         <ResultText>추천 수단:   <ResultText2>수리</ResultText2></ResultText>
-                        <ResultText>추천 사항:   <ResultText2>코팅</ResultText2></ResultText>
+                        <ResultText>추천 사항:   <ResultText2>판금</ResultText2></ResultText>
                         <ResultText2 style={{fontSize: 14, marginTop: 30}}>120건의 유사 사례를 기반으로 한 진단 결과</ResultText2>
                         <ResultText style={{fontFamily: "Pretendard-Bold", fontSize: 24}}>예상 수리 비용 : 200,000 Won</ResultText>
                         <TouchableOpacity onPress={()=>navigation.navigate("NearCenter")}>
@@ -59,10 +59,10 @@ export default function Repaircost({ navigation }) {
                     </ResultBox>
                     <ResultBox>
                         <ResultText>파손 부위:   <ResultText2>Bonnet</ResultText2></ResultText>
-                        <ResultText>추천 수단:   <ResultText2>수리</ResultText2></ResultText>
-                        <ResultText>추천 사항:   <ResultText2>코팅</ResultText2></ResultText>
+                        <ResultText>추천 수단:   <ResultText2>교체</ResultText2></ResultText>
+                        <ResultText>추천 사항:   <ResultText2>범퍼 교체</ResultText2></ResultText>
                         <ResultText2 style={{fontSize: 14, marginTop: 30}}>162건의 유사 사례를 기반으로 한 진단 결과</ResultText2>
-                        <ResultText style={{fontFamily: "Pretendard-Bold", fontSize: 24}}>예상 수리 비용 : 200,000 Won</ResultText>
+                        <ResultText style={{fontFamily: "Pretendard-Bold", fontSize: 24}}>예상 수리 비용 : 600,000 Won</ResultText>
                         <TouchableOpacity onPress={()=>navigation.navigate("NearCenter")}>
                             <ResultText2 style={{ fontSize: 14, marginTop: 10, color: 'gray', textDecorationLine: 'underline' }}>근처 수리점 정보 알아보기</ResultText2>
                         </TouchableOpacity>
@@ -77,6 +77,7 @@ export default function Repaircost({ navigation }) {
                             <ResultText2 style={{ fontSize: 14, marginTop: 10, color: 'gray', textDecorationLine: 'underline' }}>근처 수리점 정보 알아보기</ResultText2>
                         </TouchableOpacity>
                     </ResultBox>
+                    <View style={{height: 40}}></View>
                 </View>
             </ScrollView>
         </Container>
