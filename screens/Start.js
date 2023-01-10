@@ -12,7 +12,7 @@ const Container = styled.View`
 export default function Start({navigation}){
     useEffect(()=>{
         setTimeout(()=>{
-            navigation.navigate("Home");
+            navigation.navigate("SelectMode");
         }, 1500)
     }, [])
     

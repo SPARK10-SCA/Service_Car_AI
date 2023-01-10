@@ -93,7 +93,7 @@ const ResultText2 = styled.Text`
     margin-left: 15px;
 `;
 
-export default function DamagePage1({ navigation }) {
+export default function DamageTest1({ navigation }) {
 
     const [crushed, isCrushed] = useState(false)
     const [scratched, isScratched] = useState(false)
@@ -110,33 +110,33 @@ export default function DamagePage1({ navigation }) {
             <ScrollView style={{width: "100%"}}>
                 <Box>
                     <Text style={{ fontWeight: "bold", fontSize: 20 }}>데미지 분석 결과</Text>
-                    <Text>3/3</Text>
-                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: Front Bumper</ResultText>
+                    <Text>1/3</Text>
+                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: Right Front Fender</ResultText>
                     <ImageBox>
                         <CarImage source={require("../assets/images/test_input.jpg")} />
                         {
-                            breakage ? <BreakageMask source={require("../assets/images/Front_Bumper_Breakage.png")} /> : null
+                            breakage ? null : null
                         }
                         {
                             crushed ? null : null
                         }
                         {
-                            scratched ? <ScratchedMask source={require("../assets/images/Front_Bumper_Scratched.png")} /> : null
+                            scratched ? <ScratchedMask source={require("../assets/images/test_output/Front_Fender_Scratched.png")} />: null
                         }
                         {
-                            separated ? <SeparatedMask source={require("../assets/images/Front_Fender_Separated.png")} /> : null
+                            separated ? <SeparatedMask source={require("../assets/images/test_output/Front_Fender_Separated.png")} /> : null
                         }
                         {
-                            answerBreakage ? <BreakageMask source={require("../assets/images/Breakage_Answer.png")} /> : null
+                            answerBreakage ? <BreakageMask source={require("../assets/images/test_output/Breakage_Answer.png")} /> : null
                         }
                         {
                             answerCrushed ? null : null
                         }
                         {
-                            answerScratched ? <ScratchedMask source={require("../assets/images/Scratched_Answer.png")} /> : null
+                            answerScratched ? <ScratchedMask source={require("../assets/images/test_output/Scratched_Answer.png")} /> : null
                         }
                         {
-                            answerSeparated ? <SeparatedMask source={require("../assets/images/Separated_Answer.png")} /> : null
+                            answerSeparated ? <SeparatedMask source={require("../assets/images/test_output/Separated_Answer.png")} /> : null
                         }
                         <View style={{marginLeft: 15}}>
                             <Text style={{ fontWeight: "bold" }}>정답 파손 보기</Text>
@@ -173,25 +173,26 @@ export default function DamagePage1({ navigation }) {
                         </View>
                         <View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <Text style={{color: "red"}}> X </Text>
+                                <CheckBox value={separated} onValueChange={isSeparated}></CheckBox>
                                 <Text style={{ paddingLeft: 10 }}>Separated</Text>
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <CheckBox value={breakage} onValueChange={isBreakage}></CheckBox>
+                                <Text style={{color: "red"}}> X </Text>
                                 <Text style={{ paddingLeft: 10 }}>Breakage</Text>
                             </View>
                         </View>
                         
                     </SelectBox>
                     <ResultBox>
+                        <ResultText>탐지된 파손</ResultText>
                         <ResultText>Damage 종류 : {'{'}</ResultText>
                         <ResultText2>Crushed: 감지되지 않음</ResultText2>
-                        <ResultText2>Scratched: 58.5% 신뢰도</ResultText2>
-                        <ResultText2>Separated: 감지되지 않음</ResultText2>
-                        <ResultText2>Breakage: 80.1% 신뢰도</ResultText2>
+                        <ResultText2>Scratched: 82.3% 신뢰도</ResultText2>
+                        <ResultText2>Separated: 85.3% 신뢰도</ResultText2>
+                        <ResultText2>Breakage: 감지되지 않음</ResultText2>
                         <ResultText>{'},'}</ResultText>
                         <ResultText></ResultText>
-                        <ResultText>파트 파손 심각도: 상</ResultText>
+                        <ResultText>파트 파손 심각도: 하</ResultText>
                     </ResultBox>
 
                     <ResultBox>
@@ -203,7 +204,7 @@ export default function DamagePage1({ navigation }) {
                         <ResultText2>Breakage: O</ResultText2>
                         <ResultText>{'},'}</ResultText>
                         <ResultText></ResultText>
-                        <ResultText>파트 파손 심각도: 상</ResultText>
+                        <ResultText>파트 파손 심각도: 하</ResultText>
                     </ResultBox>
                     
                     <View style={{
@@ -215,18 +216,19 @@ export default function DamagePage1({ navigation }) {
                         marginBottom: 30
                     }}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('DamagePage2')
+                            navigation.navigate('Home')
                         }}>
                             <Text style={{ fontSize: 25 }}>{'<'} Prev</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('RepairCost')
+                            navigation.navigate('DamageTest2')
                         }}>
                             <Text style={{ fontSize: 25 }}>Next {'>'}</Text>
                         </TouchableOpacity>
                     </View>
                 </Box>
             </ScrollView>
+            
             
         </Container>
     );

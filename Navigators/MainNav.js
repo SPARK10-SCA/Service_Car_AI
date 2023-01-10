@@ -5,10 +5,12 @@ import { Text } from "react-native";
 import * as Font from "expo-font"
 
 import Start from "../screens/Start.js";
+import SelectMode from "../screens/SelectMode.js";
 import Home from "../screens/Home.js";
-import DamagePage1 from '../screens/DamagePage1.js';
-import DamagePage3 from '../screens/DamagePage3.js';
-import DamagePage2 from '../screens/DamagePage2.js';
+import TestHome from "../screens/TestHome.js";
+import DamageTest1 from '../screens/DamageTest1.js';
+import DamageTest2 from '../screens/DamageTest2.js';
+import DamageTest3 from '../screens/DamageTest3.js';
 import RepairCost from '../screens/RepairCost.js';
 import NearCenter from "../screens/NearCenter.js";
 
@@ -50,6 +52,23 @@ export default function MainNav(){
 				}} 
 				component={Start} 
 			/>
+			<Stack.Screen
+				name="SelectMode"
+				options={{
+					headerTitle: () => (
+						<Text
+						style={{
+							fontSize: 18,
+							fontFamily: 'Pretendard-Bold'
+						}}
+						>
+							모드 선택
+						</Text>
+				  	),
+					headerLeft: () => null
+				}}
+				component={SelectMode}
+			/>
             <Stack.Screen 
 				name="Home" 
 				options={{
@@ -63,12 +82,11 @@ export default function MainNav(){
 							차량 사진 촬영
 						</Text>
 				  	),
-					headerLeft: () => null
 				}}
 				component={Home} 
 			/>
-            <Stack.Screen 
-				name="DamagePage1" 
+			<Stack.Screen 
+				name="TestHome" 
 				options={{
 					headerTitle: () => (
 						<Text
@@ -77,14 +95,14 @@ export default function MainNav(){
 							fontFamily: 'Pretendard-Bold'
 						}}
 						>
-							차량 파손 진단
+							테스트 이미지 선택
 						</Text>
 				  	),
 				}}
-				component={DamagePage1}
+				component={TestHome} 
 			/>
             <Stack.Screen 
-				name="DamagePage2"
+				name="DamageTest1" 
 				options={{
 					headerTitle: () => (
 						<Text
@@ -97,10 +115,10 @@ export default function MainNav(){
 						</Text>
 				  	),
 				}}
-				component={DamagePage2} 
+				component={DamageTest1}
 			/>
             <Stack.Screen 
-				name="DamagePage3" 
+				name="DamageTest2"
 				options={{
 					headerTitle: () => (
 						<Text
@@ -113,7 +131,23 @@ export default function MainNav(){
 						</Text>
 				  	),
 				}}
-				component={DamagePage3} 
+				component={DamageTest2} 
+			/>
+            <Stack.Screen 
+				name="DamageTest3" 
+				options={{
+					headerTitle: () => (
+						<Text
+						style={{
+							fontSize: 18,
+							fontFamily: 'Pretendard-Bold'
+						}}
+						>
+							차량 파손 진단
+						</Text>
+				  	),
+				}}
+				component={DamageTest3} 
 			/>
             <Stack.Screen 
 				name="RepairCost" 

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Text, View, Image, TouchableOpacity, ActivityIndicator, Switch } from 'react-native';
+import { Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 const Container = styled.View`
 	flex: 1;
@@ -10,24 +10,6 @@ const Container = styled.View`
 
 export default function Home({navigation}) {
   	const [isImage, setIsImage] = useState(false);
-	const [test, setTest] = useState(false)
-
-	const HeaderRight = () => {
-		<Switch 
-			trackColor={{false: 'blue', true: 'black'}}
-			onValueChange={()=>setTest(!test)}
-			value={test}
-			style={{
-				transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }]
-			}}
-		/>
-	}
-
-	useEffect(()=>{
-		navigation.setOptions({
-			headerRight: HeaderRight,
-		})
-	})
 
 	return (
 		<Container>
@@ -86,7 +68,7 @@ export default function Home({navigation}) {
 				<TouchableOpacity onPress={() => {
 					setIsImage(true)
 					setTimeout(() => {
-						navigation.navigate('DamagePage1')
+						navigation.navigate('DamageTest1')
 						setIsImage(false)
 					}, 5000);
 				}}>

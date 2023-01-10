@@ -93,7 +93,7 @@ const ResultText2 = styled.Text`
     margin-left: 15px;
 `;
 
-export default function DamagePage1({ navigation }) {
+export default function DamageTest2({ navigation }) {
 
     const [crushed, isCrushed] = useState(false)
     const [scratched, isScratched] = useState(false)
@@ -121,22 +121,22 @@ export default function DamagePage1({ navigation }) {
                             crushed ? null : null
                         }
                         {
-                            scratched ? <ScratchedMask source={require("../assets/images/Bonnet_Scratched.png")} /> : null
+                            scratched ? <ScratchedMask source={require("../assets/images/test_output/Bonnet_Scratched.png")} /> : null
                         }
                         {
-                            separated ? <SeparatedMask source={require("../assets/images/Bonnet_Separated.png")} /> : null
+                            separated ? <SeparatedMask source={require("../assets/images/test_output/Bonnet_Separated.png")} /> : null
                         }
                         {
-                            answerBreakage ? <BreakageMask source={require("../assets/images/Breakage_Answer.png")} /> : null
+                            answerBreakage ? <BreakageMask source={require("../assets/images/test_output/Breakage_Answer.png")} /> : null
                         }
                         {
                             answerCrushed ? null : null
                         }
                         {
-                            answerScratched ? <ScratchedMask source={require("../assets/images/Scratched_Answer.png")} /> : null
+                            answerScratched ? <ScratchedMask source={require("../assets/images/test_output/Scratched_Answer.png")} /> : null
                         }
                         {
-                            answerSeparated ? <SeparatedMask source={require("../assets/images/Separated_Answer.png")} /> : null
+                            answerSeparated ? <SeparatedMask source={require("../assets/images/test_output/Separated_Answer.png")} /> : null
                         }
                         <View style={{marginLeft: 15}}>
                             <Text style={{ fontWeight: "bold" }}>정답 파손 보기</Text>
@@ -216,12 +216,12 @@ export default function DamagePage1({ navigation }) {
                         marginBottom: 30
                     }}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('DamagePage1')
+                            navigation.navigate('DamageTest1')
                         }}>
                             <Text style={{ fontSize: 25 }}>{'<'} Prev</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('DamagePage3')
+                            navigation.navigate('DamageTest3')
                         }}>
                             <Text style={{ fontSize: 25 }}>Next {'>'}</Text>
                         </TouchableOpacity>
