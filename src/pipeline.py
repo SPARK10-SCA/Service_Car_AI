@@ -17,17 +17,17 @@ from scipy import ndimage
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-INPUT_PATH = '/home/work/hyunbin/sca_api/input/'
-OUTPUT_PATH = '/home/work/hyunbin/sca_api/output/'
+INPUT_PATH = '../input/'
+OUTPUT_PATH = '../output/'
 
-PART_WEIGHT = '/home/work/hyunbin/sca_api/weights/part/Part.pt'
+PART_WEIGHT = '../weights/part/Part.pt'
 
-BREAKAGE_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Breakage.pt'
-CRUSHED_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Crushed.pt'
-SCRATCHED_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Scratched.pt'
-SEPARATED_WEIGHT = '/home/work/hyunbin/sca_api/weights/damage/Separated.pt'
+BREAKAGE_WEIGHT = '../weights/damage/Breakage.pt'
+CRUSHED_WEIGHT = '../weights/damage/Crushed.pt'
+SCRATCHED_WEIGHT = '../weights/damage/Scratched.pt'
+SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
 
-SEVERITY_WEIGHT = '/home/work/hyunbin/sca_api/weights/severity/Severity.pth'
+SEVERITY_WEIGHT = '../weights/severity/Severity.pth'
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -236,8 +236,9 @@ def main():
     severity_model = torch.load(SEVERITY_WEIGHT)
 
     #load original image
-    origImage = Image.open('/home/work/hyunbin/sca_api/input/input.jpg')
+    origImage = Image.open('../input/input.jpg')
     origImage = origImage.resize((256, 256))
+    origImage.save("../input/input.png")
 
     #part_prediction
     part_mask, coor = make_part_predictions(model, origImage)
@@ -272,23 +273,23 @@ def main():
         ax[1][2].axis('off')
         ax[1][3].axis('off')
 
-        damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, part_img)
+        damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, origImage)
 
         #damage
-        ax[2][0].imshow(part_img, cmap='gray')
-        ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]), alpha=0.4)
+        ax[2][0].imshow(origImage, cmap='gray')
+        ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]), alpha=1.0)
         ax[2][0].set_title("Breakage")
 
-        ax[2][1].imshow(part_img, cmap='gray')
-        ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]), alpha=0.4)
+        ax[2][1].imshow(origImage, cmap='gray')
+        ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]), alpha=1.0)
         ax[2][1].set_title("Crushed")
 
-        ax[2][2].imshow(part_img, cmap='gray')
-        ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]), alpha=0.4)
+        ax[2][2].imshow(origImage, cmap='gray')
+        ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]), alpha=1.0)
         ax[2][2].set_title("Scratched")
 
-        ax[2][3].imshow(part_img, cmap='gray')
-        ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]), alpha=0.4)
+        ax[2][3].imshow(origImage, cmap='gray')
+        ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]), alpha=1.0)
         ax[2][3].set_title("Separated")
 
         labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']
@@ -306,7 +307,7 @@ def main():
         print(parts[i]+" damage severity is level "+str(int(severity)))
 
         #figure.tight_layout()
-        figure.savefig('/home/work/hyunbin/sca_api/output/'+parts[i]+'_api.jpg')
+        figure.savefig('../output/'+parts[i]+'_api.jpg')
         print("\n"+"-"*40)
 
 
@@ -326,14 +327,14 @@ def test():
     #enter index
     print("Enter the index (1-1000): ", end="")
     idx = int(input())
-    l = [file for file in os.listdir("/home/work/hyunbin/sca_api/testset/img/")]
+    l = [file for file in os.listdir("../testset/img/")]
 
     #load original mask
     coco = COCO('../testset/datainfo/testset_info.json')
     img_ids = coco.getImgIds()
     image_id = int(img_ids[idx])
     image_infos = coco.loadImgs(image_id)[0]
-    images = cv2.imread(os.path.join('/home/work/hyunbin/sca_api/testset/img/', image_infos['file_name']))
+    images = cv2.imread(os.path.join('../testset/img/', image_infos['file_name']))
     images = cv2.cvtColor(images, cv2.COLOR_BGR2RGB)
     ann_ids = coco.getAnnIds(imgIds=image_infos['id'])
     anns = coco.loadAnns(ann_ids)
@@ -346,9 +347,9 @@ def test():
     origMask = transformed["mask"]
 
     #load original image
-    origImage = Image.open(os.path.join('/home/work/hyunbin/sca_api/testset/img/', image_infos['file_name']))
+    origImage = Image.open(os.path.join('../testset/img/', image_infos['file_name']))
     origImage = origImage.resize((256, 256))
-    origImage.save("/home/work/hyunbin/sca_api/input/test_input.jpg")
+    origImage.save("../input/test_input.jpg")
 
     #part_prediction
     part_mask, coor = make_part_predictions(model, origImage)
@@ -420,7 +421,7 @@ def test():
         print(parts[i]+" damage severity is level "+str(int(severity)))
 
         #figure.tight_layout()
-        figure.savefig('/home/work/hyunbin/sca_api/output/'+parts[i]+'_test.jpg')
+        figure.savefig('../output/'+parts[i]+'_test.jpg')
         print("\n"+"-"*40)  
 
 if __name__ == '__main__':
