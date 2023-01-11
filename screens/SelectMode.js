@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, Image } from "react-native";
 
 const Container = styled.View`
     flex: 1;
-    background-color: white;
+    background-color: black;
     align-items: center;
     justify-content: center;
 `;
@@ -17,7 +17,8 @@ const Button = styled.TouchableOpacity`
     border-radius: 20px;
     width: 200px;
     height: 80px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
+    background-color: white;
 `;
 
 const ButtonText = styled.Text`
@@ -28,6 +29,12 @@ const ButtonText = styled.Text`
 export default function SelectMode({navigation}){
     return(
         <Container>
+            <Image 
+                source={(require("../assets/images/car_icon.png"))} 
+                style={{
+                    marginBottom: 60
+                }}
+            />
             <Button onPress={()=>navigation.navigate("Home")}>
                 <ButtonText>일반 모드</ButtonText>
             </Button>

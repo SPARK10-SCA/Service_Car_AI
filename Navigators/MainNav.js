@@ -7,11 +7,15 @@ import * as Font from "expo-font"
 import Start from "../screens/Start.js";
 import SelectMode from "../screens/SelectMode.js";
 import Home from "../screens/Home.js";
+import Damage1 from "../screens/Damage1.js";
+import Damage2 from "../screens/Damage2.js";
+import Damage3 from "../screens/Damage3.js";
 import TestHome from "../screens/TestHome.js";
 import DamageTest1 from '../screens/DamageTest1.js';
 import DamageTest2 from '../screens/DamageTest2.js';
 import DamageTest3 from '../screens/DamageTest3.js';
 import RepairCost from '../screens/RepairCost.js';
+import RepairCost2 from "../screens/RepairCost2.js";
 import NearCenter from "../screens/NearCenter.js";
 
 const Stack = createStackNavigator();
@@ -84,6 +88,54 @@ export default function MainNav(){
 				  	),
 				}}
 				component={Home} 
+			/>
+			<Stack.Screen 
+				name="Damage1" 
+				options={{
+					headerTitle: () => (
+						<Text
+						style={{
+							fontSize: 18,
+							fontFamily: 'Pretendard-Bold'
+						}}
+						>
+							차량 파손 진단
+						</Text>
+				  	),
+				}}
+				component={Damage1}
+			/>
+			<Stack.Screen 
+				name="Damage2" 
+				options={{
+					headerTitle: () => (
+						<Text
+						style={{
+							fontSize: 18,
+							fontFamily: 'Pretendard-Bold'
+						}}
+						>
+							차량 파손 진단
+						</Text>
+				  	),
+				}}
+				component={Damage2}
+			/>
+			<Stack.Screen 
+				name="Damage3" 
+				options={{
+					headerTitle: () => (
+						<Text
+						style={{
+							fontSize: 18,
+							fontFamily: 'Pretendard-Bold'
+						}}
+						>
+							차량 파손 진단
+						</Text>
+				  	),
+				}}
+				component={Damage3}
 			/>
 			<Stack.Screen 
 				name="TestHome" 
@@ -164,6 +216,22 @@ export default function MainNav(){
 				  	),
 				}}
 				component={RepairCost} 
+			/>
+			<Stack.Screen 
+				name="RepairCost2" 
+				options={{
+					headerTitle: () => (
+						<Text
+						style={{
+							fontSize: 18,
+							fontFamily: 'Pretendard-Bold'
+						}}
+						>
+							수리 비용 진단
+						</Text>
+				  	),
+				}}
+				component={RepairCost2} 
 			/>
 			<Stack.Screen
 				name="NearCenter"

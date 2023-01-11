@@ -44,7 +44,7 @@ export default function Home({navigation}) {
 				{
 					isImage ?
 					<Image 
-						source={require("../assets/images/test_input.jpg")}
+						source={require("../assets/images/input.png")}
 						style={{ 
 							alignContent: 'center', 
 							width: 350, 
@@ -68,7 +68,7 @@ export default function Home({navigation}) {
 				<TouchableOpacity onPress={() => {
 					setIsImage(true)
 					setTimeout(() => {
-						navigation.navigate('DamageTest1')
+						navigation.navigate('Damage1')
 						setIsImage(false)
 					}, 5000);
 				}}>

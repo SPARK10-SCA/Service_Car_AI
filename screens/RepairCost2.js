@@ -38,7 +38,7 @@ const ResultText2 = styled.Text`
     font-size: 18px;
 `;
 
-export default function RepairCost({ navigation }) {
+export default function RepairCost2({ navigation }) {
 
     return (
         <Container>
@@ -46,33 +46,13 @@ export default function RepairCost({ navigation }) {
                 <View style={{width: "100%", alignItems: "center"}}>
                     <Text style={{ fontWeight: "bold", fontSize: 20, marginTop: 20 }}>수리비 분석 결과</Text>
                     <Text>1/1</Text>
-                    <CarImage source={require("../assets/images/test_input.jpg")}/>
+                    <CarImage source={require("../assets/images/input.png")}/>
                     <ResultBox>
                         <ResultText>파손 부위:   <ResultText2>Right Front Fender</ResultText2></ResultText>
-                        <ResultText>추천 수단:   <ResultText2>수리</ResultText2></ResultText>
-                        <ResultText>추천 사항:   <ResultText2>판금</ResultText2></ResultText>
+                        <ResultText>추천 수단:   <ResultText2>교체</ResultText2></ResultText>
+                        <ResultText>추천 사항:   <ResultText2>범퍼 교체</ResultText2></ResultText>
                         <ResultText2 style={{fontSize: 14, marginTop: 30}}>120건의 유사 사례를 기반으로 한 진단 결과</ResultText2>
                         <ResultText style={{fontFamily: "Pretendard-Bold", fontSize: 24}}>예상 수리 비용 : 200,000 Won</ResultText>
-                        <TouchableOpacity onPress={()=>navigation.navigate("NearCenter")}>
-                            <ResultText2 style={{ fontSize: 14, marginTop: 10, color: 'gray', textDecorationLine: 'underline' }}>근처 수리점 정보 알아보기</ResultText2>
-                        </TouchableOpacity>
-                    </ResultBox>
-                    <ResultBox>
-                        <ResultText>파손 부위:   <ResultText2>Bonnet</ResultText2></ResultText>
-                        <ResultText>추천 수단:   <ResultText2>교체</ResultText2></ResultText>
-                        <ResultText>추천 사항:   <ResultText2>범퍼 교체</ResultText2></ResultText>
-                        <ResultText2 style={{fontSize: 14, marginTop: 30}}>162건의 유사 사례를 기반으로 한 진단 결과</ResultText2>
-                        <ResultText style={{fontFamily: "Pretendard-Bold", fontSize: 24}}>예상 수리 비용 : 400,000 Won</ResultText>
-                        <TouchableOpacity onPress={()=>navigation.navigate("NearCenter")}>
-                            <ResultText2 style={{ fontSize: 14, marginTop: 10, color: 'gray', textDecorationLine: 'underline' }}>근처 수리점 정보 알아보기</ResultText2>
-                        </TouchableOpacity>
-                    </ResultBox>
-                    <ResultBox>
-                        <ResultText>파손 부위:   <ResultText2>Front Bumber</ResultText2></ResultText>
-                        <ResultText>추천 수단:   <ResultText2>교체</ResultText2></ResultText>
-                        <ResultText>추천 사항:   <ResultText2>범퍼 교체</ResultText2></ResultText>
-                        <ResultText2 style={{fontSize: 14, marginTop: 30}}>250건의 유사 사례를 기반으로 한 진단 결과</ResultText2>
-                        <ResultText style={{fontFamily: "Pretendard-Bold", fontSize: 24}}>예상 수리 비용 : 400,000 Won</ResultText>
                         <TouchableOpacity onPress={()=>navigation.navigate("NearCenter")}>
                             <ResultText2 style={{ fontSize: 14, marginTop: 10, color: 'gray', textDecorationLine: 'underline' }}>근처 수리점 정보 알아보기</ResultText2>
                         </TouchableOpacity>
