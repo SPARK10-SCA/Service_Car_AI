@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, ActivityIndicator } from "react-native";
 
 const Container = styled.View`
     flex: 1;
@@ -54,6 +54,17 @@ const Button2 = styled.TouchableOpacity`
 export default function TestHome({navigation}){
     const [index, setIndex] = useState(0);
     const [photo, setPhoto] = useState(false);
+    const [pressed, setPressed] = useState(false)
+
+    useEffect(()=>{
+        if(pressed){
+            setTimeout(()=>{
+                navigation.navigate("DamageTest1");
+                setPhoto(false);
+            }, 5000)
+        }
+    },[pressed])
+
     return(
         <Container>
             <Text style={{fontSize: 20, marginBottom: 20}}>테스트셋 Index 입력</Text>
@@ -72,12 +83,19 @@ export default function TestHome({navigation}){
             }
             {
                 photo ?
-                    <Button2 onPress={()=>navigation.navigate('DamageTest1')}>
+                    <Button2 onPress={()=>setPressed(true)}>
                         <ButtonText>다음</ButtonText>
                     </Button2> :
                     <Button2 onPress={()=>Alert.alert("알림", "사진을 먼저 선택해주세요.")}>
                         <ButtonText>다음</ButtonText>
                     </Button2>
+            }
+            {
+                pressed ? 
+                <View style={{alignItems: "center"}}>
+                    <ActivityIndicator style={{width: 100, height: 100, marginTop: 25}} size="large" />
+                    <Text>차량 파손을 측정 중입니다...</Text>
+                </View>: null
             }
             
         </Container>
