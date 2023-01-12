@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import CheckBox from "expo-checkbox";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const Container = styled.View`
     flex: 1;
@@ -37,32 +37,11 @@ const SelectBox = styled.View`
     align-items: center;
 `;
 
-const BreakageMask = styled.Image`
+const DamageMask = styled.Image`
     position: absolute;
     width: 230px;
     height: 230px;
-    opacity: 0.4
-`;
-
-const CrushedMask = styled.Image`
-    position: absolute;
-    width: 230px;
-    height: 230px;
-    opacity: 0.4
-`;
-
-const ScratchedMask = styled.Image`
-    position: absolute;
-    width: 230px;
-    height: 230px;
-    opacity: 0.4
-`;
-
-const SeparatedMask = styled.Image`
-    position: absolute;
-    width: 230px;
-    height: 230px;
-    opacity: 0.4
+    opacity: 0.4;
 `;
 
 const ResultBox = styled.View`
@@ -88,10 +67,10 @@ const ResultText2 = styled.Text`
 
 export default function Damage1({ navigation }) {
 
-    const [crushed, isCrushed] = useState(false)
-    const [scratched, isScratched] = useState(false)
-    const [separated, isSeparated] = useState(false)
-    const [breakage, isBreakage] = useState(false)
+    const [crushed, setCrushed] = useState(false)
+    const [scratched, setScratched] = useState(false)
+    const [separated, setSeparated] = useState(false)
+    const [breakage, setBreakage] = useState(false)
 
     return (
         <Container>
@@ -99,20 +78,20 @@ export default function Damage1({ navigation }) {
                 <Box>
                     <Text style={{ fontWeight: "bold", fontSize: 20 }}>데미지 분석 결과</Text>
                     <Text>1/1</Text>
-                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: Right Front Fender</ResultText>
+                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: <Text style={{color: "green"}}>Right Front Fender</Text></ResultText>
                     <ImageBox>
                         <CarImage source={require("../assets/images/input.png")} />
                         {
-                            breakage ? <BreakageMask source={require("../assets/images/output/Front_Fender_Breakage.png")} /> : null
+                            breakage ? <DamageMask source={require("../assets/images/output/Front_Fender_Breakage.png")} /> : null
                         }
                         {
-                            crushed ? <CrushedMask source={require("../assets/images/output/Front_Fender_Crushed.png")} /> : null
+                            crushed ? <DamageMask source={require("../assets/images/output/Front_Fender_Crushed.png")} /> : null
                         }
                         {
-                            scratched ? <ScratchedMask source={require("../assets/images/output/Front_Fender_Scratched.png")} />: null
+                            scratched ? <DamageMask source={require("../assets/images/output/Front_Fender_Scratched.png")} />: null
                         }
                         {
-                            separated ? <SeparatedMask source={require("../assets/images/output/Front_Fender_Separated.png")} /> : null
+                            separated ? <DamageMask source={require("../assets/images/output/Front_Fender_Separated.png")} /> : null
                         }
 
                     </ImageBox>
@@ -121,21 +100,49 @@ export default function Damage1({ navigation }) {
                         <Text style={{ fontWeight: "bold", marginRight: 10, marginTop: 15, textAlign: "center"}}>탐지된{"\n"}파손 보기</Text>
                         <View style={{marginRight: 10}}>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <CheckBox value={crushed} onValueChange={isCrushed}></CheckBox>
+                                <BouncyCheckbox 
+                                    onPress={()=>setCrushed(!crushed)}
+                                    fillColor="green"
+                                    unfillColor="green"
+                                    style={{
+                                        marginRight: -15
+                                    }}
+                                />
                                 <Text style={{ paddingLeft: 10 }}>Crushed</Text>
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <CheckBox value={scratched} onValueChange={isScratched}></CheckBox>
+                                <BouncyCheckbox 
+                                    onPress={()=>setScratched(!scratched)}
+                                    fillColor="green"
+                                    unfillColor="green"
+                                    style={{
+                                        marginRight: -15
+                                    }}
+                                />
                                 <Text style={{ paddingLeft: 10 }}>Scratched</Text>
                             </View>
                         </View>
                         <View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <CheckBox value={separated} onValueChange={isSeparated}></CheckBox>
+                                <BouncyCheckbox 
+                                    onPress={()=>setSeparated(!separated)}
+                                    fillColor="green"
+                                    unfillColor="green"
+                                    style={{
+                                        marginRight: -15
+                                    }}
+                                />
                                 <Text style={{ paddingLeft: 10 }}>Separated</Text>
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <CheckBox value={breakage} onValueChange={isBreakage}></CheckBox>
+                                <BouncyCheckbox 
+                                    onPress={()=>setBreakage(!breakage)}
+                                    fillColor="green"
+                                    unfillColor="green"
+                                    style={{
+                                        marginRight: -15
+                                    }}
+                                />
                                 <Text style={{ paddingLeft: 10 }}>Breakage</Text>
                             </View>
                         </View>

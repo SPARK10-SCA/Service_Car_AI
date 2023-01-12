@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import CheckBox from "expo-checkbox";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const Container = styled.View`
     flex: 1;
@@ -37,32 +37,11 @@ const SelectBox = styled.View`
     align-items: center;
 `;
 
-const BreakageMask = styled.Image`
+const DamageMask = styled.Image`
     position: absolute;
     width: 230px;
     height: 230px;
-    opacity: 0.5
-`;
-
-const CrushedMask = styled.Image`
-    position: absolute;
-    width: 230px;
-    height: 230px;
-    opacity: 0.5
-`;
-
-const ScratchedMask = styled.Image`
-    position: absolute;
-    width: 230px;
-    height: 230px;
-    opacity: 0.5
-`;
-
-const SeparatedMask = styled.Image`
-    position: absolute;
-    width: 230px;
-    height: 230px;
-    opacity: 0.5
+    opacity: 0.4;
 `;
 
 const ResultBox = styled.View`
@@ -86,33 +65,33 @@ const ResultText2 = styled.Text`
     margin-left: 15px;
 `;
 
-export default function Damage3({ navigation }) {
+export default function Damage1({ navigation }) {
 
-    const [crushed, isCrushed] = useState(false)
-    const [scratched, isScratched] = useState(false)
-    const [separated, isSeparated] = useState(false)
-    const [breakage, isBreakage] = useState(false)
+    const [crushed, setCrushed] = useState(false)
+    const [scratched, setScratched] = useState(false)
+    const [separated, setSeparated] = useState(false)
+    const [breakage, setBreakage] = useState(false)
 
     return (
         <Container>
             <ScrollView style={{width: "100%"}}>
                 <Box>
                     <Text style={{ fontWeight: "bold", fontSize: 20 }}>데미지 분석 결과</Text>
-                    <Text>1/3</Text>
-                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: Right Front Fender</ResultText>
+                    <Text>1/1</Text>
+                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: <Text style={{color: "green"}}>Right Front Fender</Text></ResultText>
                     <ImageBox>
                         <CarImage source={require("../assets/images/input.png")} />
                         {
-                            breakage ? null : null
+                            breakage ? <DamageMask source={require("../assets/images/output/Front_Fender_Breakage.png")} /> : null
                         }
                         {
-                            crushed ? null : null
+                            crushed ? <DamageMask source={require("../assets/images/output/Front_Fender_Crushed.png")} /> : null
                         }
                         {
-                            scratched ? <ScratchedMask source={require("../assets/images/test_output/Front_Fender_Scratched.png")} />: null
+                            scratched ? <DamageMask source={require("../assets/images/output/Front_Fender_Scratched.png")} />: null
                         }
                         {
-                            separated ? <SeparatedMask source={require("../assets/images/test_output/Front_Fender_Separated.png")} /> : null
+                            separated ? <DamageMask source={require("../assets/images/output/Front_Fender_Separated.png")} /> : null
                         }
 
                     </ImageBox>
@@ -121,21 +100,49 @@ export default function Damage3({ navigation }) {
                         <Text style={{ fontWeight: "bold", marginRight: 10, marginTop: 15, textAlign: "center"}}>탐지된{"\n"}파손 보기</Text>
                         <View style={{marginRight: 10}}>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <Text style={{color: "red"}}> X </Text>
+                                <BouncyCheckbox 
+                                    onPress={()=>setCrushed(!crushed)}
+                                    fillColor="green"
+                                    unfillColor="green"
+                                    style={{
+                                        marginRight: -15
+                                    }}
+                                />
                                 <Text style={{ paddingLeft: 10 }}>Crushed</Text>
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <CheckBox value={scratched} onValueChange={isScratched}></CheckBox>
+                                <BouncyCheckbox 
+                                    onPress={()=>setScratched(!scratched)}
+                                    fillColor="green"
+                                    unfillColor="green"
+                                    style={{
+                                        marginRight: -15
+                                    }}
+                                />
                                 <Text style={{ paddingLeft: 10 }}>Scratched</Text>
                             </View>
                         </View>
                         <View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <CheckBox value={separated} onValueChange={isSeparated}></CheckBox>
+                                <BouncyCheckbox 
+                                    onPress={()=>setSeparated(!separated)}
+                                    fillColor="green"
+                                    unfillColor="green"
+                                    style={{
+                                        marginRight: -15
+                                    }}
+                                />
                                 <Text style={{ paddingLeft: 10 }}>Separated</Text>
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
-                                <Text style={{color: "red"}}> X </Text>
+                                <BouncyCheckbox 
+                                    onPress={()=>setBreakage(!breakage)}
+                                    fillColor="green"
+                                    unfillColor="green"
+                                    style={{
+                                        marginRight: -15
+                                    }}
+                                />
                                 <Text style={{ paddingLeft: 10 }}>Breakage</Text>
                             </View>
                         </View>
@@ -144,13 +151,13 @@ export default function Damage3({ navigation }) {
                     <ResultBox>
                         <ResultText>탐지된 파손</ResultText>
                         <ResultText>Damage 종류 : {'{'}</ResultText>
-                        <ResultText2>Crushed: 감지되지 않음</ResultText2>
-                        <ResultText2>Scratched: 82.3% 신뢰도</ResultText2>
-                        <ResultText2>Separated: 85.3% 신뢰도</ResultText2>
-                        <ResultText2>Breakage: 감지되지 않음</ResultText2>
+                        <ResultText2>Crushed: 77.7% 신뢰도</ResultText2>
+                        <ResultText2>Scratched: 96.3% 신뢰도</ResultText2>
+                        <ResultText2>Separated: 72.2% 신뢰도</ResultText2>
+                        <ResultText2>Breakage: 84.9% 신뢰도</ResultText2>
                         <ResultText>{'},'}</ResultText>
                         <ResultText></ResultText>
-                        <ResultText>파트 파손 심각도: 하</ResultText>
+                        <ResultText>파트 파손 심각도: 상</ResultText>
                     </ResultBox>
                     
                     <View style={{
@@ -167,7 +174,7 @@ export default function Damage3({ navigation }) {
                             <Text style={{ fontSize: 25 }}>{'<'} Prev</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('Damage2')
+                            navigation.navigate('RepairCost2')
                         }}>
                             <Text style={{ fontSize: 25 }}>Next {'>'}</Text>
                         </TouchableOpacity>
