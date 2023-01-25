@@ -36,15 +36,15 @@ transform_test = transforms.Compose([
 ])
 
 # 이미지 가져오기 (폴더로 나눠주면 알아서 labeling 해준다 )
-train_ds = ImageFolder('/home/work/sangyun/severity/data/train/', transform=transform_train)
-test_ds = ImageFolder('/home/work/sangyun/severity/data/val/', transform=transform_test)
+train_ds = ImageFolder('/home/work/hyunbin/severity/data/train/', transform=transform_train)
+test_ds = ImageFolder('/home/work/hyunbin/severity/data/test/', transform=transform_test)
 
 batch_size=32
 train_dl = DataLoader(train_ds, batch_size, shuffle=True, num_workers=4, pin_memory=True)
 val_dl = DataLoader(test_ds, batch_size, num_workers=4, pin_memory=True)
 
 # path에 있는 폴더이름으로 class name 만들기
-root = pathlib.Path("/home/work/sangyun/severity/data/train/")
+root = pathlib.Path("/home/work/hyunbin/severity/data/train/")
 classes = sorted([j.name.split('/')[-1] for j in root.iterdir()])
 print(classes)
 
@@ -179,7 +179,7 @@ def train_model(model) :
     lr = 0.00001
     history = fit(num_epochs, lr, model, train_dl, val_dl, opt_func)
 
-    with open('/home/work/sangyun/severity/models/vgg_trainHistoryDict', 'wb') as file_pi:
+    with open('/home/work/hyunbin/severity/data/weight/vgg_trainHistoryDict', 'wb') as file_pi:
         pickle.dump(history, file_pi)
 
 
@@ -189,7 +189,7 @@ val_dl = DeviceDataLoader(val_dl, device)
 model = to_device(model, device) # vgg19 model
 
 train_model(model)
-torch.save(model, '/home/work/sangyun/severity/models/severityVGG19.pth')
+torch.save(model, '/home/work/hyunbin/severity/data/weight/severityVGG19.pth')
 
 val = evaluate(model, val_dl)
 print("model validation : ",val)
