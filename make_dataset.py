@@ -4,6 +4,7 @@ import random
 
 data_dir = './data/img/'
 train_dir = './data/train/'
+valid_dir = './data/val/'
 test_dir = './data/test/'
 
 def copy_to_train():
@@ -60,6 +61,47 @@ def remove_random():
        
     print("Done remove_random")
 
+def make_validset():
+    if not os.path.exists(valid_dir+'high/'):
+        os.makedirs(test_dir+'high/')
+    if not os.path.exists(valid_dir+'medium/'):
+        os.makedirs(valid_dir+'medium/')
+    if not os.path.exists(valid_dir+'low/'):
+        os.makedirs(valid_dir+'low/')
+
+    high = [file for file in os.listdir(train_dir+'high/') if file.endswith('.jpg')]
+    cnt=len(high)
+    while cnt>6900:
+        rand = random.randrange(0,cnt)
+        try:
+            shutil.move(train_dir+'high/'+high[rand], valid_dir+'high/'+high[rand])
+            high.pop(rand)
+            cnt-=1
+        except:
+            pass
+    medium = [file for file in os.listdir(train_dir+'medium/') if file.endswith('.jpg')]
+    cnt=len(medium)
+    while cnt>6900:
+        rand = random.randrange(0,cnt)
+        try:
+            shutil.move(train_dir+'medium/'+medium[rand], valid_dir+'medium/'+medium[rand])
+            medium.pop(rand)
+            cnt-=1
+        except:
+            pass
+    low = [file for file in os.listdir(train_dir+'low/') if file.endswith('.jpg')]
+    cnt=len(low)
+    while cnt>6900:
+        rand = random.randrange(0,cnt)
+        try:
+            shutil.move(train_dir+'low/'+low[rand], valid_dir+'low/'+low[rand])
+            low.pop(rand)
+            cnt-=1
+        except:
+            pass
+
+    print("Done make_testset")
+
 def make_testset():
     if not os.path.exists(test_dir+'high/'):
         os.makedirs(test_dir+'high/')
@@ -70,7 +112,7 @@ def make_testset():
 
     high = [file for file in os.listdir(train_dir+'high/') if file.endswith('.jpg')]
     cnt=len(high)
-    while cnt>7000:
+    while cnt>6200:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'high/'+high[rand], test_dir+'high/'+high[rand])
@@ -80,7 +122,7 @@ def make_testset():
             pass
     medium = [file for file in os.listdir(train_dir+'medium/') if file.endswith('.jpg')]
     cnt=len(medium)
-    while cnt>7000:
+    while cnt>6200:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'medium/'+medium[rand], test_dir+'medium/'+medium[rand])
@@ -90,7 +132,7 @@ def make_testset():
             pass
     low = [file for file in os.listdir(train_dir+'low/') if file.endswith('.jpg')]
     cnt=len(low)
-    while cnt>7000:
+    while cnt>6200:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'low/'+low[rand], test_dir+'low/'+low[rand])
@@ -103,4 +145,5 @@ def make_testset():
 
 copy_to_train()
 remove_random()
+make_validset()
 make_testset()

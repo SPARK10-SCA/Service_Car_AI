@@ -1,0 +1,8 @@
+['high', 'low', 'medium']
+--------------here-------------
+--------------here-------------
+gpu 인식 성공
+Epoch [0], train_loss: 1.0519, val_loss: 1.0126, val_acc: 0.4989
+Epoch [1], train_loss: 1.0032, val_loss: 0.9941, val_acc: 0.5170
+Epoch [2], train_loss: 0.9790, val_loss: 0.9851, val_acc: 0.5208
+Epoch [3], train_loss: 0.9605, val_loss: 0.9784, val_acc: 0.5071
