@@ -63,7 +63,7 @@ def remove_random():
 
 def make_validset():
     if not os.path.exists(valid_dir+'high/'):
-        os.makedirs(test_dir+'high/')
+        os.makedirs(valid_dir+'high/')
     if not os.path.exists(valid_dir+'medium/'):
         os.makedirs(valid_dir+'medium/')
     if not os.path.exists(valid_dir+'low/'):
@@ -100,7 +100,7 @@ def make_validset():
         except:
             pass
 
-    print("Done make_testset")
+    print("Done make_validset")
 
 def make_testset():
     if not os.path.exists(test_dir+'high/'):

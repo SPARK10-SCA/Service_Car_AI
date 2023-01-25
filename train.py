@@ -37,29 +37,21 @@ transform_test = transforms.Compose([
 
 # 이미지 가져오기 (폴더로 나눠주면 알아서 labeling 해준다 )
 train_ds = ImageFolder('/home/work/hyunbin/severity/data/train/', transform=transform_train)
-test_ds = ImageFolder('/home/work/hyunbin/severity/data/test/', transform=transform_test)
+val_ds = ImageFolder('/home/work/hyunbin/severity/data/val/', transform=transform_test)
 
 batch_size=32
 train_dl = DataLoader(train_ds, batch_size, shuffle=True, num_workers=4, pin_memory=True)
-val_dl = DataLoader(test_ds, batch_size, num_workers=4, pin_memory=True)
+val_dl = DataLoader(val_ds, batch_size, num_workers=4, pin_memory=True)
 
 # path에 있는 폴더이름으로 class name 만들기
 root = pathlib.Path("/home/work/hyunbin/severity/data/train/")
 classes = sorted([j.name.split('/')[-1] for j in root.iterdir()])
 print(classes)
 
-# accuracy function 만들기
-def accuracy(outputs, labels) :
-    _, preds = torch.max(outputs, dim=1)
-    return torch.tensor(torch.sum(preds == labels).item() / len(preds))
-
-print("--------------here-------------")
 modelvgg = models.vgg19(weights=VGG19_Weights.DEFAULT) # vgg 19
-print("--------------here-------------")
 
 for p in modelvgg.parameters() : # layers freeze
     p.requires_grad = False
-
 
 modelvgg.classifier = nn.Sequential(
     nn.Linear(in_features=25088, out_features=2048),
@@ -70,6 +62,11 @@ modelvgg.classifier = nn.Sequential(
     nn.Linear(in_features=512,out_features=3), # class 3개로 설정
     nn.LogSoftmax(dim=1)
 )
+
+# accuracy function 만들기
+def accuracy(outputs, labels) :
+    _, preds = torch.max(outputs, dim=1)
+    return torch.tensor(torch.sum(preds == labels).item() / len(preds))
 
 # Create base class
 class ImageClassificationBase(nn.Module):
@@ -193,6 +190,6 @@ torch.save(model, '/home/work/hyunbin/severity/data/weight/severityVGG19.pth')
 
 val = evaluate(model, val_dl)
 print("model validation : ",val)
-for i,img in enumerate(test_ds):
+for i,img in enumerate(val_ds):
     predict_single(img[0],img[1],model)
     
