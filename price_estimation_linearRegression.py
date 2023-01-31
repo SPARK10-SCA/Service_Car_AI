@@ -10,7 +10,7 @@ from sklearn.metrics import mean_absolute_error
 from sklearn import preprocessing
 
 ### 데이터 불러오기
-dummy_data = pd.read_csv("./repair_price_dataset.csv")
+dummy_data = pd.read_csv("./price_dataset.csv")
 #print('row 수 : {}, col 수 : {}'.format(dummy_data.shape[0],dummy_data.shape[1])) # 445090,9
 
 ### 899개의 MODELTYPE 존재, 데이터를 정재할려고 노력해보았지만 데이터에 규칙성이 없어서
@@ -87,6 +87,7 @@ for i in range(len(parts)) :
     except :
         parts[i] = None
 dummy_data.PART = parts
+
 
 ### Dataset SEVERITY의 종류 18개를 우리 모델이 가질 수 있는 4개의 feature로 압축 하기
 ### 4-> 오버홀, 3 -> 교환, 판금 , 2-> 수리, 조정, 도장 , 1-> OH, 탈착
