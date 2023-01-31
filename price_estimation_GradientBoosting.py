@@ -8,6 +8,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, r2_score
 from sklearn.metrics import mean_absolute_error
 from sklearn import preprocessing
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor
 
 ### 데이터 불러오기
 dummy_data = pd.read_csv("./repair_price_dataset.csv")
@@ -64,7 +66,7 @@ for i in range(len(parts)) :
             parts[i] = "Frontbumper"
         elif parts[i].find('리어범퍼' or "리어 범퍼" or "뒤범퍼") > -1 :
             parts[i] = "Rearbumper"
-        elif parts[i].find('프런트펜더' or "프런트 펜더" or "프런트휀다" or "앞펜더" or "앞휀다" or"앞휀더"or"후론트휀다"or"후혼트 휀다" ) > -1 :
+        elif parts[i].find('프런트펜더' or "프런트 펜더" or "프런트휀다" or "앞펜더" or "앞휀다" or "앞휀더" or "후론트휀다" or "후혼트 휀다" ) > -1 :
            parts[i] = "Frontfender"
         elif parts[i].find('리어펜더' or "리어휀다" or "리어 휀다" or "뒤펜더" or "뒤휀다" or "뒤헨더") > -1 :
            parts[i] = "Rearfender"
@@ -106,19 +108,19 @@ for i in range(len(severity)) :
 dummy_data.SEVERITY = severity
 
 ### 학습에 도움되지 않는 feature 값들 제거
-dummy_data.drop(columns=['MODELTYPE','Unnamed: 0','CARNAME'],inplace=True)
+dummy_data.drop(columns=['MODELTYPE','Unnamed: 0'],inplace=True)
 
 ### 데이터 결측값 제거
 clean_data = dummy_data.copy(deep=True)
 clean_data = clean_data.dropna('index')
 clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
-# print(clean_data.dropna('index').shape) # 445090 -> 68464
+#print(clean_data.dropna('index').shape) # 445090 -> 68464
 
 ### 중요 feature의 개수 확인
-print(len(np.unique((list(clean_data.PART))))) # 11 Part 존재
+#print(len(np.unique((list(clean_data.PART))))) # 11 Part 존재
 #print(len(np.unique((list(clean_data.CARNAME))))) # 323개의 CARNAME 존재
-print(len(np.unique((list(clean_data.COMPANY))))) # 28개의 COMPANY 존재
-print(len(np.unique((list(clean_data.SEVERITY))))) # 4개의 SEVERITY 존재
+#print(len(np.unique((list(clean_data.COMPANY))))) # 28개의 COMPANY 존재
+#print(len(np.unique((list(clean_data.SEVERITY))))) # 4개의 SEVERITY 존재
 #np.set_printoptions(threshold=np.inf) # numpy에서 모든 데이터 출력하게 하기
 #print(np.unique((list(clean_data.PART))))
 #print(np.unique((list(clean_data.COMPANY))))
@@ -154,10 +156,11 @@ clean_data = clean_data.drop(idx)
 clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
 #clean_data = clean_data.reset_index(drop = True)
 
-#clean_data.to_csv("repair_price_cleandata.csv")
+#clean_data.to_csv("repair_price_cleandata.csv") # 최종 데이터셋
 
-print(clean_data.shape)
+#print(clean_data['PRICE'].describe())
 
+"""
 ### Outlier 확인
 fig, ax = plt.subplots(1,3,figsize=(16,4))
 ax[0].boxplot(list(clean_data.MILEAGE))
@@ -168,6 +171,7 @@ ax[2].boxplot(list(clean_data.PRICE))
 ax[2].set_title("PRICE")
 sns.pairplot(data=clean_data, x_vars=['MILEAGE','FIRSTDAY','PRICE'], y_vars='PRICE',size=3)
 plt.show()
+"""
 
 # test 데이터셋 생성 
 y = clean_data[['PRICE']].to_numpy() # 가격만 빼내기
@@ -182,17 +186,26 @@ clean_data = pd.DataFrame(tmp)
 clean_data.columns = columns
 
 x = clean_data.to_numpy()
-#print(x)
 x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.85, random_state=2)
 
-lr = LinearRegression(fit_intercept=True, copy_X = True)
-lr.fit(x_train,y_train)
+"""
+### GradientBoostingRegressor 알고리즘 사용
+gb = GradientBoostingRegressor(min_samples_leaf=10, min_samples_split=5, learning_rate=0.5,max_depth=3, n_estimators=1000)
+gb.fit(x_train, y_train)
 
-print('Train dats\'s Accuracy : {}'.format(lr.score(x_train, y_train)))
-y_predict = lr.predict(x_test)
-print(y_test[:10])
-print(y_predict[:10])
-print("Test dats\'s Accuracy : {}".format(lr.score(x_test, y_test)))
-print("Test dats\'s Accuracy : {}".format(r2_score(y_test, lr.predict(x_test))))
+y_gb_predict = gb.predict(x_test)
 
-print("mean_absolute_error : ",mean_absolute_error(y_test, y_predict))
+print("\nGradientBoostingRegressor Train data Accuracy : ",gb.score(x_train,y_train))
+print("GradientBoostingRegressor Test data Accuracy : ",gb.score(x_test,y_test))
+
+print("평균 오차 : ",mean_absolute_error(y_test,y_gb_predict))
+"""
+### RandomForestRegressor 알고리즘 사용
+rtr = RandomForestRegressor(n_estimators=100, random_state = 42)
+rtr.fit(x_train, y_train)
+
+y_rtr_predict = rtr.predict(x_test)
+
+print("\nRandomForestRegressor Train data Accuracy : ",rtr.score(x_train, y_train))
+print("RandomForestRegressor test data Accuracy : ",rtr.score(x_test,y_test))
+print("평균 오차 : ",mean_absolute_error(y_test,y_rtr_predict))
