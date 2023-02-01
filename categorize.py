@@ -18,6 +18,23 @@ images_path = "/home/work/AIHUB/1.Training/1.원천데이터/damage_part/"
 file_path = "/home/work/AIHUB/1.Training/1.원천데이터/TS_99.붙임_견적서/"
 dst_dir = "./data/img/"
 
+#array for saving count of part
+cnt_part=[0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+# FrontBumper, FrontFender(R), FrontFender(L), Bonnet, 
+# RearBumper, RearFender(R), RearFender(L), Trunklid, 
+# FrontDoor(R), RearDoor(R), HeadLights(R), HeadLights(L), 
+# FrontWheel(R), SideMirror(R)
+
+#array for saving count of method
+cnt_method=[0,0,0,0,0,0,0]
+# Replace, Repair, Sheet, OverHall, Painting, Detach, 1/2OH
+
+# [34415, 7593, 7104, 4391, 22198, 5340, 4293, 5025, 0, 0, 3467, 3357, 2031, 1853]
+# Top 4: Front Bumper, Front Fender(R), Front Fender(L), Rear Bumper
+# [14829, 2908, 93, 4604, 501, 5793, 2139]
+# Top 5: Replace, Repair, OverHall, Detach, OverHall
+
+# function for image padding
 def padding(img, set_size):
 
     try:
@@ -54,14 +71,21 @@ def padding(img, set_size):
 
     return new_img
 
+#function for dataset classification
 def classification(ann):
+    global cnt_part
+    global cnt_method
+
     level = '/'
     img_id = img_names[ann['image_id']-1].replace(".jpg", "")
     part = ann['part'].replace(' ','')
 
     # Store xls file
     xls_path = file_path + img_id.split("_")[1] + '.xls'
-    xls = pd.read_excel(xls_path, usecols=[2, 4], skiprows=range(0, 22))
+    try:
+        xls = pd.read_excel(xls_path, usecols=[2, 4], skiprows=range(0, 22))
+    except Exception as e:
+        print(e)
 
     if xls.empty:
         return False
@@ -70,32 +94,55 @@ def classification(ann):
     # Translate part name and match
     if part == 'Frontbumper':
         _xls = xls[xls['part'].str.contains('프런트범퍼|프런트 범퍼|앞범퍼|후론트 범퍼|후론트범퍼')]
-    elif part == 'Rearbumper':
-        _xls = xls[xls['part'].str.contains('리어범퍼|리어 범퍼|뒤범퍼')]
+        #cnt_part[0]+=1
     elif part == 'Frontfender(R)':
         _xls = xls[xls['part'].str.contains('프런트펜더(우)|프런트휀다(우)|앞펜더(우)|앞휀다(우)|앞휀더(우)|후론트휀다(우)|후론트 휀다(우)')]
+        #cnt_part[1]+=1
     elif part == 'Frontfender(L)':
         _xls = xls[xls['part'].str.contains('프런트펜더(좌)|프런트 펜더(좌)|프런트휀다(좌)|앞펜더(좌)|앞휀다(좌)|앞휀더(좌)|후론트휀다(좌)|후론트 휀다(좌)')]
-    elif part == 'Rearfender(R)':
-        _xls = xls[xls['part'].str.contains('리어펜더(우)|리어휀다(우)|리어 휀다(우)|뒤펜더(우)|뒤휀다(우)|뒤휀더(우)')]
-    elif part == 'Trunklid':
-        _xls = xls[xls['part'].str.contains('트렁크')]
+        #cnt_part[2]+=1
     elif part == 'Bonnet':
         _xls = xls[xls['part'].str.contains('본넷|본네트')]
+        #cnt_part[3]+=1
+        return False
+    elif part == 'Rearbumper':
+        _xls = xls[xls['part'].str.contains('리어범퍼|리어 범퍼|뒤범퍼')]
+        cnt_part[4]+=1
+    elif part == 'Rearfender(R)':
+        _xls = xls[xls['part'].str.contains('리어펜더(우)|리어휀다(우)|리어 휀다(우)|뒤펜더(우)|뒤휀다(우)|뒤휀더(우)')]
+        #cnt_part[5]+=1
+        return False
     elif part == 'Rearfender(L)':
         _xls = xls[xls['part'].str.contains('리어펜더(좌)|리어휀다(좌)|리어 휀다(좌)|뒤펜더(좌)|뒤휀다(좌)|뒤휀더(좌)')]
-    elif part == 'Reardoor(R)':
-        _xls = xls[xls['part'].str.contains('리어도어|도어(뒤')]
-    elif part == 'Headlights(R)':
-        _xls = xls[xls['part'].str.contains('헤드라이트(우)|헤드램프(우)')]
-    elif part == 'Headlights(L)':
-        _xls = xls[xls['part'].str.contains('헤드라이트(좌)|헤드램프(좌)')]
-    elif part == 'FrontWheel(R)':
-        _xls = xls[xls['part'].str.contains('휠')]
+        #cnt_part[6]+=1
+        return False
+    elif part == 'Trunklid':
+        _xls = xls[xls['part'].str.contains('트렁크')]
+        #cnt_part[7]+=1
+        return False
     elif part == 'Frontdoor(R)':
         _xls = xls[xls['part'].str.contains('프런트도어|도어(앞|후론트 도어')]
+        #cnt_part[8]+=1
+    elif part == 'Reardoor(R)':
+        _xls = xls[xls['part'].str.contains('리어도어|도어(뒤')]
+        #cnt_part[9]+=1
+        return False
+    elif part == 'Headlights(R)':
+        _xls = xls[xls['part'].str.contains('헤드라이트(우)|헤드램프(우)')]
+        #cnt_part[10]+=1
+        return False
+    elif part == 'Headlights(L)':
+        _xls = xls[xls['part'].str.contains('헤드라이트(좌)|헤드램프(좌)')]
+        #cnt_part[11]+=1
+        return False
+    elif part == 'FrontWheel(R)':
+        _xls = xls[xls['part'].str.contains('휠')]
+        #cnt_part[12]+=1
+        return False
     elif part == 'Sidemirror(R)':
         _xls = xls[xls['part'].str.contains('사이드미러')]
+        #cnt_part[13]+=1
+        return False
     else: # part is not exist in categories
         return False
     
@@ -105,15 +152,31 @@ def classification(ann):
     else:
         if _xls['level'][0] == '교환':
             level = 'high/'
+            cnt_method[0]+=1
         elif _xls['level'][0] == '수리' or _xls['level'][0] == '판금' or _xls['level'][0] == '오버홀':
             level = 'medium/'
+            if _xls['level'][0] == '수리': 
+                cnt_method[1]+=1
+            elif _xls['level'][0] == '판금': 
+                cnt_method[2]+=1
+                return False
+            elif _xls['level'][0] == '오버홀': 
+                cnt_method[3]+=1
         elif _xls['level'][0] == '도장' or _xls['level'][0] == '탈착' or _xls['level'][0] == '1/2OH':
             level = 'low/'
+            if _xls['level'][0] == '도장': 
+                cnt_method[4]+=1
+                return False
+            elif _xls['level'][0] == '탈착': 
+                cnt_method[5]+=1
+            elif _xls['level'][0] == '1/2OH': 
+                cnt_method[6]+=1
     
     if level=='/':
         return False
 
-    return dst_dir + level + img_id +'_'+ part +'.jpg'
+    return dst_dir+level+img_id+'_'+ part +'_'+_xls['level'][0]+'.jpg'
+    #return False
 
 
 # Store img file names
@@ -161,5 +224,6 @@ for ann in anns:
     except:
         pass
 
-
+#print(cnt_part)
+#print(cnt_method)
 print("Done")

@@ -187,9 +187,9 @@ model = to_device(model, device) # vgg19 model
 
 train_model(model)
 torch.save(model, '/home/work/hyunbin/severity/data/weight/severityVGG19.pth')
-
 val = evaluate(model, val_dl)
-print("model validation : ",val)
-for i,img in enumerate(val_ds):
-    predict_single(img[0],img[1],model)
+
+#print("model validation : ",val)
+#for i,img in enumerate(val_ds):
+#    predict_single(img[0],img[1],model)
     
