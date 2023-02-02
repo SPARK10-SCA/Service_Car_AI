@@ -165,18 +165,16 @@ clean_data = clean_data.drop(columns=['PRICE']) # 원본 데이터에서 price �
 x = clean_data.values 
 columns = clean_data.columns
 
-integer_feature = np.c_[x[:,:3],x[:,-1]]
-print(integer_feature) # MILEAGE, FIRSTDAY, REPAIRDAY, HQ
-
+integer_value = np.c_[x[:,:3],x[:,-1]] # MILEAGE, FIRSTDAY, REPAIRDAY, HQ
+category_value = x[:,3:5] # PART, SEVERITY
 scaler = preprocessing.MinMaxScaler()
-tmp = scaler.fit_transform(x) # 0~1 사이의 값으로 values 정규화
-clean_data = pd.DataFrame(tmp)
-
-
+integer_scaled = scaler.fit_transform(integer_value) # Integer value 0~1 사이의 값으로 정규화
+scaled_value = np.c_[integer_scaled,category_value] # Integer feature와 categoryical feature 합치기
+clean_data = pd.DataFrame(scaled_value)
 clean_data.columns = columns
 
 x = clean_data.to_numpy()
-x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.85, random_state=2)
+x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.85, random_state=45)
 
 lr = LinearRegression(fit_intercept=True, copy_X = True)
 lr.fit(x_train,y_train)
