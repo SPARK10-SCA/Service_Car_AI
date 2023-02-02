@@ -9,54 +9,42 @@ from sklearn.metrics import accuracy_score, confusion_matrix, r2_score
 from sklearn.metrics import mean_absolute_error
 from sklearn import preprocessing
 
+# integer feature : MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PRICE
+# categorical feature : MODELTYPE, COMPANY, CARNAME, PART, SEVERITY
+
 ### 데이터 불러오기
-dummy_data = pd.read_csv("./price_dataset.csv")
-#print('row 수 : {}, col 수 : {}'.format(dummy_data.shape[0],dummy_data.shape[1])) # 445090,9
+dummy_data = pd.read_csv("./price_dataset_small.csv")
+
+### Categoryical feature의 개수 확인
+print('row 수 : {}, col 수 : {}'.format(dummy_data.shape[0],dummy_data.shape[1])) # row 수 : 836379, col 수 : 11
+print("MODELTYPE : ",len(np.unique((list(dummy_data.MODELTYPE)))))
+print("COMPANY : ",len(np.unique((list(dummy_data.COMPANY)))))
+print("CARNAME : ",len(np.unique((list(dummy_data.CARNAME)))))
 
 ### 899개의 MODELTYPE 존재, 데이터를 정재할려고 노력해보았지만 데이터에 규칙성이 없어서
 ### 포기하고 MODELTYPE row 삭제
-"""
-print(len(np.unique((list(dummy_data.MODELTYPE)))))
+
+# MODELTYPE 정제
 modeltype = list(dummy_data.MODELTYPE)
 for i in range(len(modeltype)) :
     try : 
         modeltype[i] = modeltype[i].split(' ',1)[0]
-       # modeltype[i] = modeltype[i].split('1',1)[1]
-       # modeltype[i] = modeltype[i].split('2',1)[1]
-       # modeltype[i] = modeltype[i].split('3',1)[1]
-       # modeltype[i] = modeltype[i].split('4',1)[1]
-       # modeltype[i] = modeltype[i].split('5',1)[1]
-       # modeltype[i] = modeltype[i].split('6',1)[1]
-       # modeltype[i] = modeltype[i].split('7',1)[1]
-       # modeltype[i] = modeltype[i].split('8',1)[1]
-       # modeltype[i] = modeltype[i].split('9',1)[1]
-       # modeltype[i] = modeltype[i].split('0',1)[1]
     except :
         modeltype[i] = None
 dummy_data.MODELTYPE = modeltype
-"""
+print("MODELTYPE : ",len(np.unique((list(dummy_data.MODELTYPE)))))
+
+# CARNAME 정제
+carname = list(dummy_data.CARNAME)
+for i in range(len(carname)) :
+    try : 
+        carname[i] = carname[i].split(' ',1)[0]
+    except :
+        carname[i] = None
+dummy_data.CARNAME = carname
+print("CARNAME : ",len(np.unique((list(dummy_data.CARNAME)))))
 
 ### Dateset PART의 종류 18000개를 우리의 모델이 가질 수 있는 14의 feature로 압축하기
-"""
-Frontbumper
-Rearbumper
-Frontfender(R)
-Frontfender(L)
-Rearfender(R)
-Rearfender(L)
-Trunklid
-Boonet
-Reardoor(L)
-Reardoor(R)
-Headlights(R)
-Headlights(L)
-FrontWheel(R)
-FrontWheel(L)
-Frontdoor(R)
-Frontdoor(L)
-Sidemirror(R)
-Sidemirror(L)
-"""
 parts = list(dummy_data.PART)
 for i in range(len(parts)) :
     try : 
@@ -115,28 +103,87 @@ for i in range(len(severity)) :
             severity[i] = None
 dummy_data.SEVERITY = severity
 
-### 학습에 도움되지 않는 feature 값들 제거
-dummy_data.drop(columns=['Unnamed: 0'],inplace=True)
+### 학습에 도움되지 않는 feature 값들 제거 (일단은 카테고리 feature들 다 제거)
+dummy_data.drop(columns=['Unnamed: 0','CARNAME','COMPANY','MODELTYPE'],inplace=True)
 
 ### 데이터 결측값 제거
 clean_data = dummy_data.copy(deep=True)
 clean_data = clean_data.dropna('index')
 clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
-# print(clean_data.dropna('index').shape) # 445090 -> 68464
-
-### 중요 feature의 개수 확인
-#print(len(np.unique((list(clean_data.PART))))) # 11 Part 존재
-#print(len(np.unique((list(clean_data.CARNAME))))) # 323개의 CARNAME 존재
-#print(len(np.unique((list(clean_data.COMPANY))))) # 28개의 COMPANY 존재
-#print(len(np.unique((list(clean_data.SEVERITY))))) # 4개의 SEVERITY 존재
-#np.set_printoptions(threshold=np.inf) # numpy에서 모든 데이터 출력하게 하기
-#print(np.unique((list(clean_data.PART))))
-#print(np.unique((list(clean_data.COMPANY))))
-#print(np.unique((list(clean_data.SEVERITY)))
-#print(np.unique((list(clean_data.CARNAME))))
 
 ### PART, SEVERITY는 LabelEncoder으로 변환
 le = LabelEncoder()
 clean_data['PART'] = le.fit_transform(clean_data['PART'])
 clean_data['SEVERITY'] = le.fit_transform(clean_data['SEVERITY'])
-print(clean_data)
+
+### Outlier 확인
+fig, ax = plt.subplots(1,5,figsize=(16,4))
+ax[0].boxplot(list(clean_data.MILEAGE))
+ax[0].set_title("MILEAGE")
+ax[1].boxplot(list(clean_data.FIRSTDAY))
+ax[1].set_title("FIRSTDAY")
+ax[2].boxplot(list(clean_data.REPAIRDAY))
+ax[2].set_title("REPAIRDAY")
+ax[3].boxplot(list(clean_data.HQ))
+ax[3].set_title("HQ")
+ax[4].boxplot(list(clean_data.PRICE))
+ax[4].set_title("PRICE")
+sns.pairplot(data=clean_data, x_vars=['MILEAGE','FIRSTDAY','REPAIRDAY','HQ','PRICE'], y_vars='PRICE',size=5)
+plt.show()
+
+
+### Outlier 제거
+idx = []
+It = list(clean_data['MILEAGE'])
+for i in range(len(It)) :
+    if(It[i] > 200000) :
+        idx.append(i)
+clean_data = clean_data.drop(idx) 
+clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
+
+idx = []
+It = list(clean_data['FIRSTDAY'])
+for i in range(len(It)) :
+    if(It[i] > 20250101) :
+        idx.append(i)
+clean_data = clean_data.drop(idx) 
+clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
+
+idx = []
+It = list(clean_data['PRICE'])
+for i in range(len(It)) :
+    if(It[i] > 800000) :
+        idx.append(i)
+clean_data = clean_data.drop(idx) 
+clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
+
+### test 데이터셋 생성 
+y = clean_data[['PRICE']].to_numpy() # 가격만 빼내기
+clean_data = clean_data.drop(columns=['PRICE']) # 원본 데이터에서 price 삭제
+
+# value랑 column 나누기
+x = clean_data.values 
+columns = clean_data.columns
+
+integer_feature = np.c_[x[:,:3],x[:,-1]]
+print(integer_feature) # MILEAGE, FIRSTDAY, REPAIRDAY, HQ
+
+scaler = preprocessing.MinMaxScaler()
+tmp = scaler.fit_transform(x) # 0~1 사이의 값으로 values 정규화
+clean_data = pd.DataFrame(tmp)
+
+
+clean_data.columns = columns
+
+x = clean_data.to_numpy()
+x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.85, random_state=2)
+
+lr = LinearRegression(fit_intercept=True, copy_X = True)
+lr.fit(x_train,y_train)
+
+print('Train dats\'s Accuracy : {}'.format(lr.score(x_train, y_train)))
+y_predict = lr.predict(x_test)
+print("Test dats\'s Accuracy : {}".format(lr.score(x_test, y_test)))
+print("Test dats\'s Accuracy : {}".format(r2_score(y_test, lr.predict(x_test))))
+
+print("mean_absolute_error : ",mean_absolute_error(y_test, y_predict))

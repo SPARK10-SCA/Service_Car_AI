@@ -10,7 +10,7 @@ from sklearn.metrics import mean_absolute_error
 from sklearn import preprocessing
 
 ### 데이터 불러오기
-dummy_data = pd.read_csv("./price_dataset.csv")
+dummy_data = pd.read_csv("./price_dataset_large.csv")
 #print('row 수 : {}, col 수 : {}'.format(dummy_data.shape[0],dummy_data.shape[1])) # 445090,9
 
 ### 899개의 MODELTYPE 존재, 데이터를 정재할려고 노력해보았지만 데이터에 규칙성이 없어서
@@ -117,14 +117,11 @@ clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
 
 ### 중요 feature의 개수 확인
 print(len(np.unique((list(clean_data.PART))))) # 11 Part 존재
-#print(len(np.unique((list(clean_data.CARNAME))))) # 323개의 CARNAME 존재
+print(len(np.unique((list(clean_data.CARNAME))))) # 323개의 CARNAME 존재
 print(len(np.unique((list(clean_data.COMPANY))))) # 28개의 COMPANY 존재
 print(len(np.unique((list(clean_data.SEVERITY))))) # 4개의 SEVERITY 존재
 #np.set_printoptions(threshold=np.inf) # numpy에서 모든 데이터 출력하게 하기
 #print(np.unique((list(clean_data.PART))))
-#print(np.unique((list(clean_data.COMPANY))))
-#print(np.unique((list(clean_data.SEVERITY)))
-#print(np.unique((list(clean_data.CARNAME))))
 
 ### COMPANY, CARNAME, PART, SEVERITY는 one-hot-encoding으로 변환
 clean_data = pd.get_dummies(clean_data)
@@ -170,20 +167,24 @@ ax[2].set_title("PRICE")
 sns.pairplot(data=clean_data, x_vars=['MILEAGE','FIRSTDAY','PRICE'], y_vars='PRICE',size=3)
 plt.show()
 
-# test 데이터셋 생성 
+### test 데이터셋 생성 
 y = clean_data[['PRICE']].to_numpy() # 가격만 빼내기
 clean_data = clean_data.drop(columns=['PRICE']) # 원본 데이터에서 price 삭제
 
+# value랑 column 나누기
 x = clean_data.values 
 columns = clean_data.columns
 
+# value 전체 정규화 실행
 scaler = preprocessing.MinMaxScaler()
 tmp = scaler.fit_transform(x) # 0~1 사이의 값으로 values 정규화
 clean_data = pd.DataFrame(tmp)
+print("clean_data : ",clean_data)
+# 정규화 시킨 값에 다시 column 붙이기
 clean_data.columns = columns
 
+# train data numpy로 변환
 x = clean_data.to_numpy()
-#print(x)
 x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.85, random_state=2)
 
 lr = LinearRegression(fit_intercept=True, copy_X = True)

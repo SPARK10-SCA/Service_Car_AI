@@ -59,7 +59,7 @@ for i in tqdm(range(100000)):
     for index, part in enumerate(parts):
         try : # 가격이 결측값일 경우
             cost = str_to_int(price[index])
-            #if cost == 0 : continue # 가격이 0인 경우 pass
+            if cost == 0 : continue # 가격이 0인 경우 pass
         except :
             cost = None
         df2 = pd.DataFrame({'MODELTYPE': [modeltype], 'MILEAGE': [mileage],'COMPANY': [company], 'FIRSTDAY': [firstday], 'REPAIRDAY' : [repairday], 'CARNAME': [carname], 'PART': [part], 'SEVERITY': [severity[index]],'HQ':[hq[index]], 'PRICE': [cost]})

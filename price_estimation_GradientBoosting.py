@@ -11,6 +11,9 @@ from sklearn import preprocessing
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import RandomForestRegressor
 
+# integer feature : MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PRICE
+# categorical feature : MODELTYPE, COMPANY, CARNAME, PART, SEVERITY
+
 ### 데이터 불러오기
 dummy_data = pd.read_csv("./repair_price_dataset.csv")
 #print('row 수 : {}, col 수 : {}'.format(dummy_data.shape[0],dummy_data.shape[1])) # 445090,9
