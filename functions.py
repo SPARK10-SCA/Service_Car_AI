@@ -15,15 +15,15 @@ def get_parts(part) :
        part = "Bonnet"
     elif part.find('트렁크') > -1 :
        part = "Trunklid"
-    elif any(substring in part for substring in ['리어도어',"도어(뒤"]) :
+    elif any(substring in part for substring in ['리어도어',"도어(뒤",'리어 도어(좌','리어 도어(우']) :
        part = "Reardoor"
-    elif any(substring in part for substring in ['프런트도어',"도어(앞","후론트 도어"]) :
+    elif any(substring in part for substring in ['프런트도어',"도어(앞","후론트 도어",'도어(우','도어(좌']) :
        part = "Frontdoor"
     elif part.find('미러') > -1 :
        part = "Sidemirror"
     elif part.find('휠') > -1 :
        part = "FrontWheel"
-    elif part.find('헤드라이트') > -1 :
+    elif part.find('헤드라이트','램프') > -1 :
        part = "Headlights"
     else :
         part = None
@@ -74,15 +74,15 @@ def get_model_input(MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PART, SEVERITY) :
        PART = 0
     elif PART.find('트렁크') > -1 :
        PART = 10
-    elif any(substring in PART for substring in ['리어도어',"도어(뒤"]) :
+    elif any(substring in PART for substring in ['리어도어',"도어(뒤",'리어 도어(좌','리어 도어(우']) :
        PART = 7
-    elif any(substring in PART for substring in ['프런트도어',"도어(앞","후론트 도어"]) :
+    elif any(substring in PART for substring in ['프런트도어',"도어(앞","후론트 도어",'도어(우','도어(좌']) :
        PART = 3
     elif PART.find('미러') > -1 :
        PART = 9
     elif PART.find('휠') > -1 :
        PART = 1
-    elif PART.find('헤드라이트') > -1 :
+    elif PART.find('헤드라이트','램프') > -1 :
        PART = 5
 
     if SEVERITY.find("오버홀") > -1 :
@@ -102,7 +102,10 @@ def get_model_input(MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PART, SEVERITY) :
     elif SEVERITY.find("탈착") > -1 :
         SEVERITY = 6
 
-    MinmaxScaler = joblib.load('MODEL_scaler.save') 
+    MinmaxScaler = joblib.load('./model/MODEL_scaler.save') 
     scaledData = MinmaxScaler.transform([[MILEAGE, FIRSTDAY, REPAIRDAY, HQ]])
+    print(scaledData[0])
+    print(PART)
+    print(SEVERITY)
     modelinput = np.r_[scaledData[0], PART, SEVERITY]
     return modelinput

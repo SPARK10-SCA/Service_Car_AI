@@ -15,12 +15,8 @@ import joblib
 # integer feature : MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PRICE
 # categorical feature : MODELTYPE, COMPANY, CARNAME, PART, SEVERITY
 
-# 국산차 외제차로 나누기
-# 대형 소형 중형으로 레벨 나누기
-# 오늘 모델 검증 제대로 하기 (input, output 제대로 넣을 수 있게 하기)
-
 ### 데이터 불러오기
-dummy_data = pd.read_csv("./price_dataset_preprocessing.csv")
+dummy_data = pd.read_csv("./dataset/price_dataset_large.csv")
 
 ### Categoryical feature의 개수 확인
 print('row 수 : {}, col 수 : {}'.format(dummy_data.shape[0],dummy_data.shape[1])) # row 수 : 836379, col 수 : 11
@@ -79,7 +75,7 @@ clean_data['PART'] = le.fit_transform(clean_data['PART'])
 clean_data['SEVERITY'] = le.fit_transform(clean_data['SEVERITY'])
 #print((np.unique((list(clean_data['SEVERITY']))))) # 8 SEVERITY 존재
 
-
+"""
 ### Outlier 확인
 fig, ax = plt.subplots(1,5,figsize=(16,4))
 ax[0].boxplot(list(clean_data.MILEAGE))
@@ -94,6 +90,7 @@ ax[4].boxplot(list(clean_data.PRICE))
 ax[4].set_title("PRICE")
 sns.pairplot(data=clean_data, x_vars=['MILEAGE','FIRSTDAY','REPAIRDAY','HQ','PRICE'], y_vars='PRICE',size=5)
 plt.show()
+"""
 
 ### Outlier 제거
 idx = functions.delete_outlier(clean_data,'MILEAGE',200000)
@@ -122,8 +119,6 @@ columns = clean_data.columns
 
 integer_value = np.c_[x[:,:3],x[:,-1]] # MILEAGE, FIRSTDAY, REPAIRDAY, HQ
 category_value = x[:,3:5] # PART, SEVERITY
-
-
 scaler = preprocessing.MinMaxScaler()
 integer_scaled = scaler.fit_transform(integer_value) # Integer value 0~1 사이의 값으로 정규화
 ### MinMaxScaler 저장
@@ -134,28 +129,24 @@ print(clean_data.shape)
 x = clean_data.to_numpy()
 
 x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.85, random_state=42)
-print("x_test : ",x_test)
-print(y_test)
-"""
+
+
 ### GradientBoostingRegressor 알고리즘 사용
 gb = GradientBoostingRegressor(min_samples_leaf=10, min_samples_split=5, learning_rate=0.5,max_depth=3, n_estimators=1000)
 gb.fit(x_train, y_train)
 ### GradientBoostingRegressor 모델 저장
 joblib.dump(gb, 'GradientBoostingRegressor.pkl') 
 
-
 y_gb_predict = gb.predict(x_test)
-
-test_data = functions.get_model_input(67219,20150101,20180507,1.24,'앞범퍼(스틸형)하단','교환')
-print("predict real data : ",gb.predict([test_data]))
 
 
 print("\nGradientBoostingRegressor Train data Accuracy : ",gb.score(x_train,y_train))
 print("GradientBoostingRegressor Test data Accuracy : ",gb.score(x_test,y_test))
 
 print("평균 오차 : ",mean_absolute_error(y_test,y_gb_predict))
-"""
 
+
+"""
 ### RandomForestRegressor 알고리즘 사용
 rtr = RandomForestRegressor(n_estimators=100, random_state = 42)
 rtr.fit(x_train, y_train)
@@ -166,3 +157,4 @@ y_rtr_predict = rtr.predict(x_test)
 print("\nRandomForestRegressor Train data Accuracy : ",rtr.score(x_train, y_train))
 print("RandomForestRegressor test data Accuracy : ",rtr.score(x_test,y_test))
 print("예측값과 정답값의 평균 오차 : ",mean_absolute_error(y_test,y_rtr_predict))
+"""

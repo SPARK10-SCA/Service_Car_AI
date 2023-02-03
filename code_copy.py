@@ -4,37 +4,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, r2_score
 from sklearn.metrics import mean_absolute_error
 from sklearn import preprocessing
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import RandomForestRegressor
 import functions
-def get_model_input(MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PART, SEVERITY) : 
-    if PART.find('프런트범퍼' or "프런트 범퍼" or "앞범퍼" or "후론트 범퍼" or "후론트범퍼") > -1:
-        PART = 2
-    elif PART.find('리어범퍼' or "리어 범퍼" or "뒤범퍼") > -1 :
-        PART = 6
-    elif PART.find('프런트펜더' or "프런트 펜더" or "프런트휀다" or "앞펜더" or "앞휀다" or"앞휀더"or"후론트휀다"or"후혼트 휀다" ) > -1 :
-       PART = 4
-    elif PART.find('리어펜더' or "리어휀다" or "리어 휀다" or "뒤펜더" or "뒤휀다" or "뒤헨더") > -1 :
-       PART = 8
-    elif PART.find('본넷' or "본네트") > -1 :
-       PART = 0
-    elif PART.find('트렁크') > -1 :
-       PART = 10
-    elif PART.find('리어도어' or "도어(뒤") > -1 :
-       PART = 7
-    elif PART.find('프런트도어' or "도어(앞" or "후론트 도어") > -1 :
-       PART = 3
-    elif PART.find('미러') > -1 :
-       PART = 9
-    elif PART.find('휠') > -1 :
-       PART = 1
-    elif PART.find('헤드라이트') > -1 :
-       PART = 5
-    
+import joblib
 
 # integer feature : MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PRICE
 # categorical feature : MODELTYPE, COMPANY, CARNAME, PART, SEVERITY
@@ -44,7 +20,7 @@ def get_model_input(MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PART, SEVERITY) :
 # 오늘 모델 검증 제대로 하기 (input, output 제대로 넣을 수 있게 하기)
 
 ### 데이터 불러오기
-dummy_data = pd.read_csv("./price_dataset_large.csv")
+dummy_data = pd.read_csv("./dataset/price_dataset_large.csv")
 
 ### Categoryical feature의 개수 확인
 print('row 수 : {}, col 수 : {}'.format(dummy_data.shape[0],dummy_data.shape[1])) # row 수 : 836379, col 수 : 11
@@ -98,13 +74,10 @@ clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
 
 ### PART, SEVERITY는 LabelEncoder으로 변환
 le = LabelEncoder()
-print((np.unique((list(clean_data['PART']))))) # 11 Part 존재
 clean_data['PART'] = le.fit_transform(clean_data['PART'])
-print((np.unique((list(clean_data['PART']))))) # 11 Part 존재
-
-print((np.unique((list(clean_data['SEVERITY']))))) # 8 SEVERITY 존재
+#print((np.unique((list(clean_data['PART']))))) # 11 Part 존재
 clean_data['SEVERITY'] = le.fit_transform(clean_data['SEVERITY'])
-print((np.unique((list(clean_data['SEVERITY']))))) # 8 SEVERITY 존재
+#print((np.unique((list(clean_data['SEVERITY']))))) # 8 SEVERITY 존재
 
 
 ### Outlier 확인
@@ -153,36 +126,40 @@ category_value = x[:,3:5] # PART, SEVERITY
 
 scaler = preprocessing.MinMaxScaler()
 integer_scaled = scaler.fit_transform(integer_value) # Integer value 0~1 사이의 값으로 정규화
+### MinMaxScaler 저장
+joblib.dump(scaler, "scaler.save")
 scaled_value = np.c_[integer_scaled,category_value] # Integer feature와 categoryical feature 합치기
 clean_data = pd.DataFrame(scaled_value)
 print(clean_data.shape)
 x = clean_data.to_numpy()
 
 x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.85, random_state=42)
-print(x_test)
-print(y_train)
+print("x_test : ",x_test)
+print(y_test)
+
 
 ### GradientBoostingRegressor 알고리즘 사용
 gb = GradientBoostingRegressor(min_samples_leaf=10, min_samples_split=5, learning_rate=0.5,max_depth=3, n_estimators=1000)
 gb.fit(x_train, y_train)
+### GradientBoostingRegressor 모델 저장
+joblib.dump(gb, 'GradientBoostingRegressor.pkl') 
+
 y_gb_predict = gb.predict(x_test)
+
 
 print("\nGradientBoostingRegressor Train data Accuracy : ",gb.score(x_train,y_train))
 print("GradientBoostingRegressor Test data Accuracy : ",gb.score(x_test,y_test))
 
 print("평균 오차 : ",mean_absolute_error(y_test,y_gb_predict))
 
+
 """
 ### RandomForestRegressor 알고리즘 사용
 rtr = RandomForestRegressor(n_estimators=100, random_state = 42)
 rtr.fit(x_train, y_train)
-
-print(x_test[:10])
+joblib.dump(rtr, 'RandomForestRegressor.pkl') 
 
 y_rtr_predict = rtr.predict(x_test)
-
-print(y_rtr_predict[:10])
-print(y_test[:10])
 
 print("\nRandomForestRegressor Train data Accuracy : ",rtr.score(x_train, y_train))
 print("RandomForestRegressor test data Accuracy : ",rtr.score(x_test,y_test))
