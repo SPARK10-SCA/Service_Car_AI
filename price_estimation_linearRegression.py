@@ -9,54 +9,14 @@ from sklearn.metrics import accuracy_score, confusion_matrix, r2_score
 from sklearn.metrics import mean_absolute_error
 from sklearn import preprocessing
 
+# integer feature : MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PRICE
+# categorical feature : MODELTYPE, COMPANY, CARNAME, PART, SEVERITY
+
 ### 데이터 불러오기
-dummy_data = pd.read_csv("./price_dataset_large.csv")
+dummy_data = pd.read_csv("./custom.csv")
 #print('row 수 : {}, col 수 : {}'.format(dummy_data.shape[0],dummy_data.shape[1])) # 445090,9
 
-### 899개의 MODELTYPE 존재, 데이터를 정재할려고 노력해보았지만 데이터에 규칙성이 없어서
-### 포기하고 MODELTYPE row 삭제
-"""
-print(len(np.unique((list(dummy_data.MODELTYPE)))))
-modeltype = list(dummy_data.MODELTYPE)
-for i in range(len(modeltype)) :
-    try : 
-        modeltype[i] = modeltype[i].split(' ',1)[0]
-       # modeltype[i] = modeltype[i].split('1',1)[1]
-       # modeltype[i] = modeltype[i].split('2',1)[1]
-       # modeltype[i] = modeltype[i].split('3',1)[1]
-       # modeltype[i] = modeltype[i].split('4',1)[1]
-       # modeltype[i] = modeltype[i].split('5',1)[1]
-       # modeltype[i] = modeltype[i].split('6',1)[1]
-       # modeltype[i] = modeltype[i].split('7',1)[1]
-       # modeltype[i] = modeltype[i].split('8',1)[1]
-       # modeltype[i] = modeltype[i].split('9',1)[1]
-       # modeltype[i] = modeltype[i].split('0',1)[1]
-    except :
-        modeltype[i] = None
-dummy_data.MODELTYPE = modeltype
-"""
-
 ### Dateset PART의 종류 18000개를 우리의 모델이 가질 수 있는 14의 feature로 압축하기
-"""
-Frontbumper
-Rearbumper
-Frontfender(R)
-Frontfender(L)
-Rearfender(R)
-Rearfender(L)
-Trunklid
-Boonet
-Reardoor(L)
-Reardoor(R)
-Headlights(R)
-Headlights(L)
-FrontWheel(R)
-FrontWheel(L)
-Frontdoor(R)
-Frontdoor(L)
-Sidemirror(R)
-Sidemirror(L)
-"""
 parts = list(dummy_data.PART)
 for i in range(len(parts)) :
     try : 
@@ -116,10 +76,7 @@ clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
 # print(clean_data.dropna('index').shape) # 445090 -> 68464
 
 ### 중요 feature의 개수 확인
-print(len(np.unique((list(clean_data.PART))))) # 11 Part 존재
-print(len(np.unique((list(clean_data.CARNAME))))) # 323개의 CARNAME 존재
-print(len(np.unique((list(clean_data.COMPANY))))) # 28개의 COMPANY 존재
-print(len(np.unique((list(clean_data.SEVERITY))))) # 4개의 SEVERITY 존재
+#print(len(np.unique((list(clean_data.PART))))) # 11 Part 존재
 #np.set_printoptions(threshold=np.inf) # numpy에서 모든 데이터 출력하게 하기
 #print(np.unique((list(clean_data.PART))))
 
@@ -127,34 +84,29 @@ print(len(np.unique((list(clean_data.SEVERITY))))) # 4개의 SEVERITY 존재
 clean_data = pd.get_dummies(clean_data)
 
 ### Outlier 제거
-idx = []
-It = list(clean_data['MILEAGE'])
-for i in range(len(It)) :
-    if(It[i] > 200000) :
-        idx.append(i)
+def delete_outlier(data, column, threshold) :
+    idx = []
+    It = list(data[column])
+    for i in range(len(It)) :
+        if(It[i] > threshold) :
+            idx.append(i)
+    return idx
+
+idx = delete_outlier(clean_data,'MILEAGE',200000)
 clean_data = clean_data.drop(idx) 
 clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
 
-idx = []
-It = list(clean_data['FIRSTDAY'])
-for i in range(len(It)) :
-    if(It[i] > 20250101) :
-        idx.append(i)
+idx = delete_outlier(clean_data,'FIRSTDAY',20250101)
 clean_data = clean_data.drop(idx) 
 clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
 
-idx = []
-It = list(clean_data['PRICE'])
-for i in range(len(It)) :
-    if(It[i] > 800000) :
-        idx.append(i)
+idx = delete_outlier(clean_data,'REPAIRDAY',20250101)
 clean_data = clean_data.drop(idx) 
 clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
-#clean_data = clean_data.reset_index(drop = True)
 
-#clean_data.to_csv("repair_price_cleandata.csv")
-
-print(clean_data.shape)
+idx = delete_outlier(clean_data,'PRICE',800000)
+clean_data = clean_data.drop(idx) 
+clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
 
 ### Outlier 확인
 fig, ax = plt.subplots(1,3,figsize=(16,4))
@@ -191,6 +143,7 @@ lr = LinearRegression(fit_intercept=True, copy_X = True)
 lr.fit(x_train,y_train)
 
 print('Train dats\'s Accuracy : {}'.format(lr.score(x_train, y_train)))
+
 y_predict = lr.predict(x_test)
 print(y_test[:10])
 print(y_predict[:10])
