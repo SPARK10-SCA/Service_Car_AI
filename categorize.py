@@ -90,7 +90,7 @@ def classification(ann):
     if xls.empty:
         return False
     
-    xls.columns = ['part', 'level']
+    xls.columns = ['part', 'method']
     # Translate part name and match
     if part == 'Frontbumper':
         _xls = xls[xls['part'].str.contains('프런트범퍼|프런트 범퍼|앞범퍼|후론트 범퍼|후론트범퍼')]
@@ -149,28 +149,29 @@ def classification(ann):
     # level classfication
     if _xls.empty: # is not exist in 견적서
         return False
-    else:
-        if _xls['level'][0] == '교환':
-            level = 'high/'
-            cnt_method[0]+=1
-        elif _xls['level'][0] == '수리' or _xls['level'][0] == '판금' or _xls['level'][0] == '오버홀':
-            level = 'medium/'
-            if _xls['level'][0] == '수리': 
-                cnt_method[1]+=1
-            elif _xls['level'][0] == '판금': 
-                cnt_method[2]+=1
-                return False
-            elif _xls['level'][0] == '오버홀': 
-                cnt_method[3]+=1
-        elif _xls['level'][0] == '도장' or _xls['level'][0] == '탈착' or _xls['level'][0] == '1/2OH':
-            level = 'low/'
-            if _xls['level'][0] == '도장': 
-                cnt_method[4]+=1
-                return False
-            elif _xls['level'][0] == '탈착': 
-                cnt_method[5]+=1
-            elif _xls['level'][0] == '1/2OH': 
-                cnt_method[6]+=1
+    
+    method = _xls['method'][0]
+    if method == '교환':
+        level = 'high/'
+        cnt_method[0]+=1
+    elif method == '수리' or method == '판금' or method == '오버홀':
+        level = 'medium/'
+        if method == '수리': 
+            cnt_method[1]+=1
+        elif method == '판금': 
+            cnt_method[2]+=1
+            return False
+        elif method == '오버홀': 
+            cnt_method[3]+=1
+    elif method == '도장' or method == '탈착' or method == '1/2OH':
+        level = 'low/'
+        if method == '도장': 
+            cnt_method[4]+=1
+            return False
+        elif method == '탈착': 
+            cnt_method[5]+=1
+        elif method == '1/2OH': 
+            cnt_method[6]+=1
     
     if level=='/':
         return False
