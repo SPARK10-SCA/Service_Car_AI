@@ -94,54 +94,36 @@ def classification(ann):
     if part == 'Frontbumper':
         _xls = xls[xls['part'].str.contains('프런트범퍼|프런트 범퍼|앞범퍼|후론트 범퍼|후론트범퍼')]
         #cnt_part[0]+=1
-    elif part == 'Frontfender(R)':
-        _xls = xls[xls['part'].str.contains('프런트펜더(우)|프런트휀다(우)|앞펜더(우)|앞휀다(우)|앞휀더(우)|후론트휀다(우)|후론트 휀다(우)')]
+    elif part == 'Frontfender(R)' or part == 'Frontfender(L)':
+        _xls = xls[xls['part'].str.contains('프런트펜더|프런트 펜더|프런트휀다|앞펜더|앞휀다|앞휀더|후론트휀다|후론트 휀다')]
         #cnt_part[1]+=1
-    elif part == 'Frontfender(L)':
-        _xls = xls[xls['part'].str.contains('프런트펜더(좌)|프런트 펜더(좌)|프런트휀다(좌)|앞펜더(좌)|앞휀다(좌)|앞휀더(좌)|후론트휀다(좌)|후론트 휀다(좌)')]
-        #cnt_part[2]+=1
     elif part == 'Bonnet':
         _xls = xls[xls['part'].str.contains('본넷|본네트')]
         #cnt_part[3]+=1
-        return False
     elif part == 'Rearbumper':
         _xls = xls[xls['part'].str.contains('리어범퍼|리어 범퍼|뒤범퍼')]
         cnt_part[4]+=1
-    elif part == 'Rearfender(R)':
-        _xls = xls[xls['part'].str.contains('리어펜더(우)|리어휀다(우)|리어 휀다(우)|뒤펜더(우)|뒤휀다(우)|뒤휀더(우)')]
+    elif part == 'Rearfender(R)' or part == 'Rearfender(L)':
+        _xls = xls[xls['part'].str.contains('리어펜더|리어휀다|리어 휀다|뒤펜더|뒤휀다|뒤휀더')]
         #cnt_part[5]+=1
-        return False
-    elif part == 'Rearfender(L)':
-        _xls = xls[xls['part'].str.contains('리어펜더(좌)|리어휀다(좌)|리어 휀다(좌)|뒤펜더(좌)|뒤휀다(좌)|뒤휀더(좌)')]
-        #cnt_part[6]+=1
-        return False
     elif part == 'Trunklid':
         _xls = xls[xls['part'].str.contains('트렁크')]
         #cnt_part[7]+=1
-        return False
-    elif part == 'Frontdoor(R)':
-        _xls = xls[xls['part'].str.contains('프런트도어|도어(앞|후론트 도어')]
+    elif part == 'Frontdoor(R)' or part == 'Frontdoor(L)':
+        _xls = xls[xls['part'].str.contains('프런트도어|후론트 도어')]
         #cnt_part[8]+=1
-    elif part == 'Reardoor(R)':
-        _xls = xls[xls['part'].str.contains('리어도어|도어(뒤')]
+    elif part == 'Reardoor(R)' or part == 'Reardoor(L)':
+        _xls = xls[xls['part'].str.contains('리어도어')]
         #cnt_part[9]+=1
-        return False
-    elif part == 'Headlights(R)':
-        _xls = xls[xls['part'].str.contains('헤드라이트(우)|헤드램프(우)')]
+    elif part == 'Headlights(R)' or part == 'Headlights(L)':
+        _xls = xls[xls['part'].str.contains('헤드라이트|헤드램프')]
         #cnt_part[10]+=1
-        return False
-    elif part == 'Headlights(L)':
-        _xls = xls[xls['part'].str.contains('헤드라이트(좌)|헤드램프(좌)')]
-        #cnt_part[11]+=1
-        return False
-    elif part == 'FrontWheel(R)':
+    elif part == 'FrontWheel(R)' or part == 'FrontWheel(L)':
         _xls = xls[xls['part'].str.contains('휠')]
         #cnt_part[12]+=1
-        return False
-    elif part == 'Sidemirror(R)':
+    elif part == 'Sidemirror(R)' or part == 'Sidemirror(L)':
         _xls = xls[xls['part'].str.contains('사이드미러')]
         #cnt_part[13]+=1
-        return False
     else: # part is not exist in categories
         return False
 
