@@ -13,9 +13,9 @@ import os
 import pandas as pd
 import openpyxl
 
-ann_path = "./data/datainfo/severity_all.json"
-images_path = "/home/work/AIHUB/1.Training/1.원천데이터/damage_part/"
-file_path = "/home/work/AIHUB/1.Training/1.원천데이터/TS_99.붙임_견적서/"
+ann_path = "./data/datainfo/part_all.json"
+images_path = "../dataset/Training/image/damage_part/"
+file_path = "../dataset/Training/image/price_estimate/"
 dst_dir = "./data/img/"
 
 #array for saving count of part
@@ -76,21 +76,20 @@ def classification(ann):
     global cnt_part
     global cnt_method
 
-    level = '/'
     img_id = img_names[ann['image_id']-1].replace(".jpg", "")
     part = ann['part'].replace(' ','')
 
     # Store xls file
     xls_path = file_path + img_id.split("_")[1] + '.xls'
     try:
-        xls = pd.read_excel(xls_path, usecols=[2, 4], skiprows=range(0, 22))
+        xls = pd.read_excel(xls_path, usecols=[2,4], skiprows=range(0, 22))
     except Exception as e:
-        print(e)
+        pass
 
     if xls.empty:
         return False
     
-    xls.columns = ['part', 'level']
+    xls.columns = ['part', 'method']
     # Translate part name and match
     if part == 'Frontbumper':
         _xls = xls[xls['part'].str.contains('프런트범퍼|프런트 범퍼|앞범퍼|후론트 범퍼|후론트범퍼')]
@@ -145,38 +144,21 @@ def classification(ann):
         return False
     else: # part is not exist in categories
         return False
-    
-    # level classfication
+
     if _xls.empty: # is not exist in 견적서
         return False
-    else:
-        if _xls['level'][0] == '교환':
-            level = 'high/'
-            cnt_method[0]+=1
-        elif _xls['level'][0] == '수리' or _xls['level'][0] == '판금' or _xls['level'][0] == '오버홀':
-            level = 'medium/'
-            if _xls['level'][0] == '수리': 
-                cnt_method[1]+=1
-            elif _xls['level'][0] == '판금': 
-                cnt_method[2]+=1
-                return False
-            elif _xls['level'][0] == '오버홀': 
-                cnt_method[3]+=1
-        elif _xls['level'][0] == '도장' or _xls['level'][0] == '탈착' or _xls['level'][0] == '1/2OH':
-            level = 'low/'
-            if _xls['level'][0] == '도장': 
-                cnt_method[4]+=1
-                return False
-            elif _xls['level'][0] == '탈착': 
-                cnt_method[5]+=1
-            elif _xls['level'][0] == '1/2OH': 
-                cnt_method[6]+=1
     
-    if level=='/':
-        return False
-
-    return dst_dir+level+img_id+'_'+ part +'_'+_xls['level'][0]+'.jpg'
-    #return False
+    method = _xls['method'][0]
+    if method=="교환": method = "replace/"
+    elif method=="수리": method = "repair/"
+    elif method=="판금": method = "sheet/"
+    elif method=="오버홀": method = "overhall/"
+    elif method=="도장": method = "painting/"
+    elif method=="탈착": method = "detach/"
+    elif method=="1/2OH": method = "oh/"
+    else: return False
+    
+    return dst_dir+method+img_id+'_'+part+'.jpg'
 
 
 # Store img file names
@@ -196,14 +178,26 @@ anns = coco.loadAnns(annotation_ids)
 if not os.path.exists(dst_dir):
     os.makedirs(dst_dir)
 
-if not os.path.exists(dst_dir+'high'):
-    os.makedirs(dst_dir+'high')
+if not os.path.exists(dst_dir+'replace'):
+    os.makedirs(dst_dir+'replace')
 
-if not os.path.exists(dst_dir+'medium'):
-    os.makedirs(dst_dir+'medium')
+if not os.path.exists(dst_dir+'repair'):
+    os.makedirs(dst_dir+'repair')
 
-if not os.path.exists(dst_dir+'low'):
-    os.makedirs(dst_dir+'low')
+if not os.path.exists(dst_dir+'sheet'):
+    os.makedirs(dst_dir+'sheet')
+
+if not os.path.exists(dst_dir+'overhall'):
+    os.makedirs(dst_dir+'overhall')
+
+if not os.path.exists(dst_dir+'painting'):
+    os.makedirs(dst_dir+'painting')
+
+if not os.path.exists(dst_dir+'detach'):
+    os.makedirs(dst_dir+'detach')
+
+if not os.path.exists(dst_dir+'oh'):
+    os.makedirs(dst_dir+'oh')
 
 # Draw boxes and add label to each box
 for ann in anns:
