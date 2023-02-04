@@ -7,9 +7,10 @@ from torchvision import models
 from torchvision.models import VGG19_Weights
 from torchvision.transforms import ToTensor
 from PIL import Image
+import pickle
 
-test_dir = './data2/test/'
-SEVERITY_WEIGHT = './data2/weight/severityVGG19.pth'
+test_dir = './data/test/'
+SEVERITY_WEIGHT = './data/weight/severityVGG19.pth'
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 modelvgg = models.vgg19(weights=VGG19_Weights.DEFAULT) # vgg 19
@@ -66,29 +67,88 @@ class IntelCnnModel(ImageClassificationBase) :
 model = IntelCnnModel() # vgg19 model
 model = torch.load(SEVERITY_WEIGHT)
 
-cnt=0
+cnt_high=0
+cnt_medium=0
+cnt_low=0
+
+part1_wrong=0
+part2_wrong=0
+
+high_wrong_list=[]
+medium_wrong_list=[]
+low_wrong_list=[]
+
 high = [file for file in os.listdir(test_dir+'high/') if file.endswith('.jpg')]
 for f in high:
     file = test_dir+'high/'+f
     image = Image.open(file)
     image = image.resize((224,224))
     severity = int(get_class(model, image))
-    if severity == 0: cnt+=1
+    if severity == 0: 
+        cnt_high+=1
+    else:
+        high_wrong_list.append(file)
+        if 'Frontbumper' in file: part1_wrong+=1
+        else: part2_wrong+=1
+
+print('Wrong in High:')
+print('Frontbumper Wrong: ', round(part1_wrong/(300-cnt_high) * 100, 2),"%")
+print('Rearbumper Wrong: ', round(part2_wrong/(300-cnt_high) * 100, 2),"%")
+
+part1_wrong=0
+part2_wrong=0
+
 medium = [file for file in os.listdir(test_dir+'medium/') if file.endswith('.jpg')]
 for f in medium:
     file = test_dir+'medium/'+f
     image = Image.open(file)
     image = image.resize((224,224))
     severity = int(get_class(model, image))
-    if severity == 2: cnt+=1
+    if severity == 2: cnt_medium+=1
+    else:
+        medium_wrong_list.append(file)
+        if 'Frontbumper' in file: part1_wrong+=1
+        else: part2_wrong+=1
+
+print('Wrong in Medium:')
+print('Frontbumper Wrong: ', round(part1_wrong/(300-cnt_medium) * 100, 2),"%")
+print('Rearbumper Wrong: ', round(part2_wrong/(300-cnt_medium) * 100, 2),"%")
+
+part1_wrong=0
+part2_wrong=0
+
 low = [file for file in os.listdir(test_dir+'low/') if file.endswith('.jpg')]
 for f in low:
     file = test_dir+'low/'+f
     image = Image.open(file)
     image = image.resize((224,224))
     severity = int(get_class(model, image))
-    if severity == 1: cnt+=1
+    if severity == 1: cnt_low+=1
+    else:
+        low_wrong_list.append(file)
+        if 'Frontbumper' in file: part1_wrong+=1
+        else: part2_wrong+=1
 
-print("accuracy:",round(cnt/2100 * 100, 2),"%")
+print('Wrong in Low:')
+print('Frontbumper Wrong: ', round(part1_wrong/(300-cnt_low) * 100, 2),"%")
+print('Rearbumper Wrong: ', round(part2_wrong/(300-cnt_low) * 100, 2),"%")
+
+print()
+
+print("accuracy of high:",round(cnt_high/200 * 100, 2),"%")
+print("accuracy of medium:",round(cnt_medium/200 * 100, 2),"%")
+print("accuracy of low:",round(cnt_low/200 * 100, 2),"%")
+
+with open('./data/datainfo/high_wrong_list.txt', 'w') as f:
+    for item in high_wrong_list:
+        f.write(item+'\n')
+
+with open('./data/datainfo/medium_wrong_list.txt', 'w') as f:
+    for item in medium_wrong_list:
+        f.write(item+'\n')
+
+with open('./data/datainfo/low_wrong_list.txt', 'w') as f:
+    for item in low_wrong_list:
+        f.write(item+'\n')
 
 

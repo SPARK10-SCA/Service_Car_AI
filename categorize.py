@@ -3,7 +3,7 @@
     Saves the cropped images in given destination dir
     
     Modify - path, images_path, dst_dir for custom images 
-    OUTPUT - cropped images in dst_dir/1,2,3,4 according to levels
+    OUTPUT - cropped images in dst_dir/low, medium, high according to levels
 """
 
 import json
@@ -32,7 +32,7 @@ cnt_method=[0,0,0,0,0,0,0]
 # [34415, 7593, 7104, 4391, 22198, 5340, 4293, 5025, 0, 0, 3467, 3357, 2031, 1853]
 # Top 4: Front Bumper, Front Fender(R), Front Fender(L), Rear Bumper
 # [14829, 2908, 93, 4604, 501, 5793, 2139]
-# Top 5: Replace, Repair, OverHall, Detach, OverHall
+# Top 5: Replace, Repair, OverHall, Detach, 1/2OH
 
 # function for image padding
 def padding(img, set_size):
