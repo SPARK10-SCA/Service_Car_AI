@@ -24,6 +24,8 @@ def reset_dir():
         shutil.rmtree(test_dir+'low')
 
 def copy_to_train():
+    if not os.path.exists(train_dir):
+        os.makedirs(train_dir)
     if not os.path.exists(train_dir+'high/'):
         os.makedirs(train_dir+'high/')
     if not os.path.exists(train_dir+'medium/'):
@@ -176,6 +178,8 @@ def remove_custom():
     print("Done remove_custom")
 
 def make_validset():
+    if not os.path.exists(valid_dir):
+        os.makedirs(valid_dir)
     if not os.path.exists(valid_dir+'high/'):
         os.makedirs(valid_dir+'high/')
     if not os.path.exists(valid_dir+'medium/'):
@@ -217,6 +221,8 @@ def make_validset():
     print("Done make_validset")
 
 def make_testset():
+    if not os.path.exists(test_dir):
+        os.makedirs(test_dir)
     if not os.path.exists(test_dir+'high/'):
         os.makedirs(test_dir+'high/')
     if not os.path.exists(test_dir+'medium/'):
