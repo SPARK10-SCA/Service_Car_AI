@@ -79,40 +79,6 @@ def confirm_train():
     print(ldict)
     print("Done confirm_train")
 
-def remove_random():
-    high = [file for file in os.listdir(train_dir+'high/') if file.endswith('.jpg')]
-    cnt=len(high)
-    while cnt>7600:
-        rand = random.randrange(0,cnt)
-        try:
-            os.remove(train_dir+'high/'+high[rand]) 
-            high.pop(rand)
-            cnt-=1
-        except:
-            pass
-    medium = [file for file in os.listdir(train_dir+'medium/') if file.endswith('.jpg')]
-    cnt=len(medium)
-    while cnt>7600:
-        rand = random.randrange(0,cnt)
-        try:
-            os.remove(train_dir+'medium/'+medium[rand])
-            medium.pop(rand)
-            cnt-=1
-        except:
-            pass       
-    low = [file for file in os.listdir(train_dir+'low/') if file.endswith('.jpg')]
-    cnt=len(low)
-    while cnt>7600:
-        rand = random.randrange(0,cnt)
-        try:
-            os.remove(train_dir+'low/'+low[rand])
-            low.pop(rand)
-            cnt-=1
-        except:
-            pass
-       
-    print("Done remove_random")
-
 def remove_custom():
     high1 = [file for file in os.listdir(train_dir+'high/') if 'Frontbumper' in file]
     high2 = [file for file in os.listdir(train_dir+'high/') if 'Rearbumper' in file]
