@@ -285,7 +285,7 @@ if __name__ == "__main__":
                 #"Rear Wheel(R)","Rear Wheel(L)"]
                 #####
 
-                tmp = RemakeCOCOformat(img_dir = dir_name_img, ann_dir = dir_name_label, alis= f'severity_all', ratio=0.1, labeling_schme=l_sch, task='part')
+                tmp = RemakeCOCOformat(img_dir = dir_name_img, ann_dir = dir_name_label, alis= f'part_all', ratio=0.1, labeling_schme=l_sch, task='part')
                 tmp.coco_json() 
 
                 print('Done severity')
