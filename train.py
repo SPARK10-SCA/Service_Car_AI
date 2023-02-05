@@ -44,7 +44,7 @@ train_dl = DataLoader(train_ds, batch_size, shuffle=True, num_workers=4, pin_mem
 val_dl = DataLoader(val_ds, batch_size, num_workers=4, pin_memory=True)
 
 # path에 있는 폴더이름으로 class name 만들기
-root = pathlib.Path("/home/work/hyunbin/severity/data/train/")
+root = pathlib.Path("./data/train/")
 classes = sorted([j.name.split('/')[-1] for j in root.iterdir()])
 print(classes)
 
@@ -189,7 +189,7 @@ val_dl = DeviceDataLoader(val_dl, device)
 model = to_device(model, device) # vgg19 model
 
 train_model(model)
-torch.save(model, './data/weight/severityVGG19.pth')
+torch.save(model, './data/weight/repair_method_vgg19.pth')
 val = evaluate(model, val_dl)
 
 #print("model validation : ",val)
