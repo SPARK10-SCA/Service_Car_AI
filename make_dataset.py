@@ -8,7 +8,7 @@ valid_dir = './data/val/'
 test_dir = './data/test/'
 
 def reset_dir():
-    if os.path.exists(train_dir+'detach/'):
+    if os.path.exists(train_dir):
         shutil.rmtree(train_dir+'detach')
         shutil.rmtree(train_dir+'oh')
         shutil.rmtree(train_dir+'overhall')
@@ -17,7 +17,7 @@ def reset_dir():
         shutil.rmtree(train_dir+'replace')
         shutil.rmtree(train_dir+'sheet')
 
-    if os.path.exists(valid_dir+'detach/'):
+    if os.path.exists(valid_dir):
         shutil.rmtree(valid_dir+'detach')
         shutil.rmtree(valid_dir+'oh')
         shutil.rmtree(valid_dir+'overhall')
@@ -26,7 +26,7 @@ def reset_dir():
         shutil.rmtree(valid_dir+'replace')
         shutil.rmtree(valid_dir+'sheet')
 
-    if os.path.exists(test_dir+'detach/'):
+    if os.path.exists(test_dir):
         shutil.rmtree(test_dir+'detach')
         shutil.rmtree(test_dir+'oh')
         shutil.rmtree(test_dir+'overhall')
@@ -34,40 +34,41 @@ def reset_dir():
         shutil.rmtree(test_dir+'repair')
         shutil.rmtree(test_dir+'replace')
         shutil.rmtree(test_dir+'sheet')
+    print("Done rest_dir")
 
 def copy_to_train():
     if not os.path.exists(train_dir):
         os.makedirs(train_dir)
     if not os.path.exists(train_dir+'detach/'):
         os.makedirs(train_dir+'detach/')
-    if not os.path.exists(train_dir+'oh/'):
-        os.makedirs(train_dir+'oh/')
+    #if not os.path.exists(train_dir+'oh/'):
+    #    os.makedirs(train_dir+'oh/')
     if not os.path.exists(train_dir+'overhall/'):
         os.makedirs(train_dir+'overhall/')
-    if not os.path.exists(train_dir+'painting/'):
-        os.makedirs(train_dir+'painting/')
-    if not os.path.exists(train_dir+'repair/'):
-        os.makedirs(train_dir+'repair/')
+    #if not os.path.exists(train_dir+'painting/'):
+    #    os.makedirs(train_dir+'painting/')
+    #if not os.path.exists(train_dir+'repair/'):
+    #    os.makedirs(train_dir+'repair/')
     if not os.path.exists(train_dir+'replace/'):
         os.makedirs(train_dir+'replace/')
-    if not os.path.exists(train_dir+'sheet/'):
-        os.makedirs(train_dir+'sheet/')
+    #if not os.path.exists(train_dir+'sheet/'):
+    #    os.makedirs(train_dir+'sheet/')
 
     detach = [file for file in os.listdir(data_dir+'detach/') if file.endswith('.jpg')]
     for file in detach:
         shutil.copy(data_dir+'detach/'+file, train_dir+'detach/'+file)
-    oh = [file for file in os.listdir(data_dir+'oh/') if file.endswith('.jpg')]
+    '''oh = [file for file in os.listdir(data_dir+'oh/') if file.endswith('.jpg')]
     for file in oh:
-        shutil.copy(data_dir+'oh/'+file, train_dir+'oh/'+file)
+        shutil.copy(data_dir+'oh/'+file, train_dir+'oh/'+file)'''
     overhall = [file for file in os.listdir(data_dir+'overhall/') if file.endswith('.jpg')]
     for file in overhall:
         shutil.copy(data_dir+'overhall/'+file, train_dir+'overhall/'+file)
-    painting = [file for file in os.listdir(data_dir+'painting/') if file.endswith('.jpg')]
+    '''painting = [file for file in os.listdir(data_dir+'painting/') if file.endswith('.jpg')]
     for file in painting:
-        shutil.copy(data_dir+'painting/'+file, train_dir+'painting/'+file)
-    repair = [file for file in os.listdir(data_dir+'repair/') if file.endswith('.jpg')]
+        shutil.copy(data_dir+'painting/'+file, train_dir+'painting/'+file)'''
+    '''repair = [file for file in os.listdir(data_dir+'repair/') if file.endswith('.jpg')]
     for file in repair:
-        shutil.copy(data_dir+'repair/'+file, train_dir+'repair/'+file)
+        shutil.copy(data_dir+'repair/'+file, train_dir+'repair/'+file)'''
     replace = [file for file in os.listdir(data_dir+'replace/') if file.endswith('.jpg')]
     for file in replace:
         shutil.copy(data_dir+'replace/'+file, train_dir+'replace/'+file)
@@ -498,12 +499,12 @@ def confirm_test():
     
 
 #reset_dir()
-#copy_to_train()
-#confirm_train()
+copy_to_train()
+confirm_train()
 #remove_custom()
 #confirm_train()
 #make_validset()
 #make_testset()
-confirm_train()
-confirm_valid()
-confirm_test()
+#confirm_train()
+#confirm_valid()
+#confirm_test()

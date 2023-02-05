@@ -171,7 +171,7 @@ def predict_single(input, label, model):
     print(f"Prediction is {np.argmax(prediction)} of Model whereas given label is {label}")
 
 def train_model(model) :
-    num_epochs = 128
+    num_epochs = 85
     opt_func = torch.optim.Adam
     lr = 0.00001
     history = fit(num_epochs, lr, model, train_dl, val_dl, opt_func)
