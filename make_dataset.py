@@ -10,31 +10,31 @@ test_dir = './data/test/'
 def reset_dir():
     if os.path.exists(train_dir):
         shutil.rmtree(train_dir+'detach')
-        shutil.rmtree(train_dir+'oh')
+        #shutil.rmtree(train_dir+'oh')
         shutil.rmtree(train_dir+'overhall')
-        shutil.rmtree(train_dir+'painting')
-        shutil.rmtree(train_dir+'repair')
+        #shutil.rmtree(train_dir+'painting')
+        #shutil.rmtree(train_dir+'repair')
         shutil.rmtree(train_dir+'replace')
-        shutil.rmtree(train_dir+'sheet')
+        #shutil.rmtree(train_dir+'sheet')
 
     if os.path.exists(valid_dir):
         shutil.rmtree(valid_dir+'detach')
-        shutil.rmtree(valid_dir+'oh')
+        #shutil.rmtree(valid_dir+'oh')
         shutil.rmtree(valid_dir+'overhall')
-        shutil.rmtree(valid_dir+'painting')
-        shutil.rmtree(valid_dir+'repair')
+        #shutil.rmtree(valid_dir+'painting')
+        #shutil.rmtree(valid_dir+'repair')
         shutil.rmtree(valid_dir+'replace')
-        shutil.rmtree(valid_dir+'sheet')
+        #shutil.rmtree(valid_dir+'sheet')
 
     if os.path.exists(test_dir):
         shutil.rmtree(test_dir+'detach')
-        shutil.rmtree(test_dir+'oh')
+        #shutil.rmtree(test_dir+'oh')
         shutil.rmtree(test_dir+'overhall')
-        shutil.rmtree(test_dir+'painting')
-        shutil.rmtree(test_dir+'repair')
+        #shutil.rmtree(test_dir+'painting')
+        #shutil.rmtree(test_dir+'repair')
         shutil.rmtree(test_dir+'replace')
-        shutil.rmtree(test_dir+'sheet')
-    print("Done rest_dir")
+        #shutil.rmtree(test_dir+'sheet')
+    print("Done reset_dir")
 
 def copy_to_train():
     if not os.path.exists(train_dir):
@@ -72,9 +72,9 @@ def copy_to_train():
     replace = [file for file in os.listdir(data_dir+'replace/') if file.endswith('.jpg')]
     for file in replace:
         shutil.copy(data_dir+'replace/'+file, train_dir+'replace/'+file)
-    sheet = [file for file in os.listdir(data_dir+'sheet/') if file.endswith('.jpg')]
+    '''sheet = [file for file in os.listdir(data_dir+'sheet/') if file.endswith('.jpg')]
     for file in sheet:
-        shutil.copy(data_dir+'sheet/'+file, train_dir+'sheet/'+file)
+        shutil.copy(data_dir+'sheet/'+file, train_dir+'sheet/'+file)'''
     
     print("Done copy_to_train")
 
@@ -130,6 +130,39 @@ def confirm_train():
     print("replace:", replace_info, len(replace))
     #print("sheet:", sheet_info, len(sheet))
     print("Done confirm_train")
+
+def remove_random():
+    detach = [file for file in os.listdir(train_dir+'detach/') if file.endswith('.jpg')]
+    cnt=len(detach)
+    while cnt>4600:
+        rand = random.randrange(0,cnt)
+        try:
+            os.remove(train_dir+'detach/'+detach[rand]) 
+            detach.pop(rand)
+            cnt-=1
+        except:
+            pass
+    overhall = [file for file in os.listdir(train_dir+'overhall/') if file.endswith('.jpg')]
+    cnt=len(overhall)
+    while cnt>4600:
+        rand = random.randrange(0,cnt)
+        try:
+            os.remove(train_dir+'overhall/'+overhall[rand]) 
+            overhall.pop(rand)
+            cnt-=1
+        except:
+            pass
+    replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
+    cnt=len(replace)
+    while cnt>4600:
+        rand = random.randrange(0,cnt)
+        try:
+            os.remove(train_dir+'replace/'+replace[rand]) 
+            replace.pop(rand)
+            cnt-=1
+        except:
+            pass
+    print("Done remove_random")
 
 def remove_custom():
     detach1 = [file for file in os.listdir(train_dir+'detach/') if 'Frontbumper' in file]
@@ -229,7 +262,7 @@ def make_validset():
 
     detach = [file for file in os.listdir(train_dir+'detach/') if file.endswith('.jpg')]
     cnt=len(detach)
-    while cnt>2700:
+    while cnt>4200:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'detach/'+detach[rand], valid_dir+'detach/'+detach[rand])
@@ -249,7 +282,7 @@ def make_validset():
             pass'''
     overhall = [file for file in os.listdir(train_dir+'overhall/') if file.endswith('.jpg')]
     cnt=len(overhall)
-    while cnt>2900:
+    while cnt>4200:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'overhall/'+overhall[rand], valid_dir+'overhall/'+overhall[rand])
@@ -279,7 +312,7 @@ def make_validset():
             pass'''
     replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
     cnt=len(replace)
-    while cnt>5800:
+    while cnt>4200:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'replace/'+replace[rand], valid_dir+'replace/'+replace[rand])
@@ -320,7 +353,7 @@ def make_testset():
 
     detach = [file for file in os.listdir(train_dir+'detach/') if file.endswith('.jpg')]
     cnt=len(detach)
-    while cnt>2400:
+    while cnt>3800:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'detach/'+detach[rand], test_dir+'detach/'+detach[rand])
@@ -340,7 +373,7 @@ def make_testset():
             pass'''
     overhall = [file for file in os.listdir(train_dir+'overhall/') if file.endswith('.jpg')]
     cnt=len(overhall)
-    while cnt>2600:
+    while cnt>3800:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'overhall/'+overhall[rand], test_dir+'overhall/'+overhall[rand])
@@ -370,7 +403,7 @@ def make_testset():
             pass'''
     replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
     cnt=len(replace)
-    while cnt>5200:
+    while cnt>3800:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'replace/'+replace[rand], test_dir+'replace/'+replace[rand])
@@ -498,13 +531,13 @@ def confirm_test():
 
     
 
-#reset_dir()
+reset_dir()
 copy_to_train()
-confirm_train()
+remove_random()
 #remove_custom()
 #confirm_train()
-#make_validset()
-#make_testset()
-#confirm_train()
-#confirm_valid()
-#confirm_test()
+make_validset()
+make_testset()
+confirm_train()
+confirm_valid()
+confirm_test()

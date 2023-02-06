@@ -103,7 +103,7 @@ for f in overhall:
     file = test_dir+'overhall/'+f
     image = Image.open(file)
     image = image.resize((224,224))
-    cl = int(get_class(model, image))
+    cl = get_class(model, image)
     if cl == 1: cnt_overhall+=1
     else:
         overhall_wrong_list.append(file)
@@ -122,7 +122,7 @@ for f in replace:
     file = test_dir+'replace/'+f
     image = Image.open(file)
     image = image.resize((224,224))
-    cl = int(get_class(model, image))
+    cl = get_class(model, image)
     if cl == 2: cnt_replace+=1
     else:
         replace_wrong_list.append(file)
@@ -135,9 +135,9 @@ for f in replace:
 
 print()
 
-print("accuracy of detach:",round(cnt_detach/300 * 100, 2),"%")
-print("accuracy of overhall:",round(cnt_overhall/300 * 100, 2),"%")
-print("accuracy of replace:",round(cnt_replace/600 * 100, 2),"%")
+print("accuracy of detach:",round(cnt_detach/400 * 100, 2),"%")
+print("accuracy of overhall:",round(cnt_overhall/400 * 100, 2),"%")
+print("accuracy of replace:",round(cnt_replace/400 * 100, 2),"%")
 
 #with open('./data/datainfo/detach_wrong_list.txt', 'w') as f:
 #    for item in detach_wrong_list:

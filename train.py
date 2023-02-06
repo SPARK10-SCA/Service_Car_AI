@@ -54,13 +54,16 @@ for p in modelvgg.parameters() : # layers freeze
     p.requires_grad = False
 
 modelvgg.classifier = nn.Sequential(
-    nn.Linear(in_features=25088, out_features=2048),
+    nn.Linear(in_features=25088, out_features=4096),
     nn.ReLU(),
-    nn.Linear(in_features=2048, out_features=512),
+    nn.Dropout(),
+    nn.Linear(in_features=4096, out_features=2048),
     nn.ReLU(),
-    nn.Dropout(p=0.6),
-    nn.Linear(in_features=512,out_features=3), # class 3개로 설정
-    nn.LogSoftmax(dim=1)
+    nn.Dropout(),
+    nn.Linear(in_features=2048, out_features=1024),
+    nn.ReLU(),
+    nn.Dropout(),
+    nn.Linear(in_features=1024,out_features=3), # class 3개로 설정
 )
 
 # accuracy function 만들기
@@ -171,9 +174,9 @@ def predict_single(input, label, model):
     print(f"Prediction is {np.argmax(prediction)} of Model whereas given label is {label}")
 
 def train_model(model) :
-    num_epochs = 85
+    num_epochs = 50
     opt_func = torch.optim.Adam
-    lr = 0.00001
+    lr = 0.0005
     history = fit(num_epochs, lr, model, train_dl, val_dl, opt_func)
 
     with open('./data/weight/vgg_trainHistoryDict', 'wb') as file_pi:
