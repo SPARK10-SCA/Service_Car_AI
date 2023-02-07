@@ -41,7 +41,7 @@ const DamageMask = styled.Image`
     position: absolute;
     width: 230px;
     height: 230px;
-    opacity: 0.5
+    opacity: 0.4
 `;
 
 const ResultBox = styled.View`
@@ -82,21 +82,21 @@ export default function DamageTest3({ navigation }) {
             <ScrollView style={{width: "100%"}}>
                 <Box>
                     <Text style={{ fontWeight: "bold", fontSize: 20 }}>데미지 분석 결과</Text>
-                    <Text>3/3</Text>
-                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: <Text style={{color: "green"}}>Front Bumper</Text></ResultText>
+                    <Text>1/3</Text>
+                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: <Text style={{color: "green"}}>Right Front Fender</Text></ResultText>
                     <ImageBox>
                         <CarImage source={require("../assets/images/test_input.jpg")} />
                         {
-                            breakage ? <DamageMask source={require("../assets/images/test_output/Front_Bumper_Breakage.png")} /> : null
+                            breakage ? null : null
                         }
                         {
                             crushed ? null : null
                         }
                         {
-                            scratched ? <DamageMask source={require("../assets/images/test_output/Front_Bumper_Scratched.png")} /> : null
+                            scratched ? null: null
                         }
                         {
-                            separated ? <DamageMask source={require("../assets/images/test_output/Front_Fender_Separated.png")} /> : null
+                            separated ? null : null
                         }
                         {
                             answerBreakage ? <DamageMask source={require("../assets/images/test_output/Breakage_Answer.png")} /> : null
@@ -114,13 +114,13 @@ export default function DamageTest3({ navigation }) {
                             <Text style={{ fontWeight: "bold" }}>정답 파손 보기</Text>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
                                 <BouncyCheckbox 
-                                    disabled={true}
-                                    onPress={()=>setAnswerCrushed(!answerCrushed)}
-                                    fillColor="gray"
-                                    unfillColor="gray"
-                                    style={{
-                                        marginRight: -15
-                                    }}
+                                        disabled={true}
+                                        onPress={()=>setAnswerCrushed(!answerCrushed)}
+                                        fillColor="gray"
+                                        unfillColor="gray"
+                                        style={{
+                                            marginRight: -15
+                                        }}
                                 />
                                 <Text style={{ paddingLeft: 10 }}>Crushed</Text>
                             </View>
@@ -165,13 +165,13 @@ export default function DamageTest3({ navigation }) {
                         <View style={{marginRight: 10}}>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
                                 <BouncyCheckbox 
-                                    disabled={true}
-                                    onPress={()=>setCrushed(!crushed)}
-                                    fillColor="gray"
-                                    unfillColor="gray"
-                                    style={{
-                                        marginRight: -15
-                                    }}
+                                        disabled={true}
+                                        onPress={()=>setCrushed(!crushed)}
+                                        fillColor="gray"
+                                        unfillColor="gray"
+                                        style={{
+                                            marginRight: -15
+                                        }}
                                 />
                                 <Text style={{ paddingLeft: 10 }}>Crushed</Text>
                             </View>
@@ -190,10 +190,9 @@ export default function DamageTest3({ navigation }) {
                         <View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
                                 <BouncyCheckbox 
-                                    disabled={true}
                                     onPress={()=>setSeparated(!separated)}
-                                    fillColor="gray"
-                                    unfillColor="gray"
+                                    fillColor="green"
+                                    unfillColor="green"
                                     style={{
                                         marginRight: -15
                                     }}
@@ -202,9 +201,10 @@ export default function DamageTest3({ navigation }) {
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
                                 <BouncyCheckbox 
+                                    disabled={true}
                                     onPress={()=>setBreakage(!breakage)}
-                                    fillColor="green"
-                                    unfillColor="green"
+                                    fillColor="gray"
+                                    unfillColor="gray"
                                     style={{
                                         marginRight: -15
                                     }}
@@ -215,14 +215,15 @@ export default function DamageTest3({ navigation }) {
                         
                     </SelectBox>
                     <ResultBox>
+                        <ResultText>탐지된 파손</ResultText>
                         <ResultText>Damage 종류 : {'{'}</ResultText>
                         <ResultText2>Crushed: 감지되지 않음</ResultText2>
-                        <ResultText2>Scratched: 58.5% 신뢰도</ResultText2>
-                        <ResultText2>Separated: 감지되지 않음</ResultText2>
-                        <ResultText2>Breakage: 80.1% 신뢰도</ResultText2>
+                        <ResultText2>Scratched: 82.3% 신뢰도</ResultText2>
+                        <ResultText2>Separated: 85.3% 신뢰도</ResultText2>
+                        <ResultText2>Breakage: 감지되지 않음</ResultText2>
                         <ResultText>{'},'}</ResultText>
                         <ResultText></ResultText>
-                        <ResultText>파트 파손 심각도: 상</ResultText>
+                        <ResultText>파트 파손 심각도: 하</ResultText>
                     </ResultBox>
 
                     <ResultBox>
@@ -234,7 +235,7 @@ export default function DamageTest3({ navigation }) {
                         <ResultText2>Breakage: O</ResultText2>
                         <ResultText>{'},'}</ResultText>
                         <ResultText></ResultText>
-                        <ResultText>파트 파손 심각도: 상</ResultText>
+                        <ResultText>파트 파손 심각도: 하</ResultText>
                     </ResultBox>
                     
                     <View style={{
@@ -258,6 +259,7 @@ export default function DamageTest3({ navigation }) {
                     </View>
                 </Box>
             </ScrollView>
+            
             
         </Container>
     );

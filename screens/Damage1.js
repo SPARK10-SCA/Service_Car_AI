@@ -41,7 +41,7 @@ const DamageMask = styled.Image`
     position: absolute;
     width: 230px;
     height: 230px;
-    opacity: 0.4;
+    opacity: 0.5;
 `;
 
 const ResultBox = styled.View`
@@ -77,21 +77,21 @@ export default function Damage1({ navigation }) {
             <ScrollView style={{width: "100%"}}>
                 <Box>
                     <Text style={{ fontWeight: "bold", fontSize: 20 }}>데미지 분석 결과</Text>
-                    <Text>1/1</Text>
-                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: <Text style={{color: "green"}}>Right Front Fender</Text></ResultText>
+                    <Text>1/3</Text>
+                    <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: <Text style={{color: "green"}}>Bonnet</Text></ResultText>
                     <ImageBox>
                         <CarImage source={require("../assets/images/input.png")} />
                         {
-                            breakage ? <DamageMask source={require("../assets/images/output/Front_Fender_Breakage.png")} /> : null
+                            breakage ? null : null
                         }
                         {
-                            crushed ? <DamageMask source={require("../assets/images/output/Front_Fender_Crushed.png")} /> : null
+                            crushed ? <DamageMask source={require("../assets/images/output/Bonnet_Crushed.png")} /> : null
                         }
                         {
-                            scratched ? <DamageMask source={require("../assets/images/output/Front_Fender_Scratched.png")} />: null
+                            scratched ? null: null
                         }
                         {
-                            separated ? <DamageMask source={require("../assets/images/output/Front_Fender_Separated.png")} /> : null
+                            separated ? null : null
                         }
 
                     </ImageBox>
@@ -112,9 +112,10 @@ export default function Damage1({ navigation }) {
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
                                 <BouncyCheckbox 
+                                    disabled={true}
                                     onPress={()=>setScratched(!scratched)}
-                                    fillColor="green"
-                                    unfillColor="green"
+                                    fillColor="grey"
+                                    unfillColor="grey"
                                     style={{
                                         marginRight: -15
                                     }}
@@ -125,9 +126,10 @@ export default function Damage1({ navigation }) {
                         <View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
                                 <BouncyCheckbox 
+                                    disabled={true}
                                     onPress={()=>setSeparated(!separated)}
-                                    fillColor="green"
-                                    unfillColor="green"
+                                    fillColor="grey"
+                                    unfillColor="grey"
                                     style={{
                                         marginRight: -15
                                     }}
@@ -136,9 +138,10 @@ export default function Damage1({ navigation }) {
                             </View>
                             <View style={{ flexDirection: 'row', paddingTop: 15 }}>
                                 <BouncyCheckbox 
+                                    disabled={true}
                                     onPress={()=>setBreakage(!breakage)}
-                                    fillColor="green"
-                                    unfillColor="green"
+                                    fillColor="grey"
+                                    unfillColor="grey"
                                     style={{
                                         marginRight: -15
                                     }}
@@ -151,13 +154,11 @@ export default function Damage1({ navigation }) {
                     <ResultBox>
                         <ResultText>탐지된 파손</ResultText>
                         <ResultText>Damage 종류 : {'{'}</ResultText>
-                        <ResultText2>Crushed: 77.7% 신뢰도</ResultText2>
-                        <ResultText2>Scratched: 96.3% 신뢰도</ResultText2>
-                        <ResultText2>Separated: 72.2% 신뢰도</ResultText2>
-                        <ResultText2>Breakage: 84.9% 신뢰도</ResultText2>
+                        <ResultText2>Crushed: 80.7% 신뢰도</ResultText2>
+                        <ResultText2>Scratched: 발견되지 않음</ResultText2>
+                        <ResultText2>Separated: 발견되지 않음</ResultText2>
+                        <ResultText2>Breakage: 발견되지 않음</ResultText2>
                         <ResultText>{'},'}</ResultText>
-                        <ResultText></ResultText>
-                        <ResultText>파트 파손 심각도: 상</ResultText>
                     </ResultBox>
                     
                     <View style={{
@@ -174,7 +175,7 @@ export default function Damage1({ navigation }) {
                             <Text style={{ fontSize: 25 }}>{'<'} Prev</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('RepairCost2')
+                            navigation.navigate('Damage2')
                         }}>
                             <Text style={{ fontSize: 25 }}>Next {'>'}</Text>
                         </TouchableOpacity>

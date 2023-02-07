@@ -66,6 +66,7 @@ export default function TestHome({navigation}){
             setTimeout(()=>{
                 navigation.navigate("DamageTest1");
                 setPhoto(false);
+                setPressed(false);
             }, 5000)
         }
     },[pressed])

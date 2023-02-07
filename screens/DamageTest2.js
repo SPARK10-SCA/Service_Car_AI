@@ -82,7 +82,7 @@ export default function DamageTest2({ navigation }) {
             <ScrollView style={{width: "100%"}}>
                 <Box>
                     <Text style={{ fontWeight: "bold", fontSize: 20 }}>데미지 분석 결과</Text>
-                    <Text>2/3</Text>
+                    <Text>2/2</Text>
                     <ResultText style={{alignSelf: "flex-start", marginLeft: "7.5%", marginTop: 15}}>손상 파트: <Text style={{color: "green"}}>Bonnet</Text></ResultText>
                     <ImageBox>
                         <CarImage source={require("../assets/images/test_input.jpg")} />
@@ -222,8 +222,6 @@ export default function DamageTest2({ navigation }) {
                         <ResultText2>Separated: 88.8% 신뢰도</ResultText2>
                         <ResultText2>Breakage: 감지되지 않음</ResultText2>
                         <ResultText>{'},'}</ResultText>
-                        <ResultText></ResultText>
-                        <ResultText>파트 파손 심각도: 상</ResultText>
                     </ResultBox>
 
                     <ResultBox>
@@ -252,7 +250,7 @@ export default function DamageTest2({ navigation }) {
                             <Text style={{ fontSize: 25 }}>{'<'} Prev</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('DamageTest3')
+                            navigation.navigate('RepairCost')
                         }}>
                             <Text style={{ fontSize: 25 }}>Next {'>'}</Text>
                         </TouchableOpacity>
