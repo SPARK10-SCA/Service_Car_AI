@@ -461,7 +461,7 @@ def test():
         repair_method = get_repair_method(repair_method_model, part_img)
         print(parts[i]+" repair method is "+ repair_method)
         
-        cost_input = Utils_GradientBoosting.get_model_input(100000,20170101,20180101,2, parts[i], repair_method)
+        cost_input = Utils_GradientBoosting.get_model_input(10000,20210101,20210101,8, parts[i], repair_method)
         repair_cost = int(round(repair_cost_model.predict([cost_input])[0],-3))
         print(parts[i]+" repair cost is "+ str(repair_cost)+ " won")
 
