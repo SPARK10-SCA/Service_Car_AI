@@ -7,6 +7,9 @@ import torch
 import numpy as np
 import cv2
 from PIL import Image
+import skimage
+from skimage import color
+from scipy import ndimage
 from io import BytesIO
 import base64
 from torchvision.transforms import ToTensor
@@ -14,6 +17,10 @@ from scipy import ndimage
 from torch.utils.data import DataLoader
 from pycocotools.coco import COCO
 import albumentations as A
+import torch.nn.functional as F
+import joblib
+import Utils_GradientBoosting
+
 
 import os
 import sys
@@ -33,6 +40,9 @@ SCRATCHED_WEIGHT = '../weights/damage/Scratched.pt'
 SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
 
 SEVERITY_WEIGHT = '../weights/severity/Severity.pth'
+
+REPAIR_METHOD_WEIGHT = '../weights/repair_method/repair_method_vgg19.pth'
+REPAIR_COST_WEIGHT = '../weights/repair_cost/repair_cost_GradientBoostingRegressor.pkl'
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -235,11 +245,32 @@ def get_severity(model, origImage):
 
     return severity
 
+def get_repair_method(model, img):
+    tf_toTensor = ToTensor()
+    image = tf_toTensor(img).float().to(DEVICE)
+    
+    predictions = model(image.unsqueeze(0))
+    prediction = predictions[0].detach().cpu()
+    cl = int(np.argmax(prediction))
+    
+    if cl==0: method = 'detach'
+    elif cl==1: method = 'overhaul'
+    else: method = 'replace'
+    
+    return method
+
 def img_to_str(img):
     img_buffer = BytesIO()
     img.save(img_buffer, format="PNG")
     img_str = base64.b64encode(img_buffer.getvalue()).decode('utf8')
     
+    return img_str
+
+def skimage_to_str(img):
+    pill_img = Image.fromarray(skimage.img_as_ubyte(img))
+    img_buffer = BytesIO()
+    pill_img.save(img_buffer, format="PNG")
+    img_str = base64.b64encode(img_buffer.getvalue()).decode('utf8')
     return img_str
 
 @app.route('/api/main', methods=['POST'])
@@ -360,6 +391,7 @@ def test():
         #origImage.save("../input/test_input.jpg")
         
         data["origImage"] = img_to_str(origImage)
+        #data["origMask"] = ndarray_to_str(origMask)
         data["part"] = []
         
         #part_prediction
@@ -370,22 +402,29 @@ def test():
             part_coor.append(coor[part])
             data["part"].append(part)
         print("Damaged Parts: "+', '.join(parts))
-        
-        response.set_data(json.dumps(data))
-        return response
-        
 
-        '''for i in range(len(parts)):
+        data["info"] = []
+        
+        for i in range(len(parts)):
+            dict={}
             print("\nDetecting damage in "+parts[i]+"...\n")
             crop = origImage.crop(part_coor[i])
             width, height = crop.size
             part_img = Image.new(crop.mode, (256,256), (255, 255, 255))
             part_img.paste(crop, (int((256-width)/2), int((256-height)/2)))
+            dict["part"] = parts[i]
+            dict["part_img"]= img_to_str(part_img)
             
-            figure, ax = plt.subplots(nrows=3, ncols=4, figsize=(15, 15))
+            damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, part_img)
+            dict["damage_mask"]=[]
+            
+            for j in range(4):
+                dict['damage_mask'].append(skimage_to_str(color.label2rgb(damage_mask[j][:,:,0])))
+            
+            #figure, ax = plt.subplots(nrows=3, ncols=4, figsize=(15, 15))
 
             #original
-            ax[0][0].imshow(origImage)
+            '''ax[0][0].imshow(origImage)
             ax[0][0].set_title("Original")
 
             ax[0][1].imshow(origImage, cmap='gray')
@@ -403,42 +442,59 @@ def test():
             ax[1][2].axis('off')
             ax[1][3].axis('off')
 
-            damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, origImage)
+            damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, part_img)
 
             #damage
-            #ax[2][0].imshow(part_img, cmap='gray')
+            ax[2][0].imshow(part_img, cmap='gray')
             ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]))
             ax[2][0].set_title("Breakage")
 
-            #ax[2][1].imshow(part_img, cmap='gray')
+            ax[2][1].imshow(part_img, cmap='gray')
             ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]))
             ax[2][1].set_title("Crushed")
 
-            #ax[2][2].imshow(part_img, cmap='gray')
+            ax[2][2].imshow(part_img, cmap='gray')
             ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]))
             ax[2][2].set_title("Scratched")
 
-            #ax[2][3].imshow(part_img, cmap='gray')
+            ax[2][3].imshow(part_img, cmap='gray')
             ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]))
-            ax[2][3].set_title("Separated")
+            ax[2][3].set_title("Separated")'''
 
+            dict['damage_info']=[]
             labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']
 
             for j in range(4):
                 if val[j] is None: 
                     print(labels[j]+": Damage is not detected")
+                    dict['damage_info'].append(labels[j]+": Not detected")
                 else: 
                     print(labels[j]+": "+str(val[i])+"% area")
                     print(labels[j] + " confidence score: "+ str(round((sum[j]/count[j]) * 100, 1)) + "%")
+                    dict['damage_info'].append(labels[j] + ": Detected, Confidence score: "+ str(round((sum[j]/count[j]) * 100, 1)) + "%")
                 
                 print("")
             
-            severity = get_severity(severity_model, part_img)
-            print(parts[i]+" damage severity is level "+str(int(severity)))
-
+            #severity = get_severity(severity_model, part_img)
+            #print(parts[i]+" damage severity is level "+str(int(severity)))
+            
+            repair_method = get_repair_method(repair_method_model, part_img)
+            print(parts[i]+" repair method is "+ repair_method)
+            dict['repair_method'] = repair_method
+            
+            cost_input = Utils_GradientBoosting.get_model_input(10000,20210101,20210101,8, parts[i], repair_method)
+            repair_cost = int(round(repair_cost_model.predict([cost_input])[0],-3))
+            print(parts[i]+" repair cost is "+ str(repair_cost)+ " won")
+            dict['repair_cost'] = str(repair_cost)
+            
             #figure.tight_layout()
-            figure.savefig('../output/'+parts[i]+'_test.jpg')
-            print("\n"+"-"*40)'''
+            #figure.savefig('../output/'+parts[i]+'_'+str(idx)+'_test.jpg')
+            print("\n"+"-"*40)
+            
+            data['info'].append(dict)
+
+        response.set_data(json.dumps(data))
+        return response
 
 def load_part_unet_model(weight_path):
     model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=16)
@@ -492,5 +548,12 @@ if __name__ == '__main__':
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
 
     #load severity model
-    severity_model = torch.load(SEVERITY_WEIGHT)
+    #severity_model = torch.load(SEVERITY_WEIGHT)
+
+    #load repair method model
+    repair_method_model = torch.load(REPAIR_METHOD_WEIGHT)
+    
+    #load repair cost model
+    repair_cost_model = joblib.load(REPAIR_COST_WEIGHT)
+    
     app.run(host="127.0.0.1", port=8080)
