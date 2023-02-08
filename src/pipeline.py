@@ -249,6 +249,9 @@ def main():
 
     #load severity model
     severity_model = torch.load(SEVERITY_WEIGHT)
+    
+    #load repair method model
+    repair_method_model = torch.load(REPAIR_METHOD_WEIGHT)
 
     #load original image
     origImage = Image.open('../input/input.jpg')
@@ -318,8 +321,11 @@ def main():
 
             print("")
         
-        severity = get_severity(severity_model, part_img)
-        print(parts[i]+" damage severity is level "+str(int(severity)))
+        #severity = get_severity(severity_model, part_img)
+        #print(parts[i]+" damage severity is level "+str(int(severity)))
+        
+        repair_method = get_repair_method(repair_method_model, part_img)
+        print(parts[i]+" repair method is "+ repair_method)
 
         #figure.tight_layout()
         figure.savefig('../output/'+parts[i]+'_api.jpg')
