@@ -8,6 +8,8 @@ from pycocotools.coco import COCO
 from torchvision.transforms import ToTensor
 import albumentations as A
 import torch.nn.functional as F
+import joblib
+import Utils_GradientBoosting
 
 import os
 import sys
@@ -28,7 +30,9 @@ SCRATCHED_WEIGHT = '../weights/damage/Scratched.pt'
 SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
 
 SEVERITY_WEIGHT = '../weights/severity/Severity.pth'
+
 REPAIR_METHOD_WEIGHT = '../weights/repair_method/repair_method_vgg19.pth'
+REPAIR_COST_WEIGHT = '../weights/repair_cost/repair_cost_GradientBoostingRegressor.pkl'
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -232,7 +236,7 @@ def get_repair_method(model, img):
     cl = int(np.argmax(prediction))
     
     if cl==0: method = 'detach'
-    elif cl==1: method = 'overhall'
+    elif cl==1: method = 'overhaul'
     else: method = 'replace'
     
     return method
@@ -248,10 +252,13 @@ def main():
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
 
     #load severity model
-    severity_model = torch.load(SEVERITY_WEIGHT)
+    #severity_model = torch.load(SEVERITY_WEIGHT)
     
     #load repair method model
     repair_method_model = torch.load(REPAIR_METHOD_WEIGHT)
+    
+    #load repair cost model
+    repair_cost_model = joblib.load(REPAIR_COST_WEIGHT)
 
     #load original image
     origImage = Image.open('../input/input.jpg')
@@ -326,7 +333,11 @@ def main():
         
         repair_method = get_repair_method(repair_method_model, part_img)
         print(parts[i]+" repair method is "+ repair_method)
-
+        
+        cost_input = Utils_GradientBoosting.get_model_input(100000,20170101,20180101,1.65, parts[i], repair_method)
+        repair_cost = int(round(repair_cost_model.predict([cost_input])[0], -3))
+        print(parts[i]+" repair cost is "+ str(repair_cost)+ " won")
+        
         #figure.tight_layout()
         figure.savefig('../output/'+parts[i]+'_api.jpg')
         print("\n"+"-"*40)
@@ -343,10 +354,13 @@ def test():
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
 
     #load severity model
-    severity_model = torch.load(SEVERITY_WEIGHT)
+    #severity_model = torch.load(SEVERITY_WEIGHT)
     
     #load repair method model
     repair_method_model = torch.load(REPAIR_METHOD_WEIGHT)
+    
+    #load repair cost model
+    repair_cost_model = joblib.load(REPAIR_COST_WEIGHT)
 
     #enter index
     print("Enter the index (1-1000): ", end="")
@@ -446,6 +460,10 @@ def test():
         
         repair_method = get_repair_method(repair_method_model, part_img)
         print(parts[i]+" repair method is "+ repair_method)
+        
+        cost_input = Utils_GradientBoosting.get_model_input(100000,20170101,20180101,2, parts[i], repair_method)
+        repair_cost = int(round(repair_cost_model.predict([cost_input])[0],-3))
+        print(parts[i]+" repair cost is "+ str(repair_cost)+ " won")
 
         #figure.tight_layout()
         figure.savefig('../output/'+parts[i]+'_'+str(idx)+'_test.jpg')
