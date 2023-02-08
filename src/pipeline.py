@@ -28,6 +28,7 @@ SCRATCHED_WEIGHT = '../weights/damage/Scratched.pt'
 SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
 
 SEVERITY_WEIGHT = '../weights/severity/Severity.pth'
+REPAIR_METHOD_WEIGHT = '../weights/repair_method/repair_method_vgg19.pth'
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -212,15 +213,29 @@ def load_damage_unet_model(weight_path):
             model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
             return model
 
-def get_severity(model, origImage):
+def get_severity(model, img):
     tf_toTensor = ToTensor()
-    image = tf_toTensor(origImage).float().to(DEVICE)
+    image = tf_toTensor(img).float().to(DEVICE)
     
     predictions = model(image.unsqueeze(0))
     prediction = predictions[0].detach().cpu()
     severity = np.argmax(prediction)
 
     return severity
+
+def get_repair_method(model, img):
+    tf_toTensor = ToTensor()
+    image = tf_toTensor(img).float().to(DEVICE)
+    
+    predictions = model(image.unsqueeze(0))
+    prediction = predictions[0].detach().cpu()
+    cl = int(np.argmax(prediction))
+    
+    if cl==0: method = 'detach'
+    elif cl==1: method = 'overhall'
+    else: method = 'replace'
+    
+    return method
 
 def main():
     #load part model
@@ -323,6 +338,9 @@ def test():
 
     #load severity model
     severity_model = torch.load(SEVERITY_WEIGHT)
+    
+    #load repair method model
+    repair_method_model = torch.load(REPAIR_METHOD_WEIGHT)
 
     #enter index
     print("Enter the index (1-1000): ", end="")
@@ -387,22 +405,22 @@ def test():
         ax[1][2].axis('off')
         ax[1][3].axis('off')
 
-        damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, origImage)
+        damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, part_img)
 
         #damage
-        #ax[2][0].imshow(part_img, cmap='gray')
+        ax[2][0].imshow(part_img, cmap='gray')
         ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]))
         ax[2][0].set_title("Breakage")
 
-        #ax[2][1].imshow(part_img, cmap='gray')
+        ax[2][1].imshow(part_img, cmap='gray')
         ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]))
         ax[2][1].set_title("Crushed")
 
-        #ax[2][2].imshow(part_img, cmap='gray')
+        ax[2][2].imshow(part_img, cmap='gray')
         ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]))
         ax[2][2].set_title("Scratched")
 
-        #ax[2][3].imshow(part_img, cmap='gray')
+        ax[2][3].imshow(part_img, cmap='gray')
         ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]))
         ax[2][3].set_title("Separated")
 
@@ -417,11 +435,14 @@ def test():
             
             print("")
         
-        severity = get_severity(severity_model, part_img)
-        print(parts[i]+" damage severity is level "+str(int(severity)))
+        #severity = get_severity(severity_model, part_img)
+        #print(parts[i]+" damage severity is level "+str(int(severity)))
+        
+        repair_method = get_repair_method(repair_method_model, part_img)
+        print(parts[i]+" repair method is "+ repair_method)
 
         #figure.tight_layout()
-        figure.savefig('../output/'+parts[i]+'_test.jpg')
+        figure.savefig('../output/'+parts[i]+'_'+str(idx)+'_test.jpg')
         print("\n"+"-"*40)  
 
 if __name__ == '__main__':
