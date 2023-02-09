@@ -16,8 +16,8 @@ from scipy import ndimage
 from skimage import color
 from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor
-from ultralytics import YOLO
 
+from ultralytics import YOLO
 from Model_UNET import Unet
 from Model_VGG19 import IntelCnnModel
 
@@ -37,30 +37,6 @@ REPAIR_METHOD_WEIGHT = '../weights/repair_method/repair_method_vgg19.pth'
 REPAIR_COST_WEIGHT = '../weights/repair_cost/repair_cost_GradientBoostingRegressor.pkl'
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-
-
-def find_damage(predMask):
-    # Find and print car part objects
-    data_slices = ndimage.find_objects(predMask)
-    try:
-        if ((damage := data_slices[0]) != None):
-
-            y_start = damage[0].start
-            y_stop = damage[0].stop
-
-            x_start = damage[1].start
-            x_stop = damage[1].stop
-
-            cut = predMask[y_start:y_stop+1,x_start:x_stop+1,:]
-
-            val = round(cut.size/(256*256) * 100, 1)
-            if val < 0.1: 
-                return None
-            else:
-                return val 
-
-    except:
-        return None
     
 def overlap(rect1, rect2):
      
@@ -104,6 +80,29 @@ def make_part_predictions(model, origImage):
                 damaged_part_conf.append(conf[idx])
 
     return damaged_part_cls, damaged_part_coor, damaged_part_conf
+
+def find_damage(predMask):
+    # Find and print car part objects
+    data_slices = ndimage.find_objects(predMask)
+    try:
+        if ((damage := data_slices[0]) != None):
+
+            y_start = damage[0].start
+            y_stop = damage[0].stop
+
+            x_start = damage[1].start
+            x_stop = damage[1].stop
+
+            cut = predMask[y_start:y_stop+1,x_start:x_stop+1,:]
+
+            val = round(cut.size/(256*256) * 100, 1)
+            if val < 0.1: 
+                return None
+            else:
+                return val 
+
+    except:
+        return None
 
 def make_damage_predictions(model1, model2, model3, model4, part_img):
     model1.eval()
@@ -376,6 +375,7 @@ def test():
 
     for i in range(len(parts)):
         print("\nDetecting damage in "+parts[i]+"...\n")
+        print(part_coor[i])
         crop = origImage.crop(part_coor[i])
         width, height = crop.size
         part_img = Image.new(crop.mode, (256,256), (255, 255, 255))
@@ -395,8 +395,8 @@ def test():
         ax[0][3].axis('off')
 
         #part 
-        ax[1][0].imshow(origImage, cmap='gray')
-        ax[1][0].imshow(color.label2rgb(part_mask[:,:,0]), alpha=0.4)
+        ax[1][0].imshow(part_img, cmap='gray')
+        #ax[1][0].imshow(color.label2rgb(part_mask[:,:,0]), alpha=0.4)
         ax[1][0].set_title("Damaged part")
         ax[1][1].axis('off')
         ax[1][2].axis('off')
@@ -406,19 +406,19 @@ def test():
 
         #damage
         ax[2][0].imshow(part_img, cmap='gray')
-        ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]))
+        ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]), alpha=0.4)
         ax[2][0].set_title("Breakage")
 
         ax[2][1].imshow(part_img, cmap='gray')
-        ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]))
+        ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]), alpha=0.4)
         ax[2][1].set_title("Crushed")
 
         ax[2][2].imshow(part_img, cmap='gray')
-        ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]))
+        ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]), alpha=0.4)
         ax[2][2].set_title("Scratched")
 
         ax[2][3].imshow(part_img, cmap='gray')
-        ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]))
+        ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]), alpha=0.4)
         ax[2][3].set_title("Separated")
 
         labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']

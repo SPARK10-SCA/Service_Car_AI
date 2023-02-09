@@ -6,3 +6,4 @@ opencv-python
 scipy
 pycocotools
 albumentations
+ultralytics

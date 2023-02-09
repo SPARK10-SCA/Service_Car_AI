@@ -1,6 +1,7 @@
 from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 
+from ultralytics import YOLO
 from Model_UNET import Unet
 from Model_VGG19 import IntelCnnModel
 import torch
@@ -55,37 +56,48 @@ def index():
 
 global origImage
 
-def find_part(predMask):
+def overlap(rect1, rect2):
+     
+    # if rectangle has area 0, no overlap
+    if rect1[0] == rect1[2] or rect1[1] == rect1[3] or rect2[2] == rect2[0] or rect2[1] == rect2[3]:
+        return False
+     
+    # If one rectangle is on left side of other
+    if rect1[0] > rect2[2] or rect2[0] > rect1[2]:
+        return False
+ 
+    # If one rectangle is above other
+    if rect1[3] < rect2[1] or rect2[3] < rect1[1]:
+        return False
+ 
+    return True
+
+def make_part_predictions(model, origImage):
     parts = ["Front bumper","Rear bumper","Front fender(R)","Front fender(L)","Rear fender(R)","Trunk lid","Bonnet","Rear fender(L)","Rear door(R)","Head lights(R)","Head lights(L)","Front Wheel(R)","Front door(R)","Side mirror(R)", "Damage"]
+    damage_indices = []
+    damaged_part_cls = []
+    damaged_part_coor = []
+    damaged_part_conf = []
 
-    # Find and print car part objects
-    data_slices = ndimage.find_objects(predMask)
-    coor = {}
-    try:
-        if ((damage := data_slices[14]) != None):
+    results = model.predict(origImage)
+    results = results[0].cpu().numpy()
 
-            y_start = damage[0].start
-            y_stop = damage[0].stop
+    classes = results.boxes.cls.astype(int)
+    boxes = results.boxes.xyxy.astype(int)
+    conf = results.boxes.conf
 
-            x_start = damage[1].start
-            x_stop = damage[1].stop
+    for num, cls in enumerate(classes):
+        if cls == 14:
+            damage_indices.append(num)
 
-            coor[parts[14]] = (x_start, y_start, x_stop, y_stop)
-           #coor.extend((x_start, y_start, x_stop, y_stop))
+    for dmg_idx in damage_indices:
+        for idx, cls in enumerate(classes):
+            if cls != 14 and overlap(boxes[dmg_idx],boxes[idx]) and parts[cls] not in damaged_part_cls:
+                damaged_part_cls.append(parts[cls])
+                damaged_part_coor.append(boxes[idx])
+                damaged_part_conf.append(conf[idx])
 
-            cut = predMask[y_start:y_stop+1,x_start:x_stop+1,:]
-
-            (values,counts) = np.unique(cut,return_counts=True)
-            count_sort_ind = np.argsort(-counts)
-            for index in count_sort_ind:
-                if values[index] != 0 and values[index] != 15:
-                    coor[parts[values[index]-1]] = (data_slices[values[index]-1][1].start, data_slices[values[index]-1][0].start, data_slices[values[index]-1][1].stop, data_slices[values[index]-1][0].stop)
-                    #print("Part: {}, area: {}%".format(parts[values[index]-1], round((counts[index] / cut.size) * 100, 1)))
-
-            return coor
-
-    except:
-        return None
+    return damaged_part_cls, damaged_part_coor, damaged_part_conf
 
 def find_damage(predMask):
     # Find and print car part objects
@@ -110,24 +122,6 @@ def find_damage(predMask):
     except:
         return None
 
-def make_part_predictions(model, origImage):
-    model.eval()
-    with torch.no_grad():
-    
-        tf_toTensor = ToTensor()
-        image = tf_toTensor(origImage).float().to(DEVICE)
-
-        predMask = model(image.unsqueeze(0))
-        predMask = torch.argmax(predMask, dim=1).detach().cpu().numpy()
-        predMask = np.transpose(predMask, (1,2,0))
-        
-        '''with open(OUTPUT_PATH+'part/predMask.txt', 'w') as outfile:
-                for slice_2d in predMask:
-                    np.savetxt(outfile, slice_2d)'''
-
-        coor = find_part(predMask)
-
-        return (predMask, coor)
 
 def make_damage_predictions(model1, model2, model3, model4, part_img):
     model1.eval()
@@ -207,58 +201,6 @@ def make_damage_predictions(model1, model2, model3, model4, part_img):
 
     return (predMask, val, sum, count)
 
-def load_part_unet_model(weight_path):
-    model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=16)
-    model = model.to(DEVICE)
-    try:
-        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
-        return model.model
-    except:
-        try:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
-            return model
-        except:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
-            return model
-
-def load_damage_unet_model(weight_path):
-    model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=2)
-    model = model.to(DEVICE)
-    try:
-        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
-        return model.model
-    except:
-        try:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
-            return model
-        except:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
-            return model
-
-def get_severity(model, origImage):
-    tf_toTensor = ToTensor()
-    image = tf_toTensor(origImage).float().to(DEVICE)
-    
-    predictions = model(image.unsqueeze(0))
-    prediction = predictions[0].detach().cpu()
-    severity = np.argmax(prediction)
-
-    return severity
-
-def get_repair_method(model, img):
-    tf_toTensor = ToTensor()
-    image = tf_toTensor(img).float().to(DEVICE)
-    
-    predictions = model(image.unsqueeze(0))
-    prediction = predictions[0].detach().cpu()
-    cl = int(np.argmax(prediction))
-    
-    if cl==0: method = 'detach'
-    elif cl==1: method = 'overhaul'
-    else: method = 'replace'
-    
-    return method
-
 def img_to_str(img):
     img_buffer = BytesIO()
     img.save(img_buffer, format="PNG")
@@ -285,12 +227,7 @@ def main():
         origImage = origImage.resize((256, 256))
 
         #part_prediction
-        part_mask, coor = make_part_predictions(model, origImage)
-        parts = list(coor.keys())[1:]
-        
-        part_coor = []
-        for part in parts:
-            part_coor.append(coor[part])
+        parts, part_coor, conf = make_part_predictions(model, origImage)
         print("Damaged Parts: "+', '.join(parts))
         
         '''for i in range(len(parts)):
@@ -392,16 +329,11 @@ def test():
         
         data["origImage"] = img_to_str(origImage)
         #data["origMask"] = ndarray_to_str(origMask)
-        data["part"] = []
         
         #part_prediction
-        part_mask, coor = make_part_predictions(model, origImage)
-        parts = list(coor.keys())[1:]
-        part_coor = []
-        for part in parts:
-            part_coor.append(coor[part])
-            data["part"].append(part)
+        parts, part_coor, conf = make_part_predictions(model, origImage)
         print("Damaged Parts: "+', '.join(parts))
+        data["part"] = parts
 
         data["info"] = []
         
@@ -496,19 +428,10 @@ def test():
         response.set_data(json.dumps(data))
         return response
 
-def load_part_unet_model(weight_path):
-    model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=16)
-    model = model.to(DEVICE)
-    try:
-        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
-        return model.model
-    except:
-        try:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
-            return model
-        except:
-            model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
-            return model
+def load_part_yolo_model(weight_path):
+    model = YOLO(weight_path)
+
+    return model
 
 def load_damage_unet_model(weight_path):
     model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=2)
@@ -534,12 +457,24 @@ def get_severity(model, origImage):
 
     return severity
 
-
+def get_repair_method(model, img):
+    tf_toTensor = ToTensor()
+    image = tf_toTensor(img).float().to(DEVICE)
+    
+    predictions = model(image.unsqueeze(0))
+    prediction = predictions[0].detach().cpu()
+    cl = int(np.argmax(prediction))
+    
+    if cl==0: method = 'detach'
+    elif cl==1: method = 'overhaul'
+    else: method = 'replace'
+    
+    return method
 
 if __name__ == '__main__':
     print("Loading models...")
     #load part model
-    model = load_part_unet_model(weight_path=PART_WEIGHT)
+    model = load_part_yolo_model(weight_path=PART_WEIGHT)
 
     #load damage model
     model1 = load_damage_unet_model(weight_path=BREAKAGE_WEIGHT)
