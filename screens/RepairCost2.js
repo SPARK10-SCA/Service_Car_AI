@@ -60,7 +60,7 @@ export default function RepairCost2({ navigation }) {
                     <ResultBox>
                         <ResultText>파손 부위:   <ResultText2>Front Bumper</ResultText2></ResultText>
                         <ResultText>추천 수단:   <ResultText2>교체</ResultText2></ResultText>
-                        <ResultText style={{fontFamily: "Pretendard-Bold", fontSize: 22, marginTop: 30, marginBottom: 15}}>예상 수리 비용 : 400,000 Won</ResultText>
+                        <ResultText style={{fontFamily: "Pretendard-Bold", fontSize: 22, marginTop: 30, marginBottom: 15}}>예상 수리 비용 : 350,000 Won</ResultText>
                     </ResultBox>
                     <TouchableOpacity onPress={()=>navigation.navigate("NearCenter")}>
                             <ResultText2 style={{ fontSize: 20, marginTop: 20, color: 'black', textDecorationLine: 'underline' }}>근처 수리점 정보 알아보기 {">"}</ResultText2>
