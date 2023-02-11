@@ -40,8 +40,6 @@ CRUSHED_WEIGHT = '../weights/damage/Crushed.pt'
 SCRATCHED_WEIGHT = '../weights/damage/Scratched.pt'
 SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
 
-SEVERITY_WEIGHT = '../weights/severity/Severity.pth'
-
 REPAIR_METHOD_WEIGHT = '../weights/repair_method/repair_method_vgg19.pth'
 REPAIR_COST_WEIGHT = '../weights/repair_cost/repair_cost_GradientBoostingRegressor.pkl'
 
@@ -182,23 +180,6 @@ def make_damage_predictions(model1, model2, model3, model4, part_img):
         predMask[3] = np.transpose(predMask[3], (1,2,0))
         val[3] = find_damage(predMask[3])
 
-
-        '''with open(OUTPUT_PATH+'breakage_predMask.txt', 'w') as outfile:
-                for slice_2d in predMask1:
-                    np.savetxt(outfile, slice_2d)
-
-        with open(OUTPUT_PATH+'crushed_predMask.txt', 'w') as outfile:
-                for slice_2d in predMask2:
-                    np.savetxt(outfile, slice_2d)
-
-        with open(OUTPUT_PATH+'scratched_predMask3.txt', 'w') as outfile:
-                for slice_2d in predMask3:
-                    np.savetxt(outfile, slice_2d)
-
-        with open(OUTPUT_PATH+'separated_predMask4.txt', 'w') as outfile:
-                for slice_2d in predMask4:
-                    np.savetxt(outfile, slice_2d)'''
-
     return (predMask, val, sum, count)
 
 def img_to_str(img):
@@ -229,68 +210,6 @@ def main():
         #part_prediction
         parts, part_coor, conf = make_part_predictions(model, origImage)
         print("Damaged Parts: "+', '.join(parts))
-        
-        '''for i in range(len(parts)):
-            print("\nDetecting damage in "+parts[i]+"...\n")
-            crop = origImage.crop(part_coor[i])
-            width, height = crop.size
-            part_img = Image.new(crop.mode, (256,256), (255, 255, 255))
-            part_img.paste(crop, (int((256-width)/2), int((256-height)/2)))
-            
-            figure, ax = plt.subplots(nrows=3, ncols=4, figsize=(15, 15))
-
-            #original
-            ax[0][0].imshow(origImage)
-            ax[0][0].set_title("Original")
-
-            ax[0][1].axis('off')
-            ax[0][2].axis('off')
-            ax[0][3].axis('off')
-
-            #part 
-            ax[1][0].imshow(origImage, cmap='gray')
-            ax[1][0].imshow(color.label2rgb(part_mask[:,:,0]), alpha=0.4)
-            ax[1][0].set_title("Damaged part")
-            ax[1][1].axis('off')
-            ax[1][2].axis('off')
-            ax[1][3].axis('off')
-
-            damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, part_img)
-
-            #damage
-            ax[2][0].imshow(part_img, cmap='gray')
-            ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]), alpha=0.4)
-            ax[2][0].set_title("Breakage")
-
-            ax[2][1].imshow(part_img, cmap='gray')
-            ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]), alpha=0.4)
-            ax[2][1].set_title("Crushed")
-
-            ax[2][2].imshow(part_img, cmap='gray')
-            ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]), alpha=0.4)
-            ax[2][2].set_title("Scratched")
-
-            ax[2][3].imshow(part_img, cmap='gray')
-            ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]), alpha=0.4)
-            ax[2][3].set_title("Separated")
-
-            labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']
-
-            for j in range(4):
-                if val[j] is None: 
-                    print(labels[j]+": Damage is not detected")
-                else: 
-                    print(labels[j]+": "+str(val[i])+"% area")
-                    print(labels[j] + " confidence score: "+ str(round((sum[j]/count[j]) * 100, 1)) + "%")
-
-                print("")
-            
-            severity = get_severity(severity_model, part_img)
-            print(parts[i]+" damage severity is level "+str(int(severity)))
-
-            #figure.tight_layout()
-            figure.savefig('../output/'+parts[i]+'_api.jpg')
-            print("\n"+"-"*40)'''
 
 @app.route('/api/test', methods=['POST'])
 def test():
@@ -298,10 +217,7 @@ def test():
     if request.method == 'POST':
         response.headers.add("Access-Control-Allow-Origin", "*")
         data = request.get_json()
-        #print("Enter the index (1-1000): ", end="")
         
-        #idx = int(input())
-        #l = [file for file in os.listdir("../testset/img/")]
         idx = int(data["index"])
         data={}
         
@@ -325,7 +241,6 @@ def test():
         #load original image
         origImage = Image.open(os.path.join('../testset/img/', image_infos['file_name']))
         origImage = origImage.resize((256, 256))
-        #origImage.save("../input/test_input.jpg")
         
         data["origImage"] = img_to_str(origImage)
         #data["origMask"] = ndarray_to_str(origMask)
@@ -352,63 +267,23 @@ def test():
             
             for j in range(4):
                 dict['damage_mask'].append(skimage_to_str(color.label2rgb(damage_mask[j][:,:,0])))
-            
-            #figure, ax = plt.subplots(nrows=3, ncols=4, figsize=(15, 15))
-
-            #original
-            '''ax[0][0].imshow(origImage)
-            ax[0][0].set_title("Original")
-
-            ax[0][1].imshow(origImage, cmap='gray')
-            ax[0][1].imshow(origMask, alpha=0.4)
-            ax[0][1].set_title("Answer Mask")
-
-            ax[0][2].axis('off')
-            ax[0][3].axis('off')
-
-            #part 
-            ax[1][0].imshow(origImage, cmap='gray')
-            ax[1][0].imshow(color.label2rgb(part_mask[:,:,0]), alpha=0.4)
-            ax[1][0].set_title("Damaged part")
-            ax[1][1].axis('off')
-            ax[1][2].axis('off')
-            ax[1][3].axis('off')
-
-            damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, part_img)
-
-            #damage
-            ax[2][0].imshow(part_img, cmap='gray')
-            ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]))
-            ax[2][0].set_title("Breakage")
-
-            ax[2][1].imshow(part_img, cmap='gray')
-            ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]))
-            ax[2][1].set_title("Crushed")
-
-            ax[2][2].imshow(part_img, cmap='gray')
-            ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]))
-            ax[2][2].set_title("Scratched")
-
-            ax[2][3].imshow(part_img, cmap='gray')
-            ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]))
-            ax[2][3].set_title("Separated")'''
 
             dict['damage_info']=[]
+            dict['checkbox_info']={}
             labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']
-
             for j in range(4):
                 if val[j] is None: 
                     print(labels[j]+": Damage is not detected")
                     dict['damage_info'].append(labels[j]+": Not detected")
+                    dict['checkbox_info'][parts[i]+'_'+labels[j]+'_disable']=True
+                    dict['checkbox_info'][parts[i]+'_'+labels[j]+'_color']="grey"
                 else: 
                     print(labels[j]+": "+str(val[i])+"% area")
                     print(labels[j] + " confidence score: "+ str(round((sum[j]/count[j]) * 100, 1)) + "%")
                     dict['damage_info'].append(labels[j] + ": Detected, Confidence score: "+ str(round((sum[j]/count[j]) * 100, 1)) + "%")
-                
+                    dict['checkbox_info'][parts[i]+'_'+labels[j]+'_disable']=False
+                    dict['checkbox_info'][parts[i]+'_'+labels[j]+'_color']="green"
                 print("")
-            
-            #severity = get_severity(severity_model, part_img)
-            #print(parts[i]+" damage severity is level "+str(int(severity)))
             
             repair_method = get_repair_method(repair_method_model, part_img)
             print(parts[i]+" repair method is "+ repair_method)
@@ -418,9 +293,7 @@ def test():
             repair_cost = int(round(repair_cost_model.predict([cost_input])[0],-3))
             print(parts[i]+" repair cost is "+ str(repair_cost)+ " won")
             dict['repair_cost'] = str(repair_cost)
-            
-            #figure.tight_layout()
-            #figure.savefig('../output/'+parts[i]+'_'+str(idx)+'_test.jpg')
+
             print("\n"+"-"*40)
             
             data['info'].append(dict)
@@ -447,16 +320,6 @@ def load_damage_unet_model(weight_path):
             model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
             return model
 
-def get_severity(model, origImage):
-    tf_toTensor = ToTensor()
-    image = tf_toTensor(origImage).float().to(DEVICE)
-    
-    predictions = model(image.unsqueeze(0))
-    prediction = predictions[0].detach().cpu()
-    severity = np.argmax(prediction)
-
-    return severity
-
 def get_repair_method(model, img):
     tf_toTensor = ToTensor()
     image = tf_toTensor(img).float().to(DEVICE)
@@ -481,9 +344,6 @@ if __name__ == '__main__':
     model2 = load_damage_unet_model(weight_path=CRUSHED_WEIGHT)
     model3 = load_damage_unet_model(weight_path=SCRATCHED_WEIGHT)
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
-
-    #load severity model
-    #severity_model = torch.load(SEVERITY_WEIGHT)
 
     #load repair method model
     repair_method_model = torch.load(REPAIR_METHOD_WEIGHT)

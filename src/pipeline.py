@@ -31,8 +31,6 @@ CRUSHED_WEIGHT = '../weights/damage/Crushed.pt'
 SCRATCHED_WEIGHT = '../weights/damage/Scratched.pt'
 SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
 
-SEVERITY_WEIGHT = '../weights/severity/Severity.pth'
-
 REPAIR_METHOD_WEIGHT = '../weights/repair_method/repair_method_vgg19.pth'
 REPAIR_COST_WEIGHT = '../weights/repair_cost/repair_cost_GradientBoostingRegressor.pkl'
 
@@ -201,16 +199,6 @@ def load_damage_unet_model(weight_path):
             model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')), strict=False)
             return model
 
-def get_severity(model, img):
-    tf_toTensor = ToTensor()
-    image = tf_toTensor(img).float().to(DEVICE)
-    
-    predictions = model(image.unsqueeze(0))
-    prediction = predictions[0].detach().cpu()
-    severity = np.argmax(prediction)
-
-    return severity
-
 def get_repair_method(model, img):
     tf_toTensor = ToTensor()
     image = tf_toTensor(img).float().to(DEVICE)
@@ -234,9 +222,6 @@ def main():
     model2 = load_damage_unet_model(weight_path=CRUSHED_WEIGHT)
     model3 = load_damage_unet_model(weight_path=SCRATCHED_WEIGHT)
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
-
-    #load severity model
-    #severity_model = torch.load(SEVERITY_WEIGHT)
     
     #load repair method model
     repair_method_model = torch.load(REPAIR_METHOD_WEIGHT)
@@ -308,9 +293,6 @@ def main():
 
             print("")
         
-        #severity = get_severity(severity_model, part_img)
-        #print(parts[i]+" damage severity is level "+str(int(severity)))
-        
         repair_method = get_repair_method(repair_method_model, part_img)
         print(parts[i]+" repair method is "+ repair_method)
         
@@ -332,9 +314,6 @@ def test():
     model2 = load_damage_unet_model(weight_path=CRUSHED_WEIGHT)
     model3 = load_damage_unet_model(weight_path=SCRATCHED_WEIGHT)
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
-
-    #load severity model
-    #severity_model = torch.load(SEVERITY_WEIGHT)
     
     #load repair method model
     repair_method_model = torch.load(REPAIR_METHOD_WEIGHT)
@@ -431,9 +410,6 @@ def test():
                 print(labels[j] + " confidence score: "+ str(round((sum[j]/count[j]) * 100, 1)) + "%")
             
             print("")
-        
-        #severity = get_severity(severity_model, part_img)
-        #print(parts[i]+" damage severity is level "+str(int(severity)))
         
         repair_method = get_repair_method(repair_method_model, part_img)
         print(parts[i]+" repair method is "+ repair_method)
