@@ -1,6 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components"
 import axios from 'axios';
+import Home from "./pages/Home";
+import TestHome from "./pages/TestHome";
+import Contact from "./pages/Contact";
 
 const Container = styled.div`
   	background-color: white;
@@ -62,10 +66,24 @@ const DamageMask = styled.img`
 	height: 256px;
 	margin-top: 20px;
 	border: 1px solid rgb(0,0,0);
-	opacity: 0.2;
+	opacity: 0.4;
 `;
 
-function App() {
+export default function App(){
+	return(
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/test" element={<TestHome />}/>
+				<Route path="/contact" element={<Contact />} />
+			</Routes>
+		</BrowserRouter>
+		
+	)
+	
+}
+
+/*export default function App() {
 	const url = "http://127.0.0.1:8080/api/"
 	const indexRef = useRef(null)
     let formData;
@@ -132,7 +150,7 @@ function App() {
 	}	
 	else{
 		const origImage = data["origImage"]
-		//const origMask = data["origMask"]
+		const origMask = data["origMask"]
 		const parts = data["part"].join(", ")
 		const infoList = data["info"]
 
@@ -164,6 +182,7 @@ function App() {
 				<InfoBox>
 					<InfoText style={{marginTop: 50}}>Original Image</InfoText>
 					<OrigImage src={`data:image/jpeg;base64,${origImage}`} />
+					<OrigImage src={`data:image/jpeg;base64,${origMask}`} />
 				</InfoBox>
 				<InfoBox>
 					<InfoText>Damaged Parts: &nbsp; {parts}</InfoText>
@@ -252,6 +271,5 @@ function App() {
 		)
 	}
 	
-}
+}*/
 
-export default App;
