@@ -134,7 +134,7 @@ def confirm_train():
 def remove_random():
     detach = [file for file in os.listdir(train_dir+'detach/') if file.endswith('.jpg')]
     cnt=len(detach)
-    while cnt>4600:
+    while cnt>6100:
         rand = random.randrange(0,cnt)
         try:
             os.remove(train_dir+'detach/'+detach[rand]) 
@@ -154,7 +154,7 @@ def remove_random():
             pass
     replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
     cnt=len(replace)
-    while cnt>4600:
+    while cnt>15000:
         rand = random.randrange(0,cnt)
         try:
             os.remove(train_dir+'replace/'+replace[rand]) 
@@ -262,7 +262,7 @@ def make_validset():
 
     detach = [file for file in os.listdir(train_dir+'detach/') if file.endswith('.jpg')]
     cnt=len(detach)
-    while cnt>4200:
+    while cnt>5500:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'detach/'+detach[rand], valid_dir+'detach/'+detach[rand])
@@ -312,7 +312,7 @@ def make_validset():
             pass'''
     replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
     cnt=len(replace)
-    while cnt>4200:
+    while cnt>13500:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'replace/'+replace[rand], valid_dir+'replace/'+replace[rand])
@@ -353,7 +353,7 @@ def make_testset():
 
     detach = [file for file in os.listdir(train_dir+'detach/') if file.endswith('.jpg')]
     cnt=len(detach)
-    while cnt>3800:
+    while cnt>4900:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'detach/'+detach[rand], test_dir+'detach/'+detach[rand])
@@ -403,7 +403,7 @@ def make_testset():
             pass'''
     replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
     cnt=len(replace)
-    while cnt>3800:
+    while cnt>12000:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'replace/'+replace[rand], test_dir+'replace/'+replace[rand])

@@ -135,9 +135,9 @@ for f in replace:
 
 print()
 
-print("accuracy of detach:",round(cnt_detach/400 * 100, 2),"%")
+print("accuracy of detach:",round(cnt_detach/600 * 100, 2),"%")
 print("accuracy of overhall:",round(cnt_overhall/400 * 100, 2),"%")
-print("accuracy of replace:",round(cnt_replace/400 * 100, 2),"%")
+print("accuracy of replace:",round(cnt_replace/1500 * 100, 2),"%")
 
 #with open('./data/datainfo/detach_wrong_list.txt', 'w') as f:
 #    for item in detach_wrong_list:

@@ -1,3 +1,4 @@
 weight 1: 각 method에서 Frontbumper, Rearbumper 수만 같게 함 (21%, 54%, 75%)
 weight 2: 각 method에서 Frontbumper, Rearbumper 수 같게 하고 trainset, validset, testset 개수 같게 함 (50% 60% 40%)
 weight 3: 각 method별 trainset, validset, testset 개수 같게함 (65% 75% 27%)
+weight 4: 걍 있는거 다 때려박음 (10% 50% 90%)
