@@ -55,7 +55,7 @@ def overlap(rect1, rect2):
     return True
 
 def make_part_predictions(model, origImage):
-    parts = ["Front bumper","Rear bumper","Front fender(R)","Front fender(L)","Rear fender(R)","Trunk lid","Bonnet","Rear fender(L)","Rear door(R)","Head lights(R)","Head lights(L)","Front Wheel(R)","Front door(R)","Side mirror(R)", "Damage"]
+    parts = ["Frontbumper","Rearbumper","Frontfender(R)","Frontfender(L)","Rearfender(R)","Trunklid","Bonnet","Rearfender(L)","Reardoor(R)","Headlights(R)","Headlights(L)","Frontwheel(R)","Frontdoor(R)","Sidemirror(R)", "Damage"]
     damage_indices = []
     damaged_part_cls = []
     damaged_part_coor = []
