@@ -72,7 +72,7 @@ def get_model_input(MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PART, REPAIR_METHOD) :
        PART = 8
     elif any(substring in PART for substring in ["Bonnet"]) :
        PART = 0
-    elif PART.find("Trunklid") > -1 :
+    elif PART.find("TrunkLid") > -1 :
        PART = 10
     elif any(substring in PART for substring in ["RearDoor(R)", "RearDoor(L)"]) :
        PART = 7
