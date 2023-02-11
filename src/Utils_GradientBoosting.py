@@ -62,27 +62,27 @@ def delete_outlier(data, column, threshold) :
 
 # 모델 input 전처리
 def get_model_input(MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PART, REPAIR_METHOD) : 
-    if any(substring in PART for substring in ["Frontbumper"]) :
+    if any(substring in PART for substring in ["FrontBumper"]) :
         PART = 2
-    elif any(substring in PART for substring in ["Rearbumper"]) :
+    elif any(substring in PART for substring in ["RearBumper"]) :
         PART = 6
-    elif any(substring in PART for substring in ["Frontfender(L)","Frontfender(R)"] ) :
+    elif any(substring in PART for substring in ["FrontFender(L)","FrontFender(R)"] ) :
        PART = 4
-    elif any(substring in PART for substring in ["Rearfender(L)","Rearfender(R)"]) :
+    elif any(substring in PART for substring in ["RearFender(L)","RearFender(R)"]) :
        PART = 8
     elif any(substring in PART for substring in ["Bonnet"]) :
        PART = 0
     elif PART.find("Trunklid") > -1 :
        PART = 10
-    elif any(substring in PART for substring in ["Reardoor(R)", "Reardoor(L)"]) :
+    elif any(substring in PART for substring in ["RearDoor(R)", "RearDoor(L)"]) :
        PART = 7
-    elif any(substring in PART for substring in ["Frontdoor(R)", "Frontdoor(L)"]) :
+    elif any(substring in PART for substring in ["FrontDoor(R)", "FrontDoor(L)"]) :
        PART = 3
-    elif any(substring in PART for substring in ["Sidemirror(R)", "Sidemirror(L)"]) :
+    elif any(substring in PART for substring in ["SideMirror(R)", "SideMirror(L)"]) :
        PART = 9
-    elif any(substring in PART for substring in ["Frontwheel(R)", "Frontwheel(L)"]) :
+    elif any(substring in PART for substring in ["FrontWheel(R)", "FrontWheel(L)"]) :
        PART = 1
-    elif any(substring in PART for substring in ["Headlights(L)", "Headlights(R)"]) :
+    elif any(substring in PART for substring in ["HeadLights(L)", "HeadLights(R)"]) :
        PART = 5
 
     if REPAIR_METHOD.find("overhaul") > -1 :
