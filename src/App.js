@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components"
 import axios from 'axios';
 
@@ -54,6 +54,15 @@ const PartImage = styled.img`
 	height: 256px;
 	margin-top: 20px;
 	margin-bottom: 20px;
+`;
+
+const DamageMask = styled.img`
+	position: absolute;
+	width: 256px;
+	height: 256px;
+	margin-top: 20px;
+	border: 1px solid rgb(0,0,0);
+	opacity: 0.2;
 `;
 
 function App() {
@@ -133,6 +142,7 @@ function App() {
 			{id: 3, value: "Scratched"},
 			{id: 4, value: "Separated"}
 		]
+
 		const handleSelect = (event) => {
 			const value = event.target.value;
 			const isChecked = event.target.checked;
@@ -167,17 +177,55 @@ function App() {
 									flexDirection: "row"
 								}}>
 									<PartImage src={`data:image/jpeg;base64,${index.part_img}`}/>
-									<div>
+									{
+										checkedList.find(v => v === index.part+'_Breakage') ? 
+										<DamageMask src={`data:image/jpeg;base64,${index.damage_mask[0]}`} />:null
+									}
+									{
+										checkedList.find(v => v === index.part+'_Crushed') ? 
+										<DamageMask src={`data:image/jpeg;base64,${index.damage_mask[1]}`} />:null
+									}
+									{
+										checkedList.find(v => v === index.part+'_Scratched') ?
+										<DamageMask src={`data:image/jpeg;base64,${index.damage_mask[2]}`} />:null
+									}
+									{
+										checkedList.find(v => v === index.part+'_Separated') ?
+										<DamageMask src={`data:image/jpeg;base64,${index.damage_mask[3]}`} />:null
+									}
+									<div style={{
+										display: "flex",
+										flexDirection: "column",
+										marginTop: 20,
+										height: 256,
+										justifyContent: "center"
+									}}>
 										{
 											checkValues.map((item) => {
+												const disable = index.part+'_'+item.value+'_disable'
+												const color = index.part+'_'+item.value+'_color'
 												return (
-													<div key={item.id}>
+													<div 
+														key={item.id} 
+														style={{
+															display: "flex",
+															marginTop: 10, 
+															marginBottom: 10, 
+															marginLeft: 10,
+															alignItems: "center"
+														}}
+													>
 														<input
+															disabled={index.checkbox_info[disable]}
 															type="checkbox"
-															value={item.value}
+															value={index.part+'_'+item.value}
 															onChange={handleSelect}
+															style={{
+																height: 20,
+																width: 20,
+															}}
 														/>
-														<label>{item.value}</label>
+														<label style={{fontSize: 20, marginLeft: 10}}>{item.value}</label>
 													</div>
 												);
 											})
