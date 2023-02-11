@@ -182,6 +182,16 @@ def make_damage_predictions(model1, model2, model3, model4, part_img):
 
     return (predMask, val, sum, count)
 
+def damage_drawMask(part_img, damageMask):
+    for x in range(damageMask.shape[0]):
+        for y in range(damageMask.shape[1]):
+            if (damageMask[x,y,0] == 0 and damageMask[x,y,1] == 0 and damageMask[x,y,2] == 0):
+                r, g, b = part_img.getpixel((y, x))
+                damageMask[x,y,0] = r/255
+                damageMask[x,y,1] = g/255
+                damageMask[x,y,2] = b/255
+    return damageMask
+
 def img_to_str(img):
     img_buffer = BytesIO()
     img.save(img_buffer, format="PNG")
@@ -243,7 +253,7 @@ def test():
         origImage = origImage.resize((256, 256))
         
         data["origImage"] = img_to_str(origImage)
-        #data["origMask"] = ndarray_to_str(origMask)
+        data["origMask"] = skimage_to_str(color.label2rgb(origMask, bg_color=(1,1,1)))
         
         #part_prediction
         parts, part_coor, conf = make_part_predictions(model, origImage)
@@ -266,7 +276,7 @@ def test():
             dict["damage_mask"]=[]
             
             for j in range(4):
-                dict['damage_mask'].append(skimage_to_str(color.label2rgb(damage_mask[j][:,:,0])))
+                dict['damage_mask'].append(skimage_to_str(damage_drawMask(part_img, color.label2rgb(damage_mask[j][:,:,0]))))
 
             dict['damage_info']=[]
             dict['checkbox_info']={}

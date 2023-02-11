@@ -9,15 +9,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn.functional as F
-import Utils_GradientBoosting
 from PIL import Image
 from pycocotools.coco import COCO
 from scipy import ndimage
 from skimage import color
 from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor
-
 from ultralytics import YOLO
+
+import Utils_GradientBoosting
 from Model_UNET import Unet
 from Model_VGG19 import IntelCnnModel
 
@@ -180,6 +180,16 @@ def make_damage_predictions(model1, model2, model3, model4, part_img):
 
     return (predMask, val, sum, count)
 
+def damage_drawMask(part_img, damageMask):
+    for x in range(damageMask.shape[0]):
+        for y in range(damageMask.shape[1]):
+            if (damageMask[x,y,0] == 0 and damageMask[x,y,1] == 0 and damageMask[x,y,2] == 0):
+                r, g, b = part_img.getpixel((y, x))
+                damageMask[x,y,0] = r/255
+                damageMask[x,y,1] = g/255
+                damageMask[x,y,2] = b/255
+    return damageMask
+
 def load_part_yolo_model(weight_path):
     model = YOLO(weight_path)
 
@@ -267,19 +277,23 @@ def main():
 
         #damage
         ax[2][0].imshow(origImage, cmap='gray')
-        ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]), alpha=1.0)
+        damage_mask[0] = damage_drawMask(part_img, color.label2rgb(damage_mask[0][:,:,0]))
+        ax[2][0].imshow(damage_mask[0], alpha=0.4)
         ax[2][0].set_title("Breakage")
 
         ax[2][1].imshow(origImage, cmap='gray')
-        ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]), alpha=1.0)
+        damage_mask[1] = damage_drawMask(part_img, color.label2rgb(damage_mask[0][:,:,0]))
+        ax[2][1].imshow(damage_mask[1], alpha=0.4)
         ax[2][1].set_title("Crushed")
 
         ax[2][2].imshow(origImage, cmap='gray')
-        ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]), alpha=1.0)
+        damage_mask[2] = damage_drawMask(part_img, color.label2rgb(damage_mask[0][:,:,0]))
+        ax[2][2].imshow(damage_mask[2], alpha=0.4)
         ax[2][2].set_title("Scratched")
 
         ax[2][3].imshow(origImage, cmap='gray')
-        ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]), alpha=1.0)
+        damage_mask[3] = damage_drawMask(part_img, color.label2rgb(damage_mask[0][:,:,0]))
+        ax[2][3].imshow(damage_mask[3], alpha=0.4)
         ax[2][3].set_title("Separated")
 
         labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']
@@ -354,7 +368,6 @@ def test():
 
     for i in range(len(parts)):
         print("\nDetecting damage in "+parts[i]+"...\n")
-        print(part_coor[i])
         crop = origImage.crop(part_coor[i])
         width, height = crop.size
         part_img = Image.new(crop.mode, (256,256), (255, 255, 255))
@@ -385,19 +398,23 @@ def test():
 
         #damage
         ax[2][0].imshow(part_img, cmap='gray')
-        ax[2][0].imshow(color.label2rgb(damage_mask[0][:,:,0]), alpha=0.4)
+        damage_mask[0] = damage_drawMask(part_img, color.label2rgb(damage_mask[0][:,:,0]))
+        ax[2][0].imshow(damage_mask[0], alpha=0.4)
         ax[2][0].set_title("Breakage")
 
         ax[2][1].imshow(part_img, cmap='gray')
-        ax[2][1].imshow(color.label2rgb(damage_mask[1][:,:,0]), alpha=0.4)
+        damage_mask[1] = damage_drawMask(part_img, color.label2rgb(damage_mask[1][:,:,0]))
+        ax[2][1].imshow(damage_mask[1], alpha=0.4)
         ax[2][1].set_title("Crushed")
 
         ax[2][2].imshow(part_img, cmap='gray')
-        ax[2][2].imshow(color.label2rgb(damage_mask[2][:,:,0]), alpha=0.4)
+        damage_mask[2] = damage_drawMask(part_img, color.label2rgb(damage_mask[2][:,:,0]))
+        ax[2][1].imshow(damage_mask[2], alpha=0.4)
         ax[2][2].set_title("Scratched")
 
         ax[2][3].imshow(part_img, cmap='gray')
-        ax[2][3].imshow(color.label2rgb(damage_mask[3][:,:,0]), alpha=0.4)
+        damage_mask[3] = damage_drawMask(part_img, color.label2rgb(damage_mask[3][:,:,0]))
+        ax[2][1].imshow(damage_mask[3], alpha=0.4)
         ax[2][3].set_title("Separated")
 
         labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']
