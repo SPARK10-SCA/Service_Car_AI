@@ -5,6 +5,8 @@ import axios from 'axios';
 import Home from "./pages/Home";
 import TestHome from "./pages/TestHome";
 import Contact from "./pages/Contact";
+import Result from "./pages/Result";
+import TestResult from "./pages/TestResult";
 
 const Container = styled.div`
   	background-color: white;
@@ -74,8 +76,10 @@ export default function App(){
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/test" element={<TestHome />}/>
-				<Route path="/contact" element={<Contact />} />
+				<Route path="/result/*" element={<Result />} />
+				<Route path="/test/*" element={<TestHome />}/>
+				<Route path="/test_result/*" element={<TestResult />} />
+				<Route path="/contact/*" element={<Contact />} />
 			</Routes>
 		</BrowserRouter>
 		
