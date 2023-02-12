@@ -1,12 +1,8 @@
-import os
-os.environ['KMP_DUPLICATE_LIB_OK']='True'
-
 from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 
 from ultralytics import YOLO
 from Model_UNET import Unet
-from Model_VGG19 import IntelCnnModel
 import torch
 import numpy as np
 import cv2
@@ -18,18 +14,14 @@ from io import BytesIO
 import base64
 from torchvision.transforms import ToTensor
 from scipy import ndimage
-from torch.utils.data import DataLoader
 from pycocotools.coco import COCO
 import albumentations as A
 import torch.nn.functional as F
 import joblib
 import Utils_GradientBoosting
 
-import sys
-import time
+import os
 import json
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 
 INPUT_PATH = '../input/'
 OUTPUT_PATH = '../output/'
@@ -43,8 +35,6 @@ SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
 
 REPAIR_METHOD_WEIGHT = '../weights/repair_method/repair_method_vgg19.pth'
 REPAIR_COST_WEIGHT = '../weights/repair_cost/repair_cost_GradientBoostingRegressor.pkl'
-
-
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -317,7 +307,7 @@ def test():
         origImage = origImage.resize((256, 256))
         
         data["origImage"] = img_to_str(origImage)
-        data["origMask"] = skimage_to_str(color.label2rgb(origMask, bg_color=(1,1,1)))
+        data["origMask"] = skimage_to_str(damage_drawMask(origImage, color.label2rgb(origMask)))
         
         #part_prediction
         parts, part_coor, conf = make_part_predictions(model, origImage)
@@ -384,7 +374,7 @@ def load_damage_unet_model(weight_path):
     model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=2)
     model = model.to(DEVICE)
     try:
-        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
+        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
         return model.model
     except:
         try:
@@ -420,7 +410,7 @@ if __name__ == '__main__':
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
 
     #load repair method model
-    repair_method_model = torch.load(REPAIR_METHOD_WEIGHT, map_location='cpu')
+    repair_method_model = torch.load(REPAIR_METHOD_WEIGHT, map_location='cuda')
     
     #load repair cost model
     repair_cost_model = joblib.load(REPAIR_COST_WEIGHT)
