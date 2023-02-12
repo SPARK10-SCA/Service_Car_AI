@@ -3,6 +3,7 @@ from flask_cors import CORS
 
 from ultralytics import YOLO
 from Model_UNET import Unet
+from Model_VGG19 import IntelCnnModel
 import torch
 import numpy as np
 import cv2
