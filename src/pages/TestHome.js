@@ -201,7 +201,7 @@ export default function Home(){
 									<input
 										type="text"
 										ref = {indexRef}
-										placeholder="1-1000 입력"
+										placeholder="0-999 입력"
 										style={{
 											border: "0px",
 											width: "70%",
