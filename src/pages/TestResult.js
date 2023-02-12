@@ -205,7 +205,9 @@ export default function Result(){
                                 flexDirection: "row",
                                 marginTop: -15
                             }}>
-                                {
+                                 {
+                                    parts.length === 0 ? 
+                                    <WhiteSticker>None</WhiteSticker>:
                                     parts.map((item) => (
                                         <WhiteSticker>{item}</WhiteSticker>
                                     ))

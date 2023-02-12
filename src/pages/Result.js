@@ -206,6 +206,8 @@ export default function Result(){
                                 marginTop: -15
                             }}>
                                 {
+                                    parts.length === 0 ? 
+                                    <WhiteSticker>None</WhiteSticker>:
                                     parts.map((item) => (
                                         <WhiteSticker>{item}</WhiteSticker>
                                     ))
