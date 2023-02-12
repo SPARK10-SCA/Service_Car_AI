@@ -1,3 +1,6 @@
+import os
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
+
 from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 
@@ -22,8 +25,6 @@ import torch.nn.functional as F
 import joblib
 import Utils_GradientBoosting
 
-
-import os
 import sys
 import time
 import json
@@ -42,6 +43,8 @@ SEPARATED_WEIGHT = '../weights/damage/Separated.pt'
 
 REPAIR_METHOD_WEIGHT = '../weights/repair_method/repair_method_vgg19.pth'
 REPAIR_COST_WEIGHT = '../weights/repair_cost/repair_cost_GradientBoostingRegressor.pkl'
+
+
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -192,6 +195,12 @@ def damage_drawMask(part_img, damageMask):
                 damageMask[x,y,2] = b/255
     return damageMask
 
+def str_to_img(str):
+    str = base64.b64decode(str)    
+    img =  BytesIO(str)
+    img = Image.open(img)
+    return img
+
 def img_to_str(img):
     img_buffer = BytesIO()
     img.save(img_buffer, format="PNG")
@@ -212,14 +221,69 @@ def main():
     if request.method == 'POST':
         response.headers.add("Access-Control-Allow-Origin", "*")
         data = request.get_json()
-
-        #load original image
-        origImage = Image.open('../input/input.jpg')
+        img_string = data["img_string"].replace("data:image/jpeg;base64,","").replace("data:image/jpg;base64,","").replace("data:image/png;base64,","")
+        origImage = str_to_img(img_string)
         origImage = origImage.resize((256, 256))
-
+        
+        data={}
+        
+        data["origImage"] = img_to_str(origImage)
+        
         #part_prediction
         parts, part_coor, conf = make_part_predictions(model, origImage)
         print("Damaged Parts: "+', '.join(parts))
+        data["part"] = parts
+
+        data["info"] = []
+        
+        for i in range(len(parts)):
+            dict={}
+            print("\nDetecting damage in "+parts[i]+"...\n")
+            crop = origImage.crop(part_coor[i])
+            width, height = crop.size
+            part_img = Image.new(crop.mode, (256,256), (255, 255, 255))
+            part_img.paste(crop, (int((256-width)/2), int((256-height)/2)))
+            dict["part"] = parts[i]
+            dict["part_img"]= img_to_str(part_img)
+            
+            damage_mask, val, sum, count = make_damage_predictions(model1, model2, model3, model4, part_img)
+            dict["damage_mask"]=[]
+            
+            for j in range(4):
+                dict['damage_mask'].append(skimage_to_str(damage_drawMask(part_img, color.label2rgb(damage_mask[j][:,:,0]))))
+
+            dict['damage_info']=[]
+            dict['checkbox_info']={}
+            labels = ['Breakage', 'Crushed', 'Scratched', 'Separated']
+            for j in range(4):
+                if val[j] is None: 
+                    print(labels[j]+": Damage is not detected")
+                    dict['damage_info'].append(labels[j]+": Not detected")
+                    dict['checkbox_info'][parts[i]+'_'+labels[j]+'_disable']=True
+                    dict['checkbox_info'][parts[i]+'_'+labels[j]+'_color']="grey"
+                else: 
+                    print(labels[j]+": "+str(val[i])+"% area")
+                    print(labels[j] + " confidence score: "+ str(round((sum[j]/count[j]) * 100, 1)) + "%")
+                    dict['damage_info'].append(labels[j] + ": Detected, Confidence score: "+ str(round((sum[j]/count[j]) * 100, 1)) + "%")
+                    dict['checkbox_info'][parts[i]+'_'+labels[j]+'_disable']=False
+                    dict['checkbox_info'][parts[i]+'_'+labels[j]+'_color']="green"
+                print("")
+            
+            repair_method = get_repair_method(repair_method_model, part_img)
+            print(parts[i]+" repair method is "+ repair_method)
+            dict['repair_method'] = repair_method
+            
+            cost_input = Utils_GradientBoosting.get_model_input(10000,20210101,20210101,8, parts[i], repair_method)
+            repair_cost = int(round(repair_cost_model.predict([cost_input])[0],-3))
+            print(parts[i]+" repair cost is "+ str(repair_cost)+ " won")
+            dict['repair_cost'] = str(repair_cost)
+
+            print("\n"+"-"*40)
+            
+            data['info'].append(dict)
+
+        response.set_data(json.dumps(data))
+        return response
 
 @app.route('/api/test', methods=['POST'])
 def test():
@@ -320,7 +384,7 @@ def load_damage_unet_model(weight_path):
     model = Unet(encoder="resnet34",pre_weight='imagenet',num_classes=2)
     model = model.to(DEVICE)
     try:
-        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cuda')))
+        model.model.load_state_dict(torch.load(weight_path, map_location=torch.device('cpu')))
         return model.model
     except:
         try:
@@ -356,7 +420,7 @@ if __name__ == '__main__':
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
 
     #load repair method model
-    repair_method_model = torch.load(REPAIR_METHOD_WEIGHT)
+    repair_method_model = torch.load(REPAIR_METHOD_WEIGHT, map_location='cpu')
     
     #load repair cost model
     repair_cost_model = joblib.load(REPAIR_COST_WEIGHT)

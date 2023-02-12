@@ -7,3 +7,5 @@ scipy
 pycocotools
 albumentations
 ultralytics
+scikit-learn
+joblib
