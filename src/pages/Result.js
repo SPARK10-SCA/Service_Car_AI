@@ -12,7 +12,7 @@ const Left = styled.div`
     flex-direction: column;
     align-items: center;
     width: 10%;
-    height: 100%;
+    height: 450%;
     float: left;
     background-color: black;
 `;
@@ -34,25 +34,35 @@ const Right = styled.div`
 
 const InfoText = styled.h2`
 	align-self: flex-start;
-	font-size: 24px;
-	font-weight: 600;
-`;
-
-const InfoText2 = styled.h2`
-	align-self: flex-start;
 	font-size: 20px;
 	font-weight: 500;
 	text-transform: capitalize;
 `
 
 const BlueSticker = styled.h2`
-    font-size: 20px;
+    font-size: 24px;
     background-color: #0f70e6;
     color: white;
     padding: 8px;
     border-radius: 10px;
     margin-right: 30px;
 `;
+
+const BlackSticker = styled.h2`
+    width: fit-content;
+    font-size: 24px;
+    color: black;
+`
+
+const WhiteSticker = styled.h2`
+    font-size: 20px;
+    background-color: white;
+    color: black;
+    padding: 8px;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin-right: 15px;
+`
 
 const InfoBox = styled.div`
 	background-color: white;
@@ -97,7 +107,7 @@ export default function Result(){
 
     if(data !== null){
         const origImage = data["origImage"]
-        const parts = data["part"].join(", ")
+        const parts = data["part"]
         const infoList = data["info"]
 
         const checkValues = [
@@ -189,7 +199,19 @@ export default function Result(){
                         }}>
                             <BlueSticker>Original Image</BlueSticker>
                             <OrigImage src={`data:image/jpeg;base64,${origImage}`} />
-                            <InfoText>Damaged Parts: &nbsp; {parts}</InfoText>
+                            <BlackSticker>Damaged Parts</BlackSticker>
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                marginTop: -15
+                            }}>
+                                {
+                                    parts.map((item) => (
+                                        <WhiteSticker>{item}</WhiteSticker>
+                                    ))
+                                }
+                            </div>
+                            
                         </div>
                     </InfoBox>
                     <InfoBox>
@@ -242,7 +264,7 @@ export default function Result(){
                                                                 display: "flex",
                                                                 marginTop: 10, 
                                                                 marginBottom: 10, 
-                                                                marginLeft: 10,
+                                                                marginLeft: 30,
                                                                 alignItems: "center"
                                                             }}
                                                         >
@@ -252,25 +274,29 @@ export default function Result(){
                                                                 value={index.part+'_'+item.value}
                                                                 onChange={handleSelect}
                                                                 style={{
-                                                                    height: 20,
-                                                                    width: 20,
+                                                                    height: 25,
+                                                                    width: 25,
                                                                 }}
                                                             />
-                                                            <label style={{fontSize: 20, marginLeft: 10}}>{item.value}</label>
+                                                            <label style={{fontSize: 25, marginLeft: 10}}>{item.value}</label>
                                                         </div>
                                                     );
                                                 })
                                             }
                                         </div>
                                     </div> 
-                                    <InfoText>Damage Info</InfoText>
-                                    <InfoText2>{index.damage_info[0]}</InfoText2>
-                                    <InfoText2>{index.damage_info[1]}</InfoText2>
-                                    <InfoText2>{index.damage_info[2]}</InfoText2>
-                                    <InfoText2>{index.damage_info[3]}</InfoText2>
+                                    <BlackSticker>Damage Info</BlackSticker>
+                                    <InfoText>{index.damage_info[0]}</InfoText>
+                                    <InfoText>{index.damage_info[1]}</InfoText>
+                                    <InfoText>{index.damage_info[2]}</InfoText>
+                                    <InfoText>{index.damage_info[3]}</InfoText>
                                     <br/>
-                                    <InfoText>Repair Method: <InfoText2>{index.repair_method}</InfoText2></InfoText>
-                                    <InfoText>Repair Cost: <InfoText2>{index.repair_cost} Won</InfoText2></InfoText>
+                                    <BlackSticker>Repair Method</BlackSticker>
+                                    <InfoText>{index.repair_method}</InfoText>
+                                    <br/>
+                                    <BlackSticker>Repair Cost</BlackSticker>
+                                    <InfoText>{index.repair_cost} Won</InfoText>
+                                    <br/>
                                 </div>
                             ))
                         }
