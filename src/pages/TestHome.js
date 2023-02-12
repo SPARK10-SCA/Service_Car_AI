@@ -1,7 +1,8 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import ReactLoading from "react-loading"
 
 const Container = styled.div`
     height: 100%;
@@ -48,8 +49,21 @@ export default function Home(){
 
 	const indexRef = useRef(null)
 	const [data, setData] = useState(null);
+	const [loading, setLoading] = useState(false);
+
+	useEffect(()=>{
+		if(data!==null){
+			setLoading(false);
+			navigate('/test_result', {
+				state: {
+					data: data
+				}
+			})
+		}
+	}, [data])
 
     const testSend = (e) => {
+		setLoading(true);
         axios.post(url+"test", {
 			"index": indexRef.current.value
 		},{
@@ -58,14 +72,7 @@ export default function Home(){
 				'Access-Control-Allow-Headers': '*'
 			}
 		}).then(res => {
-			setData(res.data)
-			if(data!=null){
-				navigate("/test_result", {
-					state: {
-						data: data
-					}
-				})
-			}
+			setData(res.data)		
 		}).catch(err => {
 			console.log(err)
 		})
@@ -151,56 +158,73 @@ export default function Home(){
 						width: 260,
 						marginBottom: 30
 					}}>
-
-						<div style={{
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							justifyContent: "center",
-							height: "100%",
-						}}>
-							<img 
-								src={require("../assets/images/image_icon.png")}
-								style={{
-									width: 150,
-									height: 150
-								}} 
-							/>
+						{
+                            loading ? 
+                            <div style={{
+                                display: "flex",
+                                width: "100%",
+                                height: "100%",
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}>
+                                <ReactLoading
+                                    type="spin"
+                                    color="#0f70e6"
+                                    width={70}
+                                    height={70}
+                                />
+                            </div> :
 							<div style={{
 								display: "flex",
-								flexDirection: "row",
+								flexDirection: "column",
 								alignItems: "center",
-								border: "2px solid black",
-								width: "75%",
-								height: 35,
-								borderRadius: 25,
-								backgroundColor: "#0f70e6"
+								justifyContent: "center",
+								height: "100%",
 							}}>
-								<input
-									type="text"
-									ref = {indexRef}
-									placeholder="1-1000 입력"
+								<img 
+									src={require("../assets/images/image_icon.png")}
 									style={{
-										border: "0px",
-										width: "70%",
-										height: "90%",
-										fontSize: 18,
-										paddingLeft: 10,
-										marginRight: 8,
-										borderTopLeftRadius: 18,
-										borderBottomLeftRadius: 18
-									}}
+										width: 150,
+										height: 150
+									}} 
 								/>
-								<label 
-									style={{
-										fontSize: 15,
-										fontWeight: 600,
-										color: "white",
-									}}
-									onClick={testSend}
-								>확인</label>
+								<div style={{
+									display: "flex",
+									flexDirection: "row",
+									alignItems: "center",
+									border: "2px solid black",
+									width: "75%",
+									height: 35,
+									borderRadius: 25,
+									backgroundColor: "#0f70e6"
+								}}>
+									<input
+										type="text"
+										ref = {indexRef}
+										placeholder="1-1000 입력"
+										style={{
+											border: "0px",
+											width: "70%",
+											height: "90%",
+											fontSize: 18,
+											paddingLeft: 10,
+											marginRight: 8,
+											borderTopLeftRadius: 18,
+											borderBottomLeftRadius: 18
+										}}
+									/>
+									<label 
+										style={{
+											fontSize: 15,
+											fontWeight: 600,
+											color: "white",
+										}}
+										onClick={testSend}
+									>확인</label>
+								</div>
 							</div>
-						</div>
+                        }
+						
 						
 					</div>
 				</div>

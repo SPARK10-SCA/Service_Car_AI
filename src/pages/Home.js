@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import ReactLoading from "react-loading";
 
 const Container = styled.div`
     height: 100%;
@@ -47,6 +48,18 @@ export default function Home(){
     
     const [image, setImage] = useState(null)
 	const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(()=> {
+        if(data!==null){
+            setLoading(false);
+            navigate('/result', { 
+                state : {
+                    data: data 
+                }
+            })
+        }
+    }, [data])
 
 	const onChange = (e) => {
         e.preventDefault();
@@ -64,6 +77,7 @@ export default function Home(){
 	}
 
     const apiSend = async() => {
+        setLoading(true);
         await axios.post(
             url+"main",{
                 "img_string": image.url
@@ -74,13 +88,6 @@ export default function Home(){
                 }
             }).then((res) => {
                 setData(res.data)
-                if(data!=null){
-                    navigate('/result', { 
-                        state : {
-                            data: data 
-                        }
-                    })
-                }
             }).catch((err) => {
                 console.log(err);
             }
@@ -158,15 +165,31 @@ export default function Home(){
                 }}>
                     <h2 style={{color: "black"}}>SCA</h2>
                     <h2 style={{marginTop: -10, color: "black"}}>Car Damage Detection</h2>
-                    
                     <div style={{
                         boxShadow: "1px 1px 5px 2px grey",
                         borderRadius: 10,
                         height: 260,
                         width: 260,
                         marginBottom: 30,
-                        backgroundColor: "white"
                     }}>
+                        {
+                            loading ? 
+                            <div style={{
+                                display: "flex",
+                                width: "100%",
+                                height: "100%",
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}>
+                                <ReactLoading
+                                    type="spin"
+                                    color="#0f70e6"
+                                    width={70}
+                                    height={70}
+                                />
+                            </div>
+                            : null
+                        }
                         {
                             image === null ? 
                             <div style={{
@@ -205,6 +228,7 @@ export default function Home(){
                                     }}
                                 >이미지 업로드</label>
                             </div>:
+                            loading ? null: 
                             <img    
                                 src={image.url}
                                 style={{
@@ -217,7 +241,7 @@ export default function Home(){
                         
                     </div>
                     {
-                        image ?  
+                        loading === false & image !== null ?  
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
@@ -246,7 +270,7 @@ export default function Home(){
                                     fontSize: 18,
                                     marginLeft: 10
                                 }}
-                                onClick={()=>apiSend()}
+                                onClick={apiSend}
                             >검사 시작</label>
                         </div>: null
                     }
