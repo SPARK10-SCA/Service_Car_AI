@@ -1,14 +1,9 @@
-print('앞범퍼(스틸형)하단'.find("프런트범퍼" or '앞범퍼'))
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
 
-print(any('앞범퍼(스틸형)하단'.find(i) for i in ('asdg','sadf')))
+ohe = OneHotEncoder(sparse=False)
+train = pd.DataFrame({'num1':[1,2,3,4,5], 'num2':[10,20,30,40,50], 'cat1':['a', 'a', 'b', 'c', 'c']})
+print(train.cat1)
 
-my_str = 'apple, egg, avocado'
-list_of_strings = ['apple', 'banana', 'kiwi']
-
-# ✅ check if ONE of multiple strings exists in another string
-
-if any(substring in 'apple, egg, avocado' for substring in ['saf', 'asg', 'asf']):
-    # 👇️ this runs
-    print('At least one of the multiple strings exists in the string')
-else:
-    print('None of the multiple strings exist in the string')
+train_cat = ohe.fit_transform(train[['cat1']])
+print(ohe.categories_[0])

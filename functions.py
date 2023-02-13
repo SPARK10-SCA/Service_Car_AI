@@ -1,6 +1,14 @@
 import joblib
 import numpy as np
 
+# COMPANY feature 압축
+def get_company(company) :
+    if any(substring in company for substring in ['현대',"기아","한국GM","쌍용",'르노']) :
+       company = "국산차"
+    else : 
+        company = "외제차"
+    return company
+
 # PART feature 압축
 def get_parts(part) :
     if any(substring in part for substring in ["프런트범퍼","프런트 범퍼","앞범퍼","후론트 범퍼","후론트범퍼"]) :
@@ -57,6 +65,15 @@ def delete_outlier(data, column, threshold) :
     It = list(data[column])
     for i in range(len(It)) :
         if(It[i] > threshold) :
+            idx.append(i)
+    return idx
+
+# 너무 낮은 값 제거
+def delete_small_price(data, column, threshold) :
+    idx = []
+    It = list(data[column])
+    for i in range(len(It)) :
+        if(It[i] < threshold) :
             idx.append(i)
     return idx
 
