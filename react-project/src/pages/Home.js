@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -44,8 +44,11 @@ const BackgroundImage = styled.img`
 export default function Home(){
     const navigate = useNavigate();
 
-    const url = "http://13.125.213.13:8000/api/"
-    
+    //const url = "http://13.125.213.13:8000/api/"
+    const url = "http://127.0.0.1:8000/api/"
+
+    const yearRef = useRef(null);
+    const companyRef = useRef(null);
     const [image, setImage] = useState(null)
 	const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -77,21 +80,36 @@ export default function Home(){
 	}
 
     const apiSend = async() => {
-        setLoading(true);
-        await axios.post(
-            url+"main",{
-                "img_string": image.url
-            },{
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': '*'
+        const firstday = yearRef.current.value
+        const company = companyRef.current.value
+        if(!firstday){
+            alert("연식을 입력해주세요")
+        }
+        else if(!company){
+            alert("제조사를 입력해주세요")
+        }
+        else{   
+            setLoading(true);
+            await axios.post(
+                url+"main",{
+                    "img_string": image.url,
+                    "firstday": firstday,
+                    "company": company
+                },{
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Headers': '*'
+                    }
+                }).then((res) => {
+                    setData(res.data)
+                }).catch((err) => {
+                    setLoading(false)
+                    setImage(null)
+                    alert("오류 발생! 다시 시도해주세요")
                 }
-            }).then((res) => {
-                setData(res.data)
-            }).catch((err) => {
-                console.log(err);
-            }
-        )
+            )
+        }
+        
     }
 
     return (
@@ -241,38 +259,73 @@ export default function Home(){
                         
                     </div>
                     {
-                        loading === false & image !== null ?  
+                        loading === false & image !== null ?
                         <div style={{
                             display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            marginBottom: 15
+                            flexDirection: "column",
+                            alignItems: "center"
                         }}>
-                            <label 
+                            <input
+                                type="text"
+                                ref={yearRef}
+                                placeholder="연식 ex) 2020"
                                 style={{
-                                    backgroundColor: "#0f70e6",
-                                    color: "white",
-                                    padding: 12,
-                                    borderRadius: 25,
-                                    fontWeight: 900,
-                                    fontSize: 18,
-                                    marginRight: 10
+                                    height: 35,
+                                    width: 180,
+                                    fontSize: 20,
+                                    textAlign: "center",
+                                    border: "3px solid black",
+                                    borderRadius: 15,
+                                    marginBottom: 25,
                                 }}
-                                onClick={()=>setImage(null)}
-                            >다시 선택</label>
-                            <label 
+                            />
+                            <input
+                                type="text"
+                                ref={companyRef}
+                                placeholder="제조사"
                                 style={{
-                                    backgroundColor: "#0f70e6",
-                                    color: "white",
-                                    padding: 12,
-                                    borderRadius: 25,
-                                    fontWeight: 900,
-                                    fontSize: 18,
-                                    marginLeft: 10
+                                    height: 35,
+                                    width: 180,
+                                    fontSize: 20,
+                                    textAlign: "center",
+                                    border: "3px solid black",
+                                    borderRadius: 15,
+                                    marginBottom: 25,
                                 }}
-                                onClick={apiSend}
-                            >검사 시작</label>
-                        </div>: null
+                            />
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "center",
+                                marginBottom: 15
+                            }}>
+                                <label 
+                                    style={{
+                                        backgroundColor: "#0f70e6",
+                                        color: "white",
+                                        padding: 12,
+                                        borderRadius: 25,
+                                        fontWeight: 900,
+                                        fontSize: 18,
+                                        marginRight: 10
+                                    }}
+                                    onClick={()=>setImage(null)}
+                                >다시 선택</label>
+                                <label 
+                                    style={{
+                                        backgroundColor: "#0f70e6",
+                                        color: "white",
+                                        padding: 12,
+                                        borderRadius: 25,
+                                        fontWeight: 900,
+                                        fontSize: 18,
+                                        marginLeft: 10
+                                    }}
+                                    onClick={apiSend}
+                                >검사 시작</label>
+                            </div>
+                        </div>  
+                        : null
                     }
                 </div>
                 

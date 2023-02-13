@@ -46,6 +46,7 @@ export default function Home(){
     const navigate = useNavigate();
 
     const url = "http://13.125.213.13:8000/api/"
+	//const url = "http://127.0.0.1:8000/api/"
 
 	const indexRef = useRef(null)
 	const [data, setData] = useState(null);
@@ -63,20 +64,27 @@ export default function Home(){
 	}, [data])
 
     const testSend = (e) => {
-		setLoading(true);
-        axios.post(url+"test", {
-			"index": indexRef.current.value
-		},{
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Access-Control-Allow-Headers': '*'
-			}
-		}).then(res => {
-			setData(res.data)		
-		}).catch(err => {
-			console.log(err)
-		})
-		//console.log('Pressed', indexRef.current.value)
+		const index = indexRef.current.value
+		if (!index){
+			alert("index값을 입력해주세요")
+		}
+		else{
+			setLoading(true);
+			axios.post(url+"test", {
+				"index": index
+			},{
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Allow-Headers': '*'
+				}
+			}).then(res => {
+				setData(res.data)		
+			}).catch(err => {
+				setLoading(false)
+				alert("오류 발생! 다시 시도해주세요")
+			})
+		}
+		
     }
 
     return (

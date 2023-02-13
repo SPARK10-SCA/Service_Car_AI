@@ -145,7 +145,7 @@ export default function Result(){
                         fontSize: 24,
                         marginBottom: 10
                     }}>SCA</h4>
-                    <div style={{width:"80%", border: "1px solid black", marginBottom: 10}}/>
+                    <div style={{width:"100%", border: "1px solid white"}}/>
                     <button 
                         style={{
                             width: "90%",
