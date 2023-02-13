@@ -67,6 +67,8 @@ idx = functions.delete_small_price(clean_data,'PRICE',10000)
 clean_data = clean_data.drop(idx) 
 clean_data = clean_data.reset_index(drop=True) # 인덱스 재설정
 
+clean_data.to_csv("preprocessed_dataset.csv")
+
 ### COMPANY, REPAIRPART, REPAIRMETOHD는 One-hot Encoder로 정제
 # COMPANY OneHotEncoder 저장
 ohe = OneHotEncoder(sparse=False)
