@@ -411,9 +411,9 @@ if __name__ == '__main__':
     model4 = load_damage_unet_model(weight_path=SEPARATED_WEIGHT)
 
     #load repair method model
-    repair_method_model = torch.load(REPAIR_METHOD_WEIGHT, map_location='cuda')
+    repair_method_model = torch.load(REPAIR_METHOD_WEIGHT, map_location=torch.device('cuda'))
     
     #load repair cost model
     repair_cost_model = joblib.load(REPAIR_COST_WEIGHT)
     
-    app.run(host="127.0.0.1", port=8080)
+    app.run(host="0.0.0.0", port=8000)
