@@ -11,6 +11,7 @@ def get_model_input(FIRSTDAY, REPAIRDAY, COMPANY, PART, METHOD) :
     PART = functions.get_parts(PART)
     METHOD = functions.get_severity(METHOD)
     COMPANY = functions.get_company(COMPANY)
+    # 만약 교체일 경우 차 부품 비용 추가
     replace_price = 0
     if METHOD == "교환" :
         if PART == "Bonnet" :
@@ -35,7 +36,6 @@ def get_model_input(FIRSTDAY, REPAIRDAY, COMPANY, PART, METHOD) :
             replace_price = 650000
         else :
             replace_price = 0
-        
 
     HQ = get_mean_HQ(METHOD)
     COMPANY = ohe_company.transform([[COMPANY]])[0]
@@ -45,7 +45,6 @@ def get_model_input(FIRSTDAY, REPAIRDAY, COMPANY, PART, METHOD) :
     # integer feature 전처리
     scaledData = MinmaxScaler.transform([[FIRSTDAY, REPAIRDAY, HQ]])
     modelinput = np.r_[scaledData[0], COMPANY, PART,METHOD]
-
     
     return modelinput,replace_price
 
@@ -64,6 +63,10 @@ def get_mean_HQ(method) :
 # Train data Accuracy :  0.9774661302004374
 # Test data Accuracy :  0.9728243928165342
 # 정답, 예측값 평균 오차 :  5615.994414286496원
+
+### 사용법 ###
+# 1. get_model_input 함수에 인자로 firstday, repairday, company, repairpart, repairmethod 넘겨주면 modelinput,replace_price 리턴 받음
+# 2. replace_price += GradientBoostingModel.predict([modelinput])[0] 이 코드를 작동 시키면 replace_price가 최종 예측 가격
 
 GradientBoostingModel = joblib.load('./model/GradientBoostingRegressor.pkl')
 
