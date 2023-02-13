@@ -99,6 +99,8 @@ def get_model_input(FIRSTDAY, REPAIRDAY, COMPANY, PART, METHOD) :
             replace_price = 150000
         elif PART == "Trunklid" :
             replace_price = 650000
+        elif PART == "Headlights" :
+            replace_price = 15000
         else :
             replace_price = 0
 
