@@ -44,8 +44,8 @@ const BackgroundImage = styled.img`
 export default function Home(){
     const navigate = useNavigate();
 
-    //const url = "http://13.125.213.13:8000/api/"
-    const url = "http://127.0.0.1:8000/api/"
+    const url = "http://13.125.213.13:8000/api/"
+    //const url = "http://127.0.0.1:8000/api/"
 
     const yearRef = useRef(null);
     const companyRef = useRef(null);
