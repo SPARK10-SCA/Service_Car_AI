@@ -3,7 +3,7 @@ const path = require('path')
 const app = express();
 const cors = require('cors')
 
-app.set('port', 3001)
+app.set('port', 8080)
 
 app.use(express.json());
 app.use(cors());
@@ -13,6 +13,6 @@ app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, '/react-project/build/index.html'));
 });
 
-app.listen(3001, () => {
+app.listen(8080, () => {
     console.log("Server started on port", app.get('port'));
 })
