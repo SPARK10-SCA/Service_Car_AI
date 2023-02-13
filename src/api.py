@@ -4,25 +4,26 @@ from flask_cors import CORS
 from ultralytics import YOLO
 from Model_UNET import Unet
 from Model_VGG19 import IntelCnnModel
+import Utils_GradientBoosting
 import torch
+import joblib
 import numpy as np
 import cv2
 from PIL import Image
 import skimage
 from skimage import color
 from scipy import ndimage
-from io import BytesIO
-import base64
 from torchvision.transforms import ToTensor
 from scipy import ndimage
 from pycocotools.coco import COCO
 import albumentations as A
 import torch.nn.functional as F
-import joblib
-import Utils_GradientBoosting
+from io import BytesIO
+import base64
 
 import os
 import json
+from datetime import datetime
 
 INPUT_PATH = '../input/'
 OUTPUT_PATH = '../output/'
@@ -216,6 +217,10 @@ def main():
         origImage = str_to_img(img_string)
         origImage = origImage.resize((256, 256))
         
+        firstday = int(data["firstday"]+"0101")
+        repairday = int(datetime.today().strftime("%Y%m%d"))
+        company = data["company"]
+        
         data={}
         
         data["origImage"] = img_to_str(origImage)
@@ -264,8 +269,9 @@ def main():
             print(parts[i]+" repair method is "+ repair_method)
             dict['repair_method'] = repair_method
             
-            cost_input = Utils_GradientBoosting.get_model_input(10000,20210101,20210101,8, parts[i], repair_method)
-            repair_cost = int(round(repair_cost_model.predict([cost_input])[0],-3))
+            modelinput, repair_cost = Utils_GradientBoosting.get_model_input(firstday, repairday, company, parts[i], repair_method)
+            repair_cost += repair_cost_model.predict([modelinput])[0]
+            repair_cost = int(round(repair_cost, -3))
             print(parts[i]+" repair cost is "+ str(repair_cost)+ " won")
             dict['repair_cost'] = str(repair_cost)
 
@@ -282,6 +288,10 @@ def test():
     if request.method == 'POST':
         response.headers.add("Access-Control-Allow-Origin", "*")
         data = request.get_json()
+        
+        firstday = 20170101
+        repairday = int(datetime.today().strftime("%Y%m%d"))
+        company = "현대"
         
         idx = int(data["index"])
         data={}
@@ -354,8 +364,9 @@ def test():
             print(parts[i]+" repair method is "+ repair_method)
             dict['repair_method'] = repair_method
             
-            cost_input = Utils_GradientBoosting.get_model_input(10000,20210101,20210101,8, parts[i], repair_method)
-            repair_cost = int(round(repair_cost_model.predict([cost_input])[0],-3))
+            modelinput, repair_cost = Utils_GradientBoosting.get_model_input(firstday, repairday, company, parts[i], repair_method)
+            repair_cost += repair_cost_model.predict([modelinput])[0]
+            repair_cost = int(round(repair_cost, -3))
             print(parts[i]+" repair cost is "+ str(repair_cost)+ " won")
             dict['repair_cost'] = str(repair_cost)
 

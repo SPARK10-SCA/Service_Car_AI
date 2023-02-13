@@ -1,109 +1,142 @@
 import joblib
 import numpy as np
 
-# PART feature 압축
 def get_parts(part) :
-    if any(substring in part for substring in ["프런트범퍼","프런트 범퍼","앞범퍼","후론트 범퍼","후론트범퍼"]) :
+    if part.find("FrontBumper") > -1 :
         part = "Frontbumper"
-    elif any(substring in part for substring in ['리어범퍼',"리어 범퍼","뒤범퍼"]) :
+    elif part.find("RearBumper") > -1 :
         part = "Rearbumper"
-    elif any(substring in part for substring in ['프런트펜더',"프런트 펜더","프런트휀다","앞펜더","앞휀다","앞휀더","후론트휀다","후혼트 휀다"] ) :
+    elif any(substring in part for substring in ["FrontFender(R)", "FrontFender(L)"]) :
        part = "Frontfender"
-    elif any(substring in part for substring in ['리어펜더',"리어휀다","리어 휀다","뒤펜더","뒤휀다","뒤헨더"]) :
+    elif any(substring in part for substring in ["RearFender(R)", "RearFender(L)"]) :
        part = "Rearfender"
-    elif any(substring in part for substring in ['본넷',"본네트"]) :
+    elif part.find("Bonnet") > -1 :
        part = "Bonnet"
-    elif part.find('트렁크') > -1 :
+    elif part.find("TrunkLid") > -1 :
        part = "Trunklid"
-    elif any(substring in part for substring in ['리어도어',"도어(뒤",'리어 도어(좌','리어 도어(우']) :
+    elif any(substring in part for substring in ["RearDoor(R)", "RearDoor(L)"]) :
        part = "Reardoor"
-    elif any(substring in part for substring in ['프런트도어',"도어(앞","후론트 도어",'도어(우','도어(좌']) :
+    elif any(substring in part for substring in ["FrontDoor(R)", "FrontDoor(L)"]) :
        part = "Frontdoor"
-    elif part.find('미러') > -1 :
+    elif any(substring in part for substring in ["SideMirror(R)", "SideMirror(L)"]) :
        part = "Sidemirror"
-    elif part.find('휠') > -1 :
+    elif any(substring in part for substring in ["FrontWheel(R)", "FrontWheel(L)"]) :
        part = "FrontWheel"
-    elif part.find('헤드라이트','램프') > -1 :
+    elif any(substring in part for substring in ["HeadLights(R)", "HeadLights(L)"]) :
        part = "Headlights"
     else :
         part = None
     return part
 
-# repair_method feature 압축
-def get_repair_method(repair_method) :
-    if repair_method.find("오버홀") > -1 :
-        repair_method = "오버홀"
-    elif repair_method.find("교환") > -1 :
-        repair_method = "교환"
-    elif repair_method.find("판금") > -1 :
-        repair_method = "판금"
-    elif repair_method.find("수리") > -1 :
-        repair_method = "수리"
-    elif repair_method.find("도장") > -1 :
-        repair_method = "도장"
-    elif repair_method.find("조정") > -1 :
-        repair_method = "조정"
-    elif repair_method.find("OH") > -1 :
-        repair_method = "OH"
-    elif repair_method.find("탈착") > -1 :
-        repair_method = "탈착"
+# SEVERITY feature 압축
+def get_method(method) :
+    if method.find("overhaul") > -1 :
+        method = "오버홀"
+    elif method.find("replace") > -1 :
+        method = "교환"
+    elif method.find("sheet") > -1 :
+        method = "판금"
+    elif method.find("repair") > -1 :
+        method = "수리"
+    elif method.find("painting") > -1 :
+        method = "도장"
+    elif method.find("repair") > -1 :
+        method = "조정"
+    elif method.find("OH") > -1 :
+        method = "OH"
+    elif method.find("detach") > -1 :
+        method = "탈착"
     else :
-        repair_method = None
-    return repair_method
+        method = None
+    return method
 
-# outlier 제거
-def delete_outlier(data, column, threshold) :
-    idx = []
-    It = list(data[column])
-    for i in range(len(It)) :
-        if(It[i] > threshold) :
-            idx.append(i)
-    return idx
+def get_company(company) :
+    if any(substring in company for substring in ['현대',"기아","한국GM","쌍용",'르노']) :
+       company = "국산차"
+    else : 
+        company = "외제차"
+    return company
+
+def get_mean_HQ(method) :
+    if method == "오버홀" :
+        return 1.87
+    elif method == "교환" : # 도장 HQ 중간 값으로 설정함 부품 가격 반영해야함
+        return 1.95
+    elif method == "탈착" :
+        return 2.27
+    else :
+        return 2.58
 
 # 모델 input 전처리
-def get_model_input(MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PART, REPAIR_METHOD) : 
-    if any(substring in PART for substring in ["FrontBumper"]) :
-        PART = 2
-    elif any(substring in PART for substring in ["RearBumper"]) :
-        PART = 6
-    elif any(substring in PART for substring in ["FrontFender(L)","FrontFender(R)"] ) :
-       PART = 4
-    elif any(substring in PART for substring in ["RearFender(L)","RearFender(R)"]) :
-       PART = 8
-    elif any(substring in PART for substring in ["Bonnet"]) :
-       PART = 0
-    elif PART.find("TrunkLid") > -1 :
-       PART = 10
-    elif any(substring in PART for substring in ["RearDoor(R)", "RearDoor(L)"]) :
-       PART = 7
-    elif any(substring in PART for substring in ["FrontDoor(R)", "FrontDoor(L)"]) :
-       PART = 3
-    elif any(substring in PART for substring in ["SideMirror(R)", "SideMirror(L)"]) :
-       PART = 9
-    elif any(substring in PART for substring in ["FrontWheel(R)", "FrontWheel(L)"]) :
-       PART = 1
-    elif any(substring in PART for substring in ["HeadLights(L)", "HeadLights(R)"]) :
-       PART = 5
+def get_model_input(FIRSTDAY, REPAIRDAY, COMPANY, PART, METHOD) : 
+    ohe_company = joblib.load('../weights/repair_cost/company.save') 
+    ohe_repairmethod = joblib.load('../weights/repair_cost/method.save') 
+    ohe_repairpart = joblib.load('../weights/repair_cost/part.save') 
+    # categorical feature 전처리
+    PART = get_parts(PART)
+    METHOD = get_method(METHOD)
+    COMPANY = get_company(COMPANY)
+    # 만약 교체일 경우 차 부품 비용 추가
+    replace_price = 0
+    if METHOD == "교환" :
+        if PART == "Bonnet" :
+            replace_price = 300000
+        elif PART == "FrontWheel" :
+            replace_price = 150000
+        elif PART == "Frontbumper" :
+            replace_price = 150000
+        elif PART == "Frontdoor" :
+            replace_price = 450000
+        elif PART == "Frontfender" :
+            replace_price = 300000
+        elif PART == "Rearbumper" :
+            replace_price = 500000
+        elif PART == "Reardoor" :
+            replace_price = 450000
+        elif PART == "Rearfender" :
+            replace_price = 300000
+        elif PART == "Sidemirror" :
+            replace_price = 150000
+        elif PART == "Trunklid" :
+            replace_price = 650000
+        else :
+            replace_price = 0
 
-    if REPAIR_METHOD.find("overhaul") > -1 :
-        REPAIR_METHOD = 4
-    elif REPAIR_METHOD.find("replace") > -1 :
-        REPAIR_METHOD = 1
-    elif REPAIR_METHOD.find("sheet") > -1 :
-        REPAIR_METHOD = 7
-    elif REPAIR_METHOD.find("repair") > -1 :
-        REPAIR_METHOD = 3
-    elif REPAIR_METHOD.find("painting") > -1 :
-        REPAIR_METHOD = 2
-    elif REPAIR_METHOD.find("1/2OH") > -1 :
-        REPAIR_METHOD = 0
-    elif REPAIR_METHOD.find("detach") > -1 :
-        REPAIR_METHOD = 6
+    HQ = get_mean_HQ(METHOD)
+    COMPANY = ohe_company.transform([[COMPANY]])[0]
+    PART = ohe_repairpart.transform([[PART]])[0]
+    METHOD = ohe_repairmethod.transform([[METHOD]])[0]
+    MinmaxScaler = joblib.load('../weights/repair_cost/scaler.save') 
+    # integer feature 전처리
+    scaledData = MinmaxScaler.transform([[FIRSTDAY, REPAIRDAY, HQ]])
+    modelinput = np.r_[scaledData[0], COMPANY, PART,METHOD]
+    
+    return modelinput,replace_price
 
-    MinmaxScaler = joblib.load('../weights/repair_cost/repair_cost_scaler.save') 
-    scaledData = MinmaxScaler.transform([[MILEAGE, FIRSTDAY, REPAIRDAY, HQ]])
-    #print(scaledData[0])
-    #print(PART)
-    #print(REPAIR_METHOD)
-    modelinput = np.r_[scaledData[0], [PART, REPAIR_METHOD]]
-    return modelinput
+### GradientBoosting Model ###
+# Traindata : [240000 rows x 24 columns]
+# Train data Accuracy :  0.9774661302004374
+# Test data Accuracy :  0.9728243928165342
+# 정답, 예측값 평균 오차 :  5615.994414286496원
+
+### 사용법 ###
+# 1. get_model_input 함수에 인자로 firstday, repairday, company, repairpart, repairmethod 넘겨주면 modelinput,replace_price 리턴 받음
+# 2. replace_price += GradientBoostingModel.predict([modelinput])[0] 이 코드를 작동 시키면 replace_price가 최종 예측 가격
+
+''''
+GradientBoostingModel = joblib.load('./model/GradientBoostingRegressor.pkl')
+
+### BMW 5시리즈 55440원
+modelinput,replace_price = get_model_input(20141119,20180512,"BMW",'뒤범퍼(단독작업)','탈착')
+replace_price += GradientBoostingModel.predict([modelinput])[0]
+
+print("정답 값 : ",'55440원')
+print("GradientBoostingModel 예측값 : ",replace_price)
+
+### 벤츠 G350 350000원
+modelinput2,replace_price = get_model_input(20170601,20180425,"벤츠",'본네트(보수)','도장')
+replace_price += GradientBoostingModel.predict([modelinput2])[0]
+
+print("정답 값 : ",'350000원')
+print("GradientBoostingModel 예측값 : ",replace_price)
+'''
