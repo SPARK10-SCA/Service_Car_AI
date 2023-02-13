@@ -31,7 +31,7 @@ def get_parts(part) :
        part = "Sidemirror"
     elif part.find('휠') > -1 :
        part = "FrontWheel"
-    elif part.find('헤드라이트','램프') > -1 :
+    elif any(substring in part for substring in ['헤드라이트','램프']) :
        part = "Headlights"
     else :
         part = None
