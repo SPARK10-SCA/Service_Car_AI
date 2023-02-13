@@ -45,7 +45,7 @@ const BackgroundImage = styled.img`
 export default function Home(){
     const navigate = useNavigate();
 
-    const url = "http://13.125.213.13:4001/api/"
+    const url = "http://13.125.213.13:8000/api/"
 
 	const indexRef = useRef(null)
 	const [data, setData] = useState(null);
