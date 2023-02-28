@@ -60,10 +60,7 @@ modelvgg.classifier = nn.Sequential(
     nn.Linear(in_features=4096, out_features=2048),
     nn.ReLU(),
     nn.Dropout(),
-    nn.Linear(in_features=2048, out_features=1024),
-    nn.ReLU(),
-    nn.Dropout(),
-    nn.Linear(in_features=1024,out_features=3), # class 3개로 설정
+    nn.Linear(in_features=2048,out_features=6), # class 3개로 설정
 )
 
 # accuracy function 만들기
@@ -174,7 +171,7 @@ def predict_single(input, label, model):
     print(f"Prediction is {np.argmax(prediction)} of Model whereas given label is {label}")
 
 def train_model(model) :
-    num_epochs = 50
+    num_epochs = 100
     opt_func = torch.optim.Adam
     lr = 0.0005
     history = fit(num_epochs, lr, model, train_dl, val_dl, opt_func)

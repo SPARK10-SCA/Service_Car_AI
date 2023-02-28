@@ -10,30 +10,30 @@ test_dir = './data/test/'
 def reset_dir():
     if os.path.exists(train_dir):
         shutil.rmtree(train_dir+'detach')
-        #shutil.rmtree(train_dir+'oh')
+        shutil.rmtree(train_dir+'oh')
         shutil.rmtree(train_dir+'overhall')
         #shutil.rmtree(train_dir+'painting')
-        #shutil.rmtree(train_dir+'repair')
+        shutil.rmtree(train_dir+'repair')
         shutil.rmtree(train_dir+'replace')
-        #shutil.rmtree(train_dir+'sheet')
+        shutil.rmtree(train_dir+'sheet')
 
     if os.path.exists(valid_dir):
         shutil.rmtree(valid_dir+'detach')
-        #shutil.rmtree(valid_dir+'oh')
+        shutil.rmtree(valid_dir+'oh')
         shutil.rmtree(valid_dir+'overhall')
         #shutil.rmtree(valid_dir+'painting')
-        #shutil.rmtree(valid_dir+'repair')
+        shutil.rmtree(valid_dir+'repair')
         shutil.rmtree(valid_dir+'replace')
-        #shutil.rmtree(valid_dir+'sheet')
+        shutil.rmtree(valid_dir+'sheet')
 
     if os.path.exists(test_dir):
         shutil.rmtree(test_dir+'detach')
-        #shutil.rmtree(test_dir+'oh')
+        shutil.rmtree(test_dir+'oh')
         shutil.rmtree(test_dir+'overhall')
         #shutil.rmtree(test_dir+'painting')
-        #shutil.rmtree(test_dir+'repair')
+        shutil.rmtree(test_dir+'repair')
         shutil.rmtree(test_dir+'replace')
-        #shutil.rmtree(test_dir+'sheet')
+        shutil.rmtree(test_dir+'sheet')
     print("Done reset_dir")
 
 def copy_to_train():
@@ -41,40 +41,40 @@ def copy_to_train():
         os.makedirs(train_dir)
     if not os.path.exists(train_dir+'detach/'):
         os.makedirs(train_dir+'detach/')
-    #if not os.path.exists(train_dir+'oh/'):
-    #    os.makedirs(train_dir+'oh/')
+    if not os.path.exists(train_dir+'oh/'):
+        os.makedirs(train_dir+'oh/')
     if not os.path.exists(train_dir+'overhall/'):
         os.makedirs(train_dir+'overhall/')
     #if not os.path.exists(train_dir+'painting/'):
     #    os.makedirs(train_dir+'painting/')
-    #if not os.path.exists(train_dir+'repair/'):
-    #    os.makedirs(train_dir+'repair/')
+    if not os.path.exists(train_dir+'repair/'):
+        os.makedirs(train_dir+'repair/')
     if not os.path.exists(train_dir+'replace/'):
         os.makedirs(train_dir+'replace/')
-    #if not os.path.exists(train_dir+'sheet/'):
-    #    os.makedirs(train_dir+'sheet/')
+    if not os.path.exists(train_dir+'sheet/'):
+        os.makedirs(train_dir+'sheet/')
 
     detach = [file for file in os.listdir(data_dir+'detach/') if file.endswith('.jpg')]
     for file in detach:
         shutil.copy(data_dir+'detach/'+file, train_dir+'detach/'+file)
-    '''oh = [file for file in os.listdir(data_dir+'oh/') if file.endswith('.jpg')]
+    oh = [file for file in os.listdir(data_dir+'oh/') if file.endswith('.jpg')]
     for file in oh:
-        shutil.copy(data_dir+'oh/'+file, train_dir+'oh/'+file)'''
+        shutil.copy(data_dir+'oh/'+file, train_dir+'oh/'+file)
     overhall = [file for file in os.listdir(data_dir+'overhall/') if file.endswith('.jpg')]
     for file in overhall:
         shutil.copy(data_dir+'overhall/'+file, train_dir+'overhall/'+file)
-    '''painting = [file for file in os.listdir(data_dir+'painting/') if file.endswith('.jpg')]
-    for file in painting:
-        shutil.copy(data_dir+'painting/'+file, train_dir+'painting/'+file)'''
-    '''repair = [file for file in os.listdir(data_dir+'repair/') if file.endswith('.jpg')]
+    #painting = [file for file in os.listdir(data_dir+'painting/') if file.endswith('.jpg')]
+    #for file in painting:
+    #    shutil.copy(data_dir+'painting/'+file, train_dir+'painting/'+file)
+    repair = [file for file in os.listdir(data_dir+'repair/') if file.endswith('.jpg')]
     for file in repair:
-        shutil.copy(data_dir+'repair/'+file, train_dir+'repair/'+file)'''
+        shutil.copy(data_dir+'repair/'+file, train_dir+'repair/'+file)
     replace = [file for file in os.listdir(data_dir+'replace/') if file.endswith('.jpg')]
     for file in replace:
         shutil.copy(data_dir+'replace/'+file, train_dir+'replace/'+file)
-    '''sheet = [file for file in os.listdir(data_dir+'sheet/') if file.endswith('.jpg')]
+    sheet = [file for file in os.listdir(data_dir+'sheet/') if file.endswith('.jpg')]
     for file in sheet:
-        shutil.copy(data_dir+'sheet/'+file, train_dir+'sheet/'+file)'''
+        shutil.copy(data_dir+'sheet/'+file, train_dir+'sheet/'+file)
     
     print("Done copy_to_train")
 
@@ -85,56 +85,56 @@ def confirm_train():
         part = file.split('_')[2].replace('.jpg', '')
         if part in detach_info: detach_info[part]+=1
         else: detach_info[part]=1
-    '''oh_info={}
+    oh_info={}
     oh = [file for file in os.listdir(train_dir+'oh/') if file.endswith('.jpg')]
     for file in oh:
         part = file.split('_')[2].replace('.jpg', '')
         if part in oh_info: oh_info[part]+=1
-        else: oh_info[part]=1'''
+        else: oh_info[part]=1
     overhall_info={}
     overhall = [file for file in os.listdir(train_dir+'overhall/') if file.endswith('.jpg')]
     for file in overhall:
         part = file.split('_')[2].replace('.jpg', '')
         if part in overhall_info: overhall_info[part]+=1
         else: overhall_info[part]=1
-    '''painting_info={}
-    painting = [file for file in os.listdir(train_dir+'painting/') if file.endswith('.jpg')]
-    for file in painting:
-        part = file.split('_')[2].replace('.jpg', '')
-        if part in painting_info: painting_info[part]+=1
-        else: painting_info[part]=1'''
-    '''repair_info={}
+    #painting_info={}
+    #painting = [file for file in os.listdir(train_dir+'painting/') if file.endswith('.jpg')]
+    #for file in painting:
+    #    part = file.split('_')[2].replace('.jpg', '')
+    #    if part in painting_info: painting_info[part]+=1
+    #    else: painting_info[part]=1
+    repair_info={}
     repair = [file for file in os.listdir(train_dir+'repair/') if file.endswith('.jpg')]
     for file in repair:
         part = file.split('_')[2].replace('.jpg', '')
         if part in repair_info: repair_info[part]+=1
-        else: repair_info[part]=1'''
+        else: repair_info[part]=1
     replace_info={}
     replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
     for file in replace:
         part = file.split('_')[2].replace('.jpg', '')
         if part in replace_info: replace_info[part]+=1
         else: replace_info[part]=1
-    '''sheet_info={}
+    sheet_info={}
     sheet = [file for file in os.listdir(train_dir+'sheet/') if file.endswith('.jpg')]
     for file in sheet:
         part = file.split('_')[2].replace('.jpg', '')
         if part in sheet_info: sheet_info[part]+=1
-        else: sheet_info[part]=1'''
+        else: sheet_info[part]=1
     
     print("detach: ", detach_info, len(detach))
-    #2OH:", oh_info, len(oh))
+    print("OH:", oh_info, len(oh))
     print("overhall:", overhall_info, len(overhall))
     #print("painting:", painting_info, len(painting))
-    #print("repair:", repair_info, len(repair))
+    print("repair:", repair_info, len(repair))
     print("replace:", replace_info, len(replace))
-    #print("sheet:", sheet_info, len(sheet))
+    print("sheet:", sheet_info, len(sheet))
     print("Done confirm_train")
 
 def remove_random():
     detach = [file for file in os.listdir(train_dir+'detach/') if file.endswith('.jpg')]
     cnt=len(detach)
-    while cnt>6100:
+    while cnt>2900:
         rand = random.randrange(0,cnt)
         try:
             os.remove(train_dir+'detach/'+detach[rand]) 
@@ -142,9 +142,19 @@ def remove_random():
             cnt-=1
         except:
             pass
+    oh = [file for file in os.listdir(train_dir+'oh/') if file.endswith('.jpg')]
+    cnt=len(oh)
+    while cnt>2100:
+        rand = random.randrange(0,cnt)
+        try:
+            os.remove(train_dir+'oh/'+oh[rand]) 
+            oh.pop(rand)
+            cnt-=1
+        except:
+            pass
     overhall = [file for file in os.listdir(train_dir+'overhall/') if file.endswith('.jpg')]
     cnt=len(overhall)
-    while cnt>4600:
+    while cnt>2900:
         rand = random.randrange(0,cnt)
         try:
             os.remove(train_dir+'overhall/'+overhall[rand]) 
@@ -152,13 +162,33 @@ def remove_random():
             cnt-=1
         except:
             pass
+    repair = [file for file in os.listdir(train_dir+'repair/') if file.endswith('.jpg')]
+    cnt=len(repair)
+    while cnt>2900:
+        rand = random.randrange(0,cnt)
+        try:
+            os.remove(train_dir+'repair/'+repair[rand]) 
+            repair.pop(rand)
+            cnt-=1
+        except:
+            pass
     replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
     cnt=len(replace)
-    while cnt>15000:
+    while cnt>2900:
         rand = random.randrange(0,cnt)
         try:
             os.remove(train_dir+'replace/'+replace[rand]) 
             replace.pop(rand)
+            cnt-=1
+        except:
+            pass
+    sheet = [file for file in os.listdir(train_dir+'sheet/') if file.endswith('.jpg')]
+    cnt=len(sheet)
+    while cnt>1000:
+        rand = random.randrange(0,cnt)
+        try:
+            os.remove(train_dir+'sheet/'+sheet[rand]) 
+            sheet.pop(rand)
             cnt-=1
         except:
             pass
@@ -247,22 +277,22 @@ def make_validset():
         os.makedirs(valid_dir)
     if not os.path.exists(valid_dir+'detach/'):
         os.makedirs(valid_dir+'detach/')
-    #if not os.path.exists(valid_dir+'oh/'):
-    #    os.makedirs(valid_dir+'oh/')
+    if not os.path.exists(valid_dir+'oh/'):
+        os.makedirs(valid_dir+'oh/')
     if not os.path.exists(valid_dir+'overhall/'):
         os.makedirs(valid_dir+'overhall/')
     #if not os.path.exists(valid_dir+'painting/'):
     #    os.makedirs(valid_dir+'painting/')
-    #if not os.path.exists(valid_dir+'repair/'):
-    #    os.makedirs(valid_dir+'repair/')
+    if not os.path.exists(valid_dir+'repair/'):
+        os.makedirs(valid_dir+'repair/')
     if not os.path.exists(valid_dir+'replace/'):
         os.makedirs(valid_dir+'replace/')
-    #if not os.path.exists(valid_dir+'sheet/'):
-    #    os.makedirs(valid_dir+'sheet/')
+    if not os.path.exists(valid_dir+'sheet/'):
+        os.makedirs(valid_dir+'sheet/')
 
     detach = [file for file in os.listdir(train_dir+'detach/') if file.endswith('.jpg')]
     cnt=len(detach)
-    while cnt>5500:
+    while cnt>2700:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'detach/'+detach[rand], valid_dir+'detach/'+detach[rand])
@@ -270,19 +300,19 @@ def make_validset():
             cnt-=1
         except:
             pass
-    '''oh = [file for file in os.listdir(train_dir+'oh/') if file.endswith('.jpg')]
+    oh = [file for file in os.listdir(train_dir+'oh/') if file.endswith('.jpg')]
     cnt=len(oh)
-    while cnt>2700:
+    while cnt>1900:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'oh/'+oh[rand], valid_dir+'oh/'+oh[rand])
             oh.pop(rand)
             cnt-=1
         except:
-            pass'''
+            pass
     overhall = [file for file in os.listdir(train_dir+'overhall/') if file.endswith('.jpg')]
     cnt=len(overhall)
-    while cnt>4200:
+    while cnt>2700:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'overhall/'+overhall[rand], valid_dir+'overhall/'+overhall[rand])
@@ -300,7 +330,7 @@ def make_validset():
             cnt-=1
         except:
             pass'''
-    '''repair = [file for file in os.listdir(train_dir+'repair/') if file.endswith('.jpg')]
+    repair = [file for file in os.listdir(train_dir+'repair/') if file.endswith('.jpg')]
     cnt=len(repair)
     while cnt>2700:
         rand = random.randrange(0,cnt)
@@ -309,10 +339,10 @@ def make_validset():
             repair.pop(rand)
             cnt-=1
         except:
-            pass'''
+            pass
     replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
     cnt=len(replace)
-    while cnt>13500:
+    while cnt>2700:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'replace/'+replace[rand], valid_dir+'replace/'+replace[rand])
@@ -320,16 +350,16 @@ def make_validset():
             cnt-=1
         except:
             pass
-    '''sheet = [file for file in os.listdir(train_dir+'sheet/') if file.endswith('.jpg')]
+    sheet = [file for file in os.listdir(train_dir+'sheet/') if file.endswith('.jpg')]
     cnt=len(sheet)
-    while cnt>2700:
+    while cnt>900:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'sheet/'+sheet[rand], valid_dir+'sheet/'+sheet[rand])
             sheet.pop(rand)
             cnt-=1
         except:
-            pass'''
+            pass
 
     print("Done make_validset")
 
@@ -338,22 +368,22 @@ def make_testset():
         os.makedirs(test_dir)
     if not os.path.exists(test_dir+'detach/'):
         os.makedirs(test_dir+'detach/')
-    #if not os.path.exists(test_dir+'oh/'):
-    #    os.makedirs(test_dir+'oh/')
+    if not os.path.exists(test_dir+'oh/'):
+        os.makedirs(test_dir+'oh/')
     if not os.path.exists(test_dir+'overhall/'):
         os.makedirs(test_dir+'overhall/')
     #if not os.path.exists(test_dir+'painting/'):
     #    os.makedirs(test_dir+'painting/')
-    #if not os.path.exists(test_dir+'repair/'):
-    #    os.makedirs(test_dir+'repair/')
+    if not os.path.exists(test_dir+'repair/'):
+        os.makedirs(test_dir+'repair/')
     if not os.path.exists(test_dir+'replace/'):
         os.makedirs(test_dir+'replace/')
-    #if not os.path.exists(test_dir+'sheet/'):
-    #    os.makedirs(test_dir+'sheet/')
+    if not os.path.exists(test_dir+'sheet/'):
+        os.makedirs(test_dir+'sheet/')
 
     detach = [file for file in os.listdir(train_dir+'detach/') if file.endswith('.jpg')]
     cnt=len(detach)
-    while cnt>4900:
+    while cnt>2500:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'detach/'+detach[rand], test_dir+'detach/'+detach[rand])
@@ -361,19 +391,19 @@ def make_testset():
             cnt-=1
         except:
             pass
-    '''oh = [file for file in os.listdir(train_dir+'oh/') if file.endswith('.jpg')]
+    oh = [file for file in os.listdir(train_dir+'oh/') if file.endswith('.jpg')]
     cnt=len(oh)
-    while cnt>2400:
+    while cnt>1700:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'oh/'+oh[rand], test_dir+'oh/'+oh[rand])
             oh.pop(rand)
             cnt-=1
         except:
-            pass'''
+            pass
     overhall = [file for file in os.listdir(train_dir+'overhall/') if file.endswith('.jpg')]
     cnt=len(overhall)
-    while cnt>3800:
+    while cnt>2500:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'overhall/'+overhall[rand], test_dir+'overhall/'+overhall[rand])
@@ -391,19 +421,19 @@ def make_testset():
             cnt-=1
         except:
             pass'''
-    '''repair = [file for file in os.listdir(train_dir+'repair/') if file.endswith('.jpg')]
+    repair = [file for file in os.listdir(train_dir+'repair/') if file.endswith('.jpg')]
     cnt=len(repair)
-    while cnt>2400:
+    while cnt>2500:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'repair/'+repair[rand], test_dir+'repair/'+repair[rand])
             repair.pop(rand)
             cnt-=1
         except:
-            pass'''
+            pass
     replace = [file for file in os.listdir(train_dir+'replace/') if file.endswith('.jpg')]
     cnt=len(replace)
-    while cnt>12000:
+    while cnt>2500:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'replace/'+replace[rand], test_dir+'replace/'+replace[rand])
@@ -411,16 +441,16 @@ def make_testset():
             cnt-=1
         except:
             pass
-    '''sheet = [file for file in os.listdir(train_dir+'sheet/') if file.endswith('.jpg')]
+    sheet = [file for file in os.listdir(train_dir+'sheet/') if file.endswith('.jpg')]
     cnt=len(sheet)
-    while cnt>2400:
+    while cnt>800:
         rand = random.randrange(0,cnt)
         try:
             shutil.move(train_dir+'sheet/'+sheet[rand], test_dir+'sheet/'+sheet[rand])
             sheet.pop(rand)
             cnt-=1
         except:
-            pass'''
+            pass
     print("Done make_testset")
 
 def confirm_valid():
@@ -430,12 +460,12 @@ def confirm_valid():
         part = file.split('_')[2].replace('.jpg', '')
         if part in detach_info: detach_info[part]+=1
         else: detach_info[part]=1
-    '''oh_info={}
+    oh_info={}
     oh = [file for file in os.listdir(valid_dir+'oh/') if file.endswith('.jpg')]
     for file in oh:
         part = file.split('_')[2].replace('.jpg', '')
         if part in oh_info: oh_info[part]+=1
-        else: oh_info[part]=1'''
+        else: oh_info[part]=1
     overhall_info={}
     overhall = [file for file in os.listdir(valid_dir+'overhall/') if file.endswith('.jpg')]
     for file in overhall:
@@ -448,32 +478,32 @@ def confirm_valid():
         part = file.split('_')[2].replace('.jpg', '')
         if part in painting_info: painting_info[part]+=1
         else: painting_info[part]=1'''
-    '''repair_info={}
+    repair_info={}
     repair = [file for file in os.listdir(valid_dir+'repair/') if file.endswith('.jpg')]
     for file in repair:
         part = file.split('_')[2].replace('.jpg', '')
         if part in repair_info: repair_info[part]+=1
-        else: repair_info[part]=1'''
+        else: repair_info[part]=1
     replace_info={}
     replace = [file for file in os.listdir(valid_dir+'replace/') if file.endswith('.jpg')]
     for file in replace:
         part = file.split('_')[2].replace('.jpg', '')
         if part in replace_info: replace_info[part]+=1
         else: replace_info[part]=1
-    '''sheet_info={}
+    sheet_info={}
     sheet = [file for file in os.listdir(valid_dir+'sheet/') if file.endswith('.jpg')]
     for file in sheet:
         part = file.split('_')[2].replace('.jpg', '')
         if part in sheet_info: sheet_info[part]+=1
-        else: sheet_info[part]=1'''
+        else: sheet_info[part]=1
     
     print("detach: ", detach_info, len(detach))
-    #2OH:", oh_info, len(oh))
+    print("OH:", oh_info, len(oh))
     print("overhall:", overhall_info, len(overhall))
     #print("painting:", painting_info, len(painting))
-    #print("repair:", repair_info, len(repair))
+    print("repair:", repair_info, len(repair))
     print("replace:", replace_info, len(replace))
-    #print("sheet:", sheet_info, len(sheet))
+    print("sheet:", sheet_info, len(sheet))
     print("Done confirm_valid")
 
 def confirm_test():
@@ -483,12 +513,12 @@ def confirm_test():
         part = file.split('_')[2].replace('.jpg', '')
         if part in detach_info: detach_info[part]+=1
         else: detach_info[part]=1
-    '''oh_info={}
+    oh_info={}
     oh = [file for file in os.listdir(test_dir+'oh/') if file.endswith('.jpg')]
     for file in oh:
         part = file.split('_')[2].replace('.jpg', '')
         if part in oh_info: oh_info[part]+=1
-        else: oh_info[part]=1'''
+        else: oh_info[part]=1
     overhall_info={}
     overhall = [file for file in os.listdir(test_dir+'overhall/') if file.endswith('.jpg')]
     for file in overhall:
@@ -501,43 +531,43 @@ def confirm_test():
         part = file.split('_')[2].replace('.jpg', '')
         if part in painting_info: painting_info[part]+=1
         else: painting_info[part]=1'''
-    '''repair_info={}
+    repair_info={}
     repair = [file for file in os.listdir(test_dir+'repair/') if file.endswith('.jpg')]
     for file in repair:
         part = file.split('_')[2].replace('.jpg', '')
         if part in repair_info: repair_info[part]+=1
-        else: repair_info[part]=1'''
+        else: repair_info[part]=1
     replace_info={}
     replace = [file for file in os.listdir(test_dir+'replace/') if file.endswith('.jpg')]
     for file in replace:
         part = file.split('_')[2].replace('.jpg', '')
         if part in replace_info: replace_info[part]+=1
         else: replace_info[part]=1
-    '''sheet_info={}
+    sheet_info={}
     sheet = [file for file in os.listdir(test_dir+'sheet/') if file.endswith('.jpg')]
     for file in sheet:
         part = file.split('_')[2].replace('.jpg', '')
         if part in sheet_info: sheet_info[part]+=1
-        else: sheet_info[part]=1'''
+        else: sheet_info[part]=1
     
     print("detach: ", detach_info, len(detach))
-    #2OH:", oh_info, len(oh))
+    print("OH:", oh_info, len(oh))
     print("overhall:", overhall_info, len(overhall))
     #print("painting:", painting_info, len(painting))
-    #print("repair:", repair_info, len(repair))
+    print("repair:", repair_info, len(repair))
     print("replace:", replace_info, len(replace))
-    #print("sheet:", sheet_info, len(sheet))
+    print("sheet:", sheet_info, len(sheet))
     print("Done confirm_test")
 
     
 
-reset_dir()
-copy_to_train()
-remove_random()
+#reset_dir()
+#copy_to_train()
+#remove_random()
 #remove_custom()
 #confirm_train()
-make_validset()
-make_testset()
+#make_validset()
+#make_testset()
 confirm_train()
 confirm_valid()
 confirm_test()
