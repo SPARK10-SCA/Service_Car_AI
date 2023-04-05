@@ -132,7 +132,7 @@ x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.85, random
 
 
 ### GradientBoostingRegressor 알고리즘 사용
-gb = GradientBoostingRegressor(min_samples_leaf=10, min_samples_split=5, learning_rate=0.5,max_depth=3, n_estimators=1000)
+gb = GradientBoostingRegressor(min_samples_leaf=10, min_samples_split=5, learning_rate=0.5, max_depth=3, n_estimators=1000)
 gb.fit(x_train, y_train)
 ### GradientBoostingRegressor 모델 저장
 joblib.dump(gb, 'GradientBoostingRegressor.pkl') 

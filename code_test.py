@@ -1,9 +1,27 @@
+import numpy as np
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder
+import matplotlib.pyplot as plt 
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, r2_score
+from sklearn.metrics import mean_absolute_error
+from sklearn import preprocessing
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor
+import functions
+import joblib
 
-ohe = OneHotEncoder(sparse=False)
-train = pd.DataFrame({'num1':[1,2,3,4,5], 'num2':[10,20,30,40,50], 'cat1':['a', 'a', 'b', 'c', 'c']})
-print(train.cat1)
+# integer feature : MILEAGE, FIRSTDAY, REPAIRDAY, HQ, PRICE
+# categorical feature : MODELTYPE, COMPANY, CARNAME, PART, SEVERITY
 
-train_cat = ohe.fit_transform(train[['cat1']])
-print(ohe.categories_[0])
+### 데이터 불러오기
+dummy_data = pd.read_csv("./dataset/price_dataset_price_preprocessing.csv")
+
+### Categoryical feature의 개수 확인
+print('row 수 : {}, col 수 : {}'.format(dummy_data.shape[0],dummy_data.shape[1])) # row 수 : 836379, col 수 : 11
+
+### MODELTYPE 정제
+price = (dummy_data.PRICE)
+print(price.mean())
+
