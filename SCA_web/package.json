@@ -1,0 +1,25 @@
+{
+  "name": "sca_web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "pm2 start server.js --watch",
+    "stop": "pm2 stop server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SPARK10-SCA/SCA_web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SPARK10-SCA/SCA_web/issues"
+  },
+  "homepage": "https://github.com/SPARK10-SCA/SCA_web#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "pm2": "^5.2.2"
+  }
+}
