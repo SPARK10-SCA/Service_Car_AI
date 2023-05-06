@@ -1,0 +1,168 @@
+"""
+    cropBBox - Python code to crop and save the bounding box annotations for images
+    Saves the cropped images in given destination dir
+    
+    Modify - path, images_path, dst_dir for custom images 
+    OUTPUT - cropped images in dst_dir/low, medium, high according to levels
+"""
+
+import json
+from pycocotools.coco import COCO
+import cv2
+import os
+import pandas as pd
+import openpyxl
+
+ann_path = "./data/datainfo/part_all.json"
+images_path = "../dataset/Training/image/damage_part/"
+file_path = "../dataset/Training/image/price_estimate/"
+dst_dir = "./data/img/"
+
+# function for image padding
+def padding(img, set_size):
+
+    try:
+        h,w,c = img.shape
+    except:
+        print('파일을 확인후 다시 시작하세요.')
+        raise
+
+    if h < w:
+        new_width = set_size
+        new_height = int(new_width * (h/w))
+    else:
+        new_height = set_size
+        new_width = int(new_height * (w/h))
+
+    if max(h, w) < set_size:
+        img = cv2.resize(img, (new_width, new_height), cv2.INTER_CUBIC)
+    else:
+        img = cv2.resize(img, (new_width, new_height), cv2.INTER_AREA)
+
+ 
+    try:
+        h,w,c = img.shape
+    except:
+        print('파일을 확인후 다시 시작하세요.')
+        raise
+
+    delta_w = set_size - w
+    delta_h = set_size - h
+    top, bottom = delta_h//2, delta_h-(delta_h//2)
+    left, right = delta_w//2, delta_w-(delta_w//2)
+
+    new_img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=[255, 255, 255])
+
+    return new_img
+
+#function for dataset classification
+def classification(ann):
+
+    level = '/'
+    img_id = img_names[ann['image_id']-1].replace(".jpg", "")
+    part = ann['part'].replace(' ','')
+
+    # Store xls file
+    xls_path = file_path + img_id.split("_")[1] + '.xls'
+    try:
+        xls = pd.read_excel(xls_path, usecols=[2, 4], skiprows=range(0, 22))
+    except Exception as e:
+        print(e)
+
+    if xls.empty:
+        return False
+    
+    xls.columns = ['part', 'method']
+    # Translate part name and match
+    if part == 'Frontbumper':
+        _xls = xls[xls['part'].str.contains('프런트범퍼|프런트 범퍼|앞범퍼|후론트 범퍼|후론트범퍼')]
+    elif part == 'Frontfender(R)' or part == 'Frontfender(L)':
+        _xls = xls[xls['part'].str.contains('프런트펜더|프런트 펜더|프런트휀다|앞펜더|앞휀다|앞휀더|후론트휀다|후론트 휀다')]
+    elif part == 'Bonnet':
+        _xls = xls[xls['part'].str.contains('본넷|본네트')]
+    elif part == 'Rearbumper':
+        _xls = xls[xls['part'].str.contains('리어범퍼|리어 범퍼|뒤범퍼')]
+    elif part == 'Rearfender(R)' or part == 'Rearfender(L)':
+        _xls = xls[xls['part'].str.contains('리어펜더|리어휀다|리어 휀다|뒤펜더|뒤휀다|뒤휀더')]
+    elif part == 'Trunklid':
+        _xls = xls[xls['part'].str.contains('트렁크')]
+    elif part == 'Frontdoor(R)' or part == 'Frontdoor(L)':
+        _xls = xls[xls['part'].str.contains('프런트도어|후론트 도어')]
+    elif part == 'Reardoor(R)' or part == 'Reardoor(L)':
+        _xls = xls[xls['part'].str.contains('리어도어')]
+    elif part == 'Headlights(R)' or part == 'Headlights(L)':
+        _xls = xls[xls['part'].str.contains('헤드라이트|헤드램프')]
+    elif part == 'FrontWheel(R)' or part == 'FrontWheel(L)':
+        _xls = xls[xls['part'].str.contains('휠')]
+    elif part == 'Sidemirror(R)' or part == 'Sidemirror(L)':
+        _xls = xls[xls['part'].str.contains('사이드미러')]
+    else: # part is not exist in categories
+        return False
+    
+    # level classfication
+    if _xls.empty: # is not exist in 견적서
+        return False
+    
+    method = _xls['method'][0]
+    if method == '교환':
+        level = 'high/'
+    elif method == '수리' or method == '판금' or method == '오버홀':
+        level = 'medium/'
+    elif method == '도장' or method == '탈착' or method == '1/2OH':
+        level = 'low/'
+    
+    if level=='/':
+        return False
+
+    return dst_dir+level+img_id+'_'+ part +'_'+_xls['level'][0]+'.jpg'
+    #return False
+
+
+# Store img file names
+img_names = []
+f = open(ann_path)
+data = json.load(f)
+for i in data['images']:
+    img_names.append(i['file_name'])
+
+# Load coco format annotations
+coco=COCO(ann_path)
+image_ids = coco.getImgIds()
+annotation_ids = coco.getAnnIds()
+anns = coco.loadAnns(annotation_ids)
+
+# create destination directories 
+if not os.path.exists(dst_dir):
+    os.makedirs(dst_dir)
+
+if not os.path.exists(dst_dir+'high'):
+    os.makedirs(dst_dir+'high')
+
+if not os.path.exists(dst_dir+'medium'):
+    os.makedirs(dst_dir+'medium')
+
+if not os.path.exists(dst_dir+'low'):
+    os.makedirs(dst_dir+'low')
+
+# Draw boxes and add label to each box
+for ann in anns:
+    
+    image = cv2.imread(images_path + img_names[ann['image_id']-1])
+    #print("Dest: " + dst_dir+ img_names[ann['image_id']-1].replace(".jpg", "")+'_'+ann['part'].replace(' ','')+'.jpg')
+
+    try: # for invalid bounding boxes
+        [x,y,w,h] = ann['bbox']
+        cropped_image = image[y:y+h,x:x+w]
+        padding_image = padding(cropped_image, 244)
+        if ann['part'] != None:
+            dst = classification(ann)
+            if dst == False:
+                pass
+            else:
+                cv2.imwrite(dst, padding_image)
+    except:
+        pass
+
+#print(cnt_part)
+#print(cnt_method)
+print("Done")
