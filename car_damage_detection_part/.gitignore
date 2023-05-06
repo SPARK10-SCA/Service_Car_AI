@@ -1,0 +1,13 @@
+data/Dataset/**
+data/weight
+git rm -r --cached .DS_Store
+#.vscode
+.DS_Store
+**/__pycache__
+data/datainfo/*
+data/result_log/*
+*.pyc
+data/imgs
+data/predictions
+data/custom
+data/split

@@ -1,0 +1,509 @@
+{
+    "info": {
+        "name": "external",
+        "date_created": "03/08/2022"
+    },
+    "images": {
+        "id": 1,
+        "width": 800,
+        "height": 600,
+        "file_name": "0000018_as-3127933.jpg"
+    },
+    "annotations": [
+        {
+            "id": 2,
+            "image_id": 1,
+            "category_id": "as-3127933",
+            "segmentation": [
+                [
+                    [
+                        [
+                            520,
+                            458
+                        ],
+                        [
+                            491,
+                            449
+                        ],
+                        [
+                            442,
+                            445
+                        ],
+                        [
+                            436,
+                            457
+                        ],
+                        [
+                            465,
+                            476
+                        ],
+                        [
+                            510,
+                            492
+                        ],
+                        [
+                            521,
+                            493
+                        ],
+                        [
+                            520,
+                            458
+                        ]
+                    ]
+                ]
+            ],
+            "area": 2490.0,
+            "bbox": [
+                436,
+                445,
+                85,
+                48
+            ],
+            "damage": "Crushed",
+            "part": null,
+            "year": 2016,
+            "color": "Blue tone",
+            "level": null,
+            "repair": [
+                "Rear door(R):exchange,coating",
+                "Rear bumper:coating,exchange",
+                "Front bumper:coating,exchange",
+                "Rear fender(R):coating,sheet_metal"
+            ]
+        },
+        {
+            "id": 3,
+            "image_id": 1,
+            "category_id": "as-3127933",
+            "segmentation": [
+                [
+                    [
+                        [
+                            597,
+                            335
+                        ],
+                        [
+                            595,
+                            340
+                        ],
+                        [
+                            614,
+                            340
+                        ],
+                        [
+                            620,
+                            342
+                        ],
+                        [
+                            635,
+                            339
+                        ],
+                        [
+                            628,
+                            333
+                        ],
+                        [
+                            612,
+                            332
+                        ],
+                        [
+                            597,
+                            335
+                        ]
+                    ]
+                ]
+            ],
+            "area": 264.0,
+            "bbox": [
+                595,
+                332,
+                40,
+                10
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2016,
+            "color": "Blue tone",
+            "level": null,
+            "repair": [
+                "Rear door(R):exchange,coating",
+                "Rear bumper:coating,exchange",
+                "Front bumper:coating,exchange",
+                "Rear fender(R):coating,sheet_metal"
+            ]
+        },
+        {
+            "id": 4,
+            "image_id": 1,
+            "category_id": "as-3127933",
+            "segmentation": [
+                [
+                    [
+                        [
+                            622,
+                            176
+                        ],
+                        [
+                            622,
+                            184
+                        ],
+                        [
+                            634,
+                            194
+                        ],
+                        [
+                            621,
+                            211
+                        ],
+                        [
+                            633,
+                            215
+                        ],
+                        [
+                            642,
+                            213
+                        ],
+                        [
+                            644,
+                            196
+                        ],
+                        [
+                            646,
+                            180
+                        ],
+                        [
+                            635,
+                            168
+                        ],
+                        [
+                            622,
+                            176
+                        ]
+                    ]
+                ]
+            ],
+            "area": 752.5,
+            "bbox": [
+                621,
+                168,
+                25,
+                47
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2016,
+            "color": "Blue tone",
+            "level": null,
+            "repair": [
+                "Rear door(R):exchange,coating",
+                "Rear bumper:coating,exchange",
+                "Front bumper:coating,exchange",
+                "Rear fender(R):coating,sheet_metal"
+            ]
+        },
+        {
+            "id": 5,
+            "image_id": 1,
+            "category_id": "as-3127933",
+            "segmentation": [
+                [
+                    [
+                        [
+                            285,
+                            409
+                        ],
+                        [
+                            285,
+                            418
+                        ],
+                        [
+                            340,
+                            430
+                        ],
+                        [
+                            342,
+                            441
+                        ],
+                        [
+                            400,
+                            451
+                        ],
+                        [
+                            397,
+                            442
+                        ],
+                        [
+                            370,
+                            434
+                        ],
+                        [
+                            343,
+                            430
+                        ],
+                        [
+                            342,
+                            422
+                        ],
+                        [
+                            285,
+                            409
+                        ]
+                    ]
+                ]
+            ],
+            "area": 1120.0,
+            "bbox": [
+                285,
+                409,
+                115,
+                42
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2016,
+            "color": "Blue tone",
+            "level": null,
+            "repair": [
+                "Rear door(R):exchange,coating",
+                "Rear bumper:coating,exchange",
+                "Front bumper:coating,exchange",
+                "Rear fender(R):coating,sheet_metal"
+            ]
+        },
+        {
+            "id": 6,
+            "image_id": 1,
+            "category_id": "as-3127933",
+            "segmentation": [
+                [
+                    [
+                        [
+                            439,
+                            445
+                        ],
+                        [
+                            439,
+                            453
+                        ],
+                        [
+                            452,
+                            458
+                        ],
+                        [
+                            478,
+                            460
+                        ],
+                        [
+                            495,
+                            454
+                        ],
+                        [
+                            502,
+                            464
+                        ],
+                        [
+                            503,
+                            484
+                        ],
+                        [
+                            512,
+                            492
+                        ],
+                        [
+                            522,
+                            489
+                        ],
+                        [
+                            521,
+                            461
+                        ],
+                        [
+                            505,
+                            456
+                        ],
+                        [
+                            494,
+                            444
+                        ],
+                        [
+                            477,
+                            450
+                        ],
+                        [
+                            439,
+                            445
+                        ]
+                    ]
+                ]
+            ],
+            "area": 1243.5,
+            "bbox": [
+                439,
+                444,
+                83,
+                48
+            ],
+            "damage": "Scratched",
+            "part": null,
+            "year": 2016,
+            "color": "Blue tone",
+            "level": null,
+            "repair": [
+                "Rear door(R):exchange,coating",
+                "Rear bumper:coating,exchange",
+                "Front bumper:coating,exchange",
+                "Rear fender(R):coating,sheet_metal"
+            ]
+        },
+        {
+            "id": 7,
+            "image_id": 1,
+            "category_id": "as-3127933",
+            "segmentation": [
+                [
+                    [
+                        [
+                            328,
+                            423
+                        ],
+                        [
+                            396,
+                            437
+                        ],
+                        [
+                            457,
+                            447
+                        ],
+                        [
+                            484,
+                            449
+                        ],
+                        [
+                            498,
+                            435
+                        ],
+                        [
+                            503,
+                            438
+                        ],
+                        [
+                            492,
+                            452
+                        ],
+                        [
+                            479,
+                            457
+                        ],
+                        [
+                            443,
+                            454
+                        ],
+                        [
+                            395,
+                            442
+                        ],
+                        [
+                            325,
+                            430
+                        ],
+                        [
+                            328,
+                            423
+                        ]
+                    ]
+                ]
+            ],
+            "area": 1277.5,
+            "bbox": [
+                325,
+                423,
+                178,
+                34
+            ],
+            "damage": "Separated",
+            "part": null,
+            "year": 2016,
+            "color": "Blue tone",
+            "level": null,
+            "repair": [
+                "Rear door(R):exchange,coating",
+                "Rear bumper:coating,exchange",
+                "Front bumper:coating,exchange",
+                "Rear fender(R):coating,sheet_metal"
+            ]
+        },
+        {
+            "id": 14,
+            "image_id": 1,
+            "category_id": "as-3127933",
+            "segmentation": [
+                [
+                    [
+                        [
+                            64,
+                            398
+                        ],
+                        [
+                            56,
+                            378
+                        ],
+                        [
+                            248,
+                            412
+                        ],
+                        [
+                            521,
+                            460
+                        ],
+                        [
+                            523,
+                            497
+                        ],
+                        [
+                            435,
+                            474
+                        ],
+                        [
+                            314,
+                            447
+                        ],
+                        [
+                            183,
+                            421
+                        ],
+                        [
+                            93,
+                            402
+                        ],
+                        [
+                            64,
+                            398
+                        ]
+                    ]
+                ]
+            ],
+            "area": 11212.5,
+            "bbox": [
+                56,
+                378,
+                467,
+                119
+            ],
+            "damage": null,
+            "part": "Rocker panel(L)",
+            "year": 2016,
+            "color": "Blue tone",
+            "level": 4,
+            "repair": [
+                "Rear door(R):exchange,coating",
+                "Rear bumper:coating,exchange",
+                "Front bumper:coating,exchange",
+                "Rear fender(R):coating,sheet_metal"
+            ]
+        }
+    ],
+    "categories": {
+        "id": "as-3127933",
+        "supercategory_name": "CityCar"
+    }
+}
