@@ -1,4 +1,0 @@
-*.jpg
-data/datainfo/part_all.json
-data/weight/*.pth
-*.out
