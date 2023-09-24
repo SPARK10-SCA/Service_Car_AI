@@ -33,9 +33,8 @@ The final output aggregates the output of each model, assessing car damage and p
 
 ---
 ## Achievements 🏅
-- 2022 Co-Deep Learning Project 우수상
-- 2023 S-TOP 우수상
-- 2023 S-TOP 인기상
+- 2023 SW대학 기술교류회 S-TOP 우수상, 인기상
+- 2022 SKKU Co-Deep Learning Project 우수상
 - 2022 SPARK Project
 
 ---
