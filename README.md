@@ -33,6 +33,7 @@ The final output aggregates the output of each model, assessing car damage and p
 
 ---
 ## Achievements 🏅
+- 2023 한국 인공지능 학술대회 논문 게제
 - 2023 SW대학 기술교류회 S-TOP 우수상, 인기상
 - 2022 SKKU Co-Deep Learning Project 우수상
 - 2022 SPARK Project
